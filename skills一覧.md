@@ -5,7 +5,7 @@
 
 | 種別 | 保存場所 | 件数 |
 |------|----------|------|
-| 個人（ユーザー作成） | `~/.cursor/skills/` | 5 |
+| 個人（ユーザー作成） | `~/.cursor/skills/` | 6 |
 | Cursor 組み込み | `~/.cursor/skills-cursor/` | 18 |
 
 **凡例**
@@ -21,6 +21,8 @@
 | コマンド | 説明 | 備考 |
 |----------|------|------|
 | `/github-make-sync` | 指定した名前で非公開 GitHub リポジトリを作成し、`gh` CLI で現在のプロジェクトに `origin` を設定する。`/github-make-sync`、リポ作成・同期・origin 設定時に使う。 | 手動のみ |
+
+| `/git-in-clone` | 空の現在ディレクトリに `https://github.com/poyoyon-ceee/skills-maker.git` を `git clone ... .` で取得する。新規フォルダで skills-maker をセットアップするときに使う。 | 手動のみ |
 
 | `/webapp-testing` | Cursor のブラウザ MCP や Playwright でローカル Web アプリをテストする。UI 確認・ブラウザデバッグ・E2E・スクリーンショット取得時に使う。 | |
 
