@@ -13,6 +13,9 @@ skills-maker/
 │   ├── install-global.ps1                # Windows: グローバル一括インストール
 │   └── install-global.sh                 # macOS/Linux: グローバル一括インストール
 └── .cursor/skills/                       # スキル本体（公式パス）
+    ├── debug/
+    │   └── debug-allrun/
+    │       └── SKILL.md
     └── github/
         └── github-make-sync/
             └── SKILL.md

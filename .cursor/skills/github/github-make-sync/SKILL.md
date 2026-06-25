@@ -1,6 +1,6 @@
 ---
 name: github-make-sync
-description: Creates a private GitHub repository from a user-provided name and links it to the current project via gh CLI. Use when the user runs /github-make-sync, asks to create and sync a GitHub repo, set up origin, or link the current folder to a new private repository.
+description: 指定した名前で非公開 GitHub リポジトリを作成し、gh CLI で現在のプロジェクトに origin を設定する。/github-make-sync、GitHub リポ作成・同期・origin 設定時に使う。
 disable-model-invocation: true
 ---
 
