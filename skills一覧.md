@@ -5,7 +5,7 @@
 
 | 種別 | 保存場所 | 件数 |
 |------|----------|------|
-| 個人（ユーザー作成） | `~/.cursor/skills/` | 6 |
+| 個人（ユーザー作成） | `~/.cursor/skills/` | 9 |
 | Cursor 組み込み | `~/.cursor/skills-cursor/` | 18 |
 
 **凡例**
@@ -24,13 +24,19 @@
 
 | `/git-in-clone` | 空の現在ディレクトリに `https://github.com/poyoyon-ceee/skills-maker.git` を `git clone ... .` で取得する。新規フォルダで skills-maker をセットアップするときに使う。 | 手動のみ |
 
+| `/brainstorming` | 創造的作業の前に要件と設計を探索。2〜3案比較・設計書作成・承認後に writing-plans へ引き渡す。新機能・挙動変更の起点。Superpowers 由来。 | |
+
+| `/brainstorming-persona` | PM・技術・セキュリティ・UX など複数ペルソナ視点でブレストし盲点を洗い出す。視点を変えたいとき。 | 手動のみ |
+
+| `/brainstorming-devils` | 提案をデビルズアドボケイト視点で攻撃し、前提・リスク・反証をストレステストする。 | 手動のみ |
+
+| `/grill-me` | プランや設計について執拗に質問し、意思決定の分岐を一つずつ潰して共通理解に至る。「設計を詰めて」「grill me」と言われたときに使う。 | |
+
 | `/webapp-testing` | Cursor のブラウザ MCP や Playwright でローカル Web アプリをテストする。UI 確認・ブラウザデバッグ・E2E・スクリーンショット取得時に使う。 | |
 
 | `/test-driven-development` | 実装前に RED-GREEN-REFACTOR の TDD を徹底する。機能追加・バグ修正・リファクタ・挙動変更時、または「テストファースト」「TDD」と言われたときに使う。 | |
 
 | `/writing-plans` | コーディング前に、ファイルパス・コード断片・検証手順まで含めた実装プランを作る。仕様や多段階タスクがあるとき、実装計画を求められたときに使う。 | |
-
-| `/grill-me` | プランや設計について執拗に質問し、意思決定の分岐を一つずつ潰して共通理解に至る。「設計を詰めて」「grill me」と言われたときに使う。 | |
 
 ---
 
@@ -90,5 +96,10 @@
 ## 補足
 
 - **プロジェクトスキル**はリポジトリごとに `.cursor/skills/` に置く。グローバル化は `scripts/install-global.ps1` を実行。
+- **グローバルへの手動コピー先** — プロジェクトの `.cursor/skills/` を `~/.cursor/skills/` に置くとき、次のどちらでも動く。
+  - **A. カテゴリ付き（推奨・リポジトリと同じ構造）** — 例: `~/.cursor/skills/brainstorming/brainstorming/SKILL.md` → `/brainstorming`
+  - **B. フラット** — 例: `~/.cursor/skills/brainstorming/SKILL.md` → `/brainstorming`
+  - スキル名は `SKILL.md` を直接含むフォルダ名（例: `debug-allrun`）。親の `brainstorming` や `debug` は分類用のみ。
+- **設計〜実装の使い分け** — [スキルの使いどころ.md](スキルの使いどころ.md) を参照（brainstorming 系・grill-me・writing-plans・TDD のパイプライン）。
 - **`skills-cursor/`** は Cursor が管理する組み込みスキル。手動編集は非推奨。
 - 説明文は各 `SKILL.md` の `description` を日本語に要約したもの。`/` ピッカーに出る原文は英語のまま。
