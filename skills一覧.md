@@ -1,11 +1,11 @@
 # Cursor グローバルスキル一覧
 
-取得日: 2026-06-25  
-対象: このマシン上で Cursor が読み込むグローバルスキル（プロジェクト内 `.cursor/skills/` は含まない）
+取得日: 2026-06-25（更新）  
+対象: このマシン上で Cursor が読み込むグローバルスキル。**運用方針: すべて `~/.cursor/skills/` に集約。プロジェクト内 `.cursor/skills/` は使わない。**
 
 | 種別 | 保存場所 | 件数 |
 |------|----------|------|
-| 個人（ユーザー作成） | `~/.cursor/skills/` | 9 |
+| 個人（ユーザー作成） | `~/.cursor/skills/` | 19 |
 | Cursor 組み込み | `~/.cursor/skills-cursor/` | 18 |
 
 **凡例**
@@ -20,23 +20,38 @@
 
 | コマンド | 説明 | 備考 |
 |----------|------|------|
-| `/github-make-sync` | 指定した名前で非公開 GitHub リポジトリを作成し、`gh` CLI で現在のプロジェクトに `origin` を設定する。`/github-make-sync`、リポ作成・同期・origin 設定時に使う。 | 手動のみ |
+| `/debug-allrun` | デバッガ付き起動で、データ破損・非同期レース・分岐ミスの隠れバグを探索し、自動修正後にバグレポ・修正レポを報告する。 | 手動のみ |
 
-| `/git-in-clone` | 空の現在ディレクトリに `https://github.com/poyoyon-ceee/skills-maker.git` を `git clone ... .` で取得する。新規フォルダで skills-maker をセットアップするときに使う。 | 手動のみ |
+| `/github-make-sync` | 指定した名前で非公開 GitHub リポジトリを作成し、`gh` CLI で現在のプロジェクトに `origin` を設定する。 | 手動のみ |
 
-| `/brainstorming` | 創造的作業の前に要件と設計を探索。2〜3案比較・設計書作成・承認後に writing-plans へ引き渡す。新機能・挙動変更の起点。Superpowers 由来。 | |
+| `/git-in-clone` | 空の現在ディレクトリに `https://github.com/poyoyon-ceee/skills-maker.git` を `git clone ... .` で取得する。 | 手動のみ |
 
-| `/brainstorming-persona` | PM・技術・セキュリティ・UX など複数ペルソナ視点でブレストし盲点を洗い出す。視点を変えたいとき。 | 手動のみ |
+| `/grill-me` | プランや設計について執拗に質問し、意思決定の分岐を一つずつ潰して共通理解に至る。 | |
 
-| `/brainstorming-devils` | 提案をデビルズアドボケイト視点で攻撃し、前提・リスク・反証をストレステストする。 | 手動のみ |
+| `/webapp-testing` | Cursor のブラウザ MCP や Playwright でローカル Web アプリをテストする。 | |
 
-| `/grill-me` | プランや設計について執拗に質問し、意思決定の分岐を一つずつ潰して共通理解に至る。「設計を詰めて」「grill me」と言われたときに使う。 | |
+| `/test-driven-development` | 実装前に RED-GREEN-REFACTOR の TDD を徹底する。Superpowers 本体 + Cursor 向け改良版を採用。 | |
 
-| `/webapp-testing` | Cursor のブラウザ MCP や Playwright でローカル Web アプリをテストする。UI 確認・ブラウザデバッグ・E2E・スクリーンショット取得時に使う。 | |
+| `/writing-plans` | コーディング前に、ファイルパス・コード断片・検証手順まで含めた実装プランを作る。ローカル Cursor 向け Adapt 版を採用。 | |
 
-| `/test-driven-development` | 実装前に RED-GREEN-REFACTOR の TDD を徹底する。機能追加・バグ修正・リファクタ・挙動変更時、または「テストファースト」「TDD」と言われたときに使う。 | |
+### Superpowers（`superpowers/` カテゴリ、12件）
 
-| `/writing-plans` | コーディング前に、ファイルパス・コード断片・検証手順まで含めた実装プランを作る。仕様や多段階タスクがあるとき、実装計画を求められたときに使う。 | |
+| コマンド | 説明 | 備考 |
+|----------|------|------|
+| `/brainstorming` | 創造的作業の前に要件と設計を探索。設計書作成後 writing-plans へ。 | Superpowers |
+| `/using-git-worktrees` | 設計承認後、隔離 worktree で作業環境を用意。 | Superpowers |
+| `/executing-plans` | 書かれたプランをチェックポイント付きでバッチ実行。 | Superpowers |
+| `/subagent-driven-development` | タスクごとにサブエージェントを起動、2段階レビューで実装。 | Superpowers |
+| `/dispatching-parallel-agents` | 独立タスクを並列サブエージェントで処理。 | Superpowers |
+| `/requesting-code-review` | タスク完了・マージ前にコードレビューを依頼。 | Superpowers |
+| `/receiving-code-review` | レビュー指摘を技術的に検証して対応。 | Superpowers |
+| `/systematic-debugging` | バグ・テスト失敗時に4段階で原因究明。 | Superpowers |
+| `/verification-before-completion` | 完了宣言前に検証コマンドで証拠を確認。 | Superpowers |
+| `/finishing-a-development-branch` | 実装完了後のマージ/PR/破棄の整理。 | Superpowers |
+| `/using-superpowers` | スキルシステムの使い方ブートストラップ。 | Superpowers |
+| `/writing-skills` | 新規スキル作成・編集の手順。 | Superpowers |
+
+**除外（ローカル版を維持）:** `test-driven-development`, `writing-plans`
 
 ---
 
@@ -82,24 +97,19 @@
 
 ---
 
-## プロジェクトスキル（`skills-maker/.cursor/skills/`）
+## Superpowers との重複整理（同名スキル）
 
-このリポジトリを開いているときだけ有効（`install-global.ps1` でグローバル化も可）。
+| スキル | 採用版 |
+|--------|--------|
+| `test-driven-development` | ローカル改良版（Superpowers 版は**未導入**） |
+| `writing-plans` | ローカル Cursor 向け Adapt（Superpowers 版は**未導入**） |
 
-| コマンド | 説明 | 備考 |
-|----------|------|------|
-| `/debug-allrun` | デバッガ付き起動で、データ破損・非同期レース・分岐ミスの隠れバグを探索し、自動修正後にバグレポ・修正レポを報告する。 | 手動のみ |
-| `/github-make-sync` | 指定した名前で非公開 GitHub リポジトリを作成し、`gh` CLI で現在のプロジェクトに `origin` を設定する。`/github-make-sync`、リポ作成・同期・origin 設定時に使う。 | 手動のみ |
+Superpowers 本体は `skills/superpowers/` に **12スキル**として導入済み。上記2つ以外は [obra/superpowers](https://github.com/obra/superpowers) からコピー。
 
 ---
 
 ## 補足
 
-- **プロジェクトスキル**はリポジトリごとに `.cursor/skills/` に置く。グローバル化は `scripts/install-global.ps1` を実行。
-- **グローバルへの手動コピー先** — プロジェクトの `.cursor/skills/` を `~/.cursor/skills/` に置くとき、次のどちらでも動く。
-  - **A. カテゴリ付き（推奨・リポジトリと同じ構造）** — 例: `~/.cursor/skills/brainstorming/brainstorming/SKILL.md` → `/brainstorming`
-  - **B. フラット** — 例: `~/.cursor/skills/brainstorming/SKILL.md` → `/brainstorming`
-  - スキル名は `SKILL.md` を直接含むフォルダ名（例: `debug-allrun`）。親の `brainstorming` や `debug` は分類用のみ。
-- **設計〜実装の使い分け** — [スキルの使いどころ.md](スキルの使いどころ.md) を参照（brainstorming 系・grill-me・writing-plans・TDD のパイプライン）。
+- **配布パッケージ**は `skills/` 一式。別 PC では `skills/INSTALL.md` → `install.ps1` の1コマンド。
+- **設計〜実装の使い分け** — [スキルの使いどころ.md](スキルの使いどころ.md) を参照。
 - **`skills-cursor/`** は Cursor が管理する組み込みスキル。手動編集は非推奨。
-- 説明文は各 `SKILL.md` の `description` を日本語に要約したもの。`/` ピッカーに出る原文は英語のまま。

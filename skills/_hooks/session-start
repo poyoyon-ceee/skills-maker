@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+# Cursor user hook: inject using-superpowers at session start (macOS/Linux)
+set -euo pipefail
+
+SKILL_PATH="${HOME}/.cursor/skills/superpowers/using-superpowers/SKILL.md"
+
+if [[ ! -f "$SKILL_PATH" ]]; then
+  printf '{}\n'
+  exit 0
+fi
+
+using_superpowers_content=$(cat "$SKILL_PATH" 2>&1 || echo "")
+
+if [[ -z "$using_superpowers_content" ]]; then
+  printf '{}\n'
+  exit 0
+fi
+
+escape_for_json() {
+  local s="$1"
+  s="${s//\\/\\\\}"
+  s="${s//\"/\\\"}"
+  s="${s//$'\n'/\\n}"
+  s="${s//$'\r'/\\r}"
+  s="${s//$'\t'/\\t}"
+  printf '%s' "$s"
+}
+
+session_context="<EXTREMELY_IMPORTANT>\nYou have superpowers (custom install: skills in ~/.cursor/skills/, not the full plugin).\n\n**Below is the full content of your using-superpowers skill. For all other skills, use Cursor skill invocation (@skill-name or Agent Decides) — do not read SKILL.md files manually with file tools.**\n\n${using_superpowers_content}\n\n**Cursor note:** Local custom skills test-driven-development and writing-plans override Superpowers upstream versions. Always use those when TDD or implementation planning applies.\n</EXTREMELY_IMPORTANT>"
+
+session_context_escaped=$(escape_for_json "$session_context")
+printf '{\n  "additional_context": "%s"\n}\n' "$session_context_escaped"
+exit 0
