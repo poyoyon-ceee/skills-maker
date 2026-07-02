@@ -1,0 +1,378 @@
+﻿[
+    {
+        "name":  "ab-testing",
+        "path":  "marketingskills/ab-testing/SKILL.md"
+    },
+    {
+        "name":  "ad-creative",
+        "path":  "marketingskills/ad-creative/SKILL.md"
+    },
+    {
+        "name":  "ads",
+        "path":  "marketingskills/ads/SKILL.md"
+    },
+    {
+        "name":  "ai-seo",
+        "path":  "marketingskills/ai-seo/SKILL.md"
+    },
+    {
+        "name":  "analytics",
+        "path":  "marketingskills/analytics/SKILL.md"
+    },
+    {
+        "name":  "aso",
+        "path":  "marketingskills/aso/SKILL.md"
+    },
+    {
+        "name":  "brainstorming",
+        "path":  "superpowers/brainstorming/SKILL.md"
+    },
+    {
+        "name":  "canvas-design",
+        "path":  "canvas-design/SKILL.md"
+    },
+    {
+        "name":  "churn-prevention",
+        "path":  "marketingskills/churn-prevention/SKILL.md"
+    },
+    {
+        "name":  "cold-email",
+        "path":  "marketingskills/cold-email/SKILL.md"
+    },
+    {
+        "name":  "co-marketing",
+        "path":  "marketingskills/co-marketing/SKILL.md"
+    },
+    {
+        "name":  "community-marketing",
+        "path":  "marketingskills/community-marketing/SKILL.md"
+    },
+    {
+        "name":  "competitor-profiling",
+        "path":  "marketingskills/competitor-profiling/SKILL.md"
+    },
+    {
+        "name":  "competitors",
+        "path":  "marketingskills/competitors/SKILL.md"
+    },
+    {
+        "name":  "content-research-writer",
+        "path":  "content-research-writer/SKILL.md"
+    },
+    {
+        "name":  "content-strategy",
+        "path":  "marketingskills/content-strategy/SKILL.md"
+    },
+    {
+        "name":  "copy-editing",
+        "path":  "marketingskills/copy-editing/SKILL.md"
+    },
+    {
+        "name":  "copywriting",
+        "path":  "marketingskills/copywriting/SKILL.md"
+    },
+    {
+        "name":  "cro",
+        "path":  "marketingskills/cro/SKILL.md"
+    },
+    {
+        "name":  "customer-research",
+        "path":  "marketingskills/customer-research/SKILL.md"
+    },
+    {
+        "name":  "debug-allrun",
+        "path":  "debug/debug-allrun/SKILL.md"
+    },
+    {
+        "name":  "directory-submissions",
+        "path":  "marketingskills/directory-submissions/SKILL.md"
+    },
+    {
+        "name":  "dispatching-parallel-agents",
+        "path":  "superpowers/dispatching-parallel-agents/SKILL.md"
+    },
+    {
+        "name":  "doc-coauthoring",
+        "path":  "doc-coauthoring/SKILL.md"
+    },
+    {
+        "name":  "docx",
+        "path":  "docx/SKILL.md"
+    },
+    {
+        "name":  "edit-article",
+        "path":  "edit-article/SKILL.md"
+    },
+    {
+        "name":  "emails",
+        "path":  "marketingskills/emails/SKILL.md"
+    },
+    {
+        "name":  "executing-plans",
+        "path":  "superpowers/executing-plans/SKILL.md"
+    },
+    {
+        "name":  "finishing-a-development-branch",
+        "path":  "superpowers/finishing-a-development-branch/SKILL.md"
+    },
+    {
+        "name":  "free-tools",
+        "path":  "marketingskills/free-tools/SKILL.md"
+    },
+    {
+        "name":  "frontend-design",
+        "path":  "frontend-design/SKILL.md"
+    },
+    {
+        "name":  "git-guardrails-claude-code",
+        "path":  "git-guardrails-claude-code/SKILL.md"
+    },
+    {
+        "name":  "github-make-sync",
+        "path":  "github/github-make-sync/SKILL.md"
+    },
+    {
+        "name":  "git-in-clone",
+        "path":  "github/git-in-clone/SKILL.md"
+    },
+    {
+        "name":  "grill-me",
+        "path":  "grill-me/SKILL.md"
+    },
+    {
+        "name":  "gws-docs",
+        "path":  "gws-docs/SKILL.md"
+    },
+    {
+        "name":  "gws-drive",
+        "path":  "gws-drive/SKILL.md"
+    },
+    {
+        "name":  "gws-sheets",
+        "path":  "gws-sheets/SKILL.md"
+    },
+    {
+        "name":  "image",
+        "path":  "marketingskills/image/SKILL.md"
+    },
+    {
+        "name":  "improve-codebase-architecture",
+        "path":  "improve-codebase-architecture/SKILL.md"
+    },
+    {
+        "name":  "launch",
+        "path":  "marketingskills/launch/SKILL.md"
+    },
+    {
+        "name":  "lead-magnets",
+        "path":  "marketingskills/lead-magnets/SKILL.md"
+    },
+    {
+        "name":  "marketing-ideas",
+        "path":  "marketingskills/marketing-ideas/SKILL.md"
+    },
+    {
+        "name":  "marketing-loops",
+        "path":  "marketingskills/marketing-loops/SKILL.md"
+    },
+    {
+        "name":  "marketing-plan",
+        "path":  "marketingskills/marketing-plan/SKILL.md"
+    },
+    {
+        "name":  "marketing-psychology",
+        "path":  "marketingskills/marketing-psychology/SKILL.md"
+    },
+    {
+        "name":  "notebooklm",
+        "path":  "notebooklm-skill/SKILL.md"
+    },
+    {
+        "name":  "obsidian-vault",
+        "path":  "obsidian-vault/SKILL.md"
+    },
+    {
+        "name":  "offers",
+        "path":  "marketingskills/offers/SKILL.md"
+    },
+    {
+        "name":  "onboarding",
+        "path":  "marketingskills/onboarding/SKILL.md"
+    },
+    {
+        "name":  "paywalls",
+        "path":  "marketingskills/paywalls/SKILL.md"
+    },
+    {
+        "name":  "pdf",
+        "path":  "pdf/SKILL.md"
+    },
+    {
+        "name":  "playbook-app-improvement",
+        "path":  "playbooks/playbook-app-improvement/SKILL.md"
+    },
+    {
+        "name":  "playbook-article-production",
+        "path":  "playbooks/playbook-article-production/SKILL.md"
+    },
+    {
+        "name":  "playbook-document-data",
+        "path":  "playbooks/playbook-document-data/SKILL.md"
+    },
+    {
+        "name":  "playbook-fable5-7day",
+        "path":  "playbooks/playbook-fable5-7day/SKILL.md"
+    },
+    {
+        "name":  "playbook-lp-creative",
+        "path":  "playbooks/playbook-lp-creative/SKILL.md"
+    },
+    {
+        "name":  "playbook-mini-webapp",
+        "path":  "playbooks/playbook-mini-webapp/SKILL.md"
+    },
+    {
+        "name":  "playbook-research-assets",
+        "path":  "playbooks/playbook-research-assets/SKILL.md"
+    },
+    {
+        "name":  "popups",
+        "path":  "marketingskills/popups/SKILL.md"
+    },
+    {
+        "name":  "pptx",
+        "path":  "pptx/SKILL.md"
+    },
+    {
+        "name":  "pricing",
+        "path":  "marketingskills/pricing/SKILL.md"
+    },
+    {
+        "name":  "product-marketing",
+        "path":  "marketingskills/product-marketing/SKILL.md"
+    },
+    {
+        "name":  "programmatic-seo",
+        "path":  "marketingskills/programmatic-seo/SKILL.md"
+    },
+    {
+        "name":  "prospecting",
+        "path":  "marketingskills/prospecting/SKILL.md"
+    },
+    {
+        "name":  "public-relations",
+        "path":  "marketingskills/public-relations/SKILL.md"
+    },
+    {
+        "name":  "receiving-code-review",
+        "path":  "superpowers/receiving-code-review/SKILL.md"
+    },
+    {
+        "name":  "referrals",
+        "path":  "marketingskills/referrals/SKILL.md"
+    },
+    {
+        "name":  "requesting-code-review",
+        "path":  "superpowers/requesting-code-review/SKILL.md"
+    },
+    {
+        "name":  "revops",
+        "path":  "marketingskills/revops/SKILL.md"
+    },
+    {
+        "name":  "sales-enablement",
+        "path":  "marketingskills/sales-enablement/SKILL.md"
+    },
+    {
+        "name":  "schema",
+        "path":  "marketingskills/schema/SKILL.md"
+    },
+    {
+        "name":  "seo-audit",
+        "path":  "marketingskills/seo-audit/SKILL.md"
+    },
+    {
+        "name":  "signup",
+        "path":  "marketingskills/signup/SKILL.md"
+    },
+    {
+        "name":  "site-architecture",
+        "path":  "marketingskills/site-architecture/SKILL.md"
+    },
+    {
+        "name":  "skill-creator",
+        "path":  "skill-creator/SKILL.md"
+    },
+    {
+        "name":  "sms",
+        "path":  "marketingskills/sms/SKILL.md"
+    },
+    {
+        "name":  "social",
+        "path":  "marketingskills/social/SKILL.md"
+    },
+    {
+        "name":  "subagent-driven-development",
+        "path":  "superpowers/subagent-driven-development/SKILL.md"
+    },
+    {
+        "name":  "systematic-debugging",
+        "path":  "superpowers/systematic-debugging/SKILL.md"
+    },
+    {
+        "name":  "test-driven-development",
+        "path":  "test-driven-development/SKILL.md"
+    },
+    {
+        "name":  "theme-factory",
+        "path":  "theme-factory/SKILL.md"
+    },
+    {
+        "name":  "to-issues",
+        "path":  "to-issues/SKILL.md"
+    },
+    {
+        "name":  "to-prd",
+        "path":  "to-prd/SKILL.md"
+    },
+    {
+        "name":  "using-git-worktrees",
+        "path":  "superpowers/using-git-worktrees/SKILL.md"
+    },
+    {
+        "name":  "using-superpowers",
+        "path":  "superpowers/using-superpowers/SKILL.md"
+    },
+    {
+        "name":  "vercel-react-best-practices",
+        "path":  "react-best-practices/SKILL.md"
+    },
+    {
+        "name":  "verification-before-completion",
+        "path":  "superpowers/verification-before-completion/SKILL.md"
+    },
+    {
+        "name":  "video",
+        "path":  "marketingskills/video/SKILL.md"
+    },
+    {
+        "name":  "webapp-testing",
+        "path":  "webapp-testing/SKILL.md"
+    },
+    {
+        "name":  "web-artifacts-builder",
+        "path":  "web-artifacts-builder/SKILL.md"
+    },
+    {
+        "name":  "writing-plans",
+        "path":  "writing-plans/SKILL.md"
+    },
+    {
+        "name":  "writing-skills",
+        "path":  "superpowers/writing-skills/SKILL.md"
+    },
+    {
+        "name":  "xlsx",
+        "path":  "xlsx/SKILL.md"
+    }
+]

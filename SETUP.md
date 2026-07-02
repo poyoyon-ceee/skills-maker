@@ -21,9 +21,11 @@ skills-maker/
 │   ├── session-start.ps1       # Windows: Superpowers セッションフック
 │   ├── session-start           # macOS/Linux
 │   └── hooks.json.example
-└── skills/                    # 配布パッケージ（スキル + インストーラ + 別PC手順）
+└── skills-pack/               # 配布パッケージ（スキル + インストーラ + 別PC手順）
     ├── INSTALL.md             # 別PC向け手順（ここを読む）
-    ├── install.ps1            # Windows: 一括インストール
+    ├── 引き継ぎ.md            # エージェントに渡す一言
+    ├── MANIFEST.json          # 94スキル一覧
+    ├── install.ps1            # Windows: 一括インストール（重複安全）
     ├── install.sh             # macOS/Linux
     ├── _hooks/                # セッションフック（スキルではない）
     ├── debug/
@@ -64,12 +66,12 @@ Cursor はスキルルートを**再帰的に走査**します。カテゴリフ
 
 ## 初回設置（別 PC）
 
-**コード不要。** `skills/引き継ぎ.md` をエージェントに見せて、書いてある「コピペ用の一言」を送るだけ。
+**コード不要。** `skills-pack/引き継ぎ.md` をエージェントに見せて、書いてある「コピペ用の一言」を送るだけ。
 
 自分でやる場合のみ:
 
 ```powershell
-cd C:\path\to\skills-maker\skills
+cd C:\path\to\skills-maker\skills-pack
 .\install.ps1
 ```
 
@@ -80,7 +82,7 @@ Cursor を再起動し、Customize → Skills で一覧を確認。
 ```powershell
 cd C:\path\to\skills-maker
 git pull
-cd skills
+cd skills-pack
 .\install.ps1
 ```
 
