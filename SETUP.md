@@ -24,7 +24,7 @@ skills-maker/
 └── skills-pack/               # 配布パッケージ（スキル + インストーラ + 別PC手順）
     ├── INSTALL.md             # 別PC向け手順（ここを読む）
     ├── 引き継ぎ.md            # エージェントに渡す一言
-    ├── MANIFEST.json          # 94スキル一覧
+    ├── MANIFEST.json          # 98スキル一覧
     ├── install.ps1            # Windows: 一括インストール（重複安全）
     ├── install.sh             # macOS/Linux
     ├── _hooks/                # セッションフック（スキルではない）

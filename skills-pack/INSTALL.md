@@ -8,7 +8,7 @@
 
 | 種類 | 場所 | インストール先 |
 |------|------|----------------|
-| スキル本体（94個） | 各カテゴリフォルダ | `~/.cursor/skills/` |
+| スキル本体（98個） | 各カテゴリフォルダ | `~/.cursor/skills/` |
 | スキル一覧 | `MANIFEST.json` | （参照用） |
 | セッションフック | `_hooks/` | `~/.cursor/hooks/` |
 | インストーラ | `install.ps1` / `install.sh` | （実行するだけ） |
@@ -69,7 +69,7 @@ cd skills-pack
 3. **Customize → Hooks** — `session-start` が登録されている
 4. 同名スキルが2件出ない
 
-## 含まれるスキル（94個・概要）
+## 含まれるスキル（98個・概要）
 
 | カテゴリ | 例 |
 |----------|-----|
@@ -77,10 +77,11 @@ cd skills-pack
 | marketingskills（46） | `copywriting`, `seo-audit`, `launch` |
 | superpowers（12） | `brainstorming`, `systematic-debugging` |
 | Anthropic（8） | `pdf`, `docx`, `xlsx`, `pptx`, `skill-creator` |
-| Matt Pocock（5） | `to-prd`, `obsidian-vault` |
-| 3rd party（4） | `notebooklm`, `react-best-practices` |
+| Matt Pocock | `to-prd`, `to-issues`, `edit-article` など |
+| Obsidian（3） | `obsidian-vault`, `obsidian-markdown`, `json-canvas` |
+| 3rd party | `notebooklm`, `react-best-practices` など |
 | GWS（3） | `gws-docs`, `gws-sheets`, `gws-drive` |
-| 独自（残り） | `grill-me`, `writing-plans`, `webapp-testing` など |
+| 独自（残り） | `grill-me`, `writing-plans`, `webapp-testing`, `new-project` など |
 
 全件は [MANIFEST.json](MANIFEST.json) を参照。
 
