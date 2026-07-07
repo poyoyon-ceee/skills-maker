@@ -12,6 +12,13 @@
 - 過去の手動コピーや旧インストールの残骸が `~/.cursor/skills/` に残っている
 - **プロジェクト内の `skills/` フォルダが原因ではない**（Cursor は `.cursor/skills/` を読む。skills-maker の `skills/` は配布用正本）
 
+## 対象は Cursor 側だけ（重要）
+
+**この手順の対象は `~/.cursor/skills/` のみ。`~/.claude/skills/`（Claude Code 側）には絶対に適用しない。**
+
+- Claude Code 側はカテゴリフォルダを剥がした平置き構造で、この文書のネスト削除パターン（`writing-plans\writing-plans\` 等）は当てはまらない
+- Claude Code 側の重複・残骸は `install-claude.ps1` を再実行すれば解消する（除外スキルの削除・オーバーレイ適用も内蔵。詳細は [INSTALL.md](INSTALL.md)）
+
 ---
 
 ## コピペ用の一言（これをそのまま送る）
@@ -197,6 +204,7 @@ if ($dupes) {
 ## やってはいけないこと
 
 - `~/.cursor/skills-cursor/` を触る（Cursor 組み込み用）
+- **`~/.claude/skills/` にこの手順を適用する**（Claude Code 側は `install-claude.ps1` の再実行で整理する）
 - 中身を比較せずにフォルダごと全削除する
 - `superpowers\` 以下を丸ごと消す
 - 重複0件の報告を、確認コマンドなしで行う
