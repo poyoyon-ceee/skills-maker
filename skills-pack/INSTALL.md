@@ -89,7 +89,7 @@ cd skills-pack
 | 症状 | 対処 |
 |------|------|
 | スキルが出ない | Cursor 再起動 |
-| 同名スキルが2つ（例: `/writing-plans`） | Superpowers プラグインと skills-pack が共存している可能性。`install.ps1` 再実行 → 残れば [skills重複処理.md](skills重複処理.md) |
+| 同名スキルが2つ（例: `/writing-plans`） | Superpowers プラグインと skills-pack が共存、または Cursor が `~/.claude/skills` も読んでいる。Settings → Rules, Skills, Subagents → **Include Third-Party...** を OFF → 残れば [skills重複処理.md](skills重複処理.md) |
 | フックが出ない | `~/.cursor/hooks/session-start.ps1`（Windows）があるか確認 |
 | GWS が動かない | `gws auth login` を別途実行（OAuth は PC ごと） |
 

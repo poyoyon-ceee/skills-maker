@@ -10,7 +10,36 @@
 
 - `install.ps1` 実行後、`/writing-plans` などが **2件ずつ** 出る
 - 過去の手動コピーや旧インストールの残骸が `~/.cursor/skills/` に残っている
+- **同じスキルが 2〜3 件並ぶ**（Cursor と Claude Code を同じ PC で使っている）
 - **プロジェクト内の `skills/` フォルダが原因ではない**（Cursor は `.cursor/skills/` を読む。skills-maker の `skills/` は配布用正本）
+
+---
+
+## 先に確認：Cursor × Claude 同居による重複（よくある）
+
+同じ PC で Cursor と Claude Code の**両方**を使うと、Cursor が次を全部読んで同名スキルが並ぶ。
+
+| 出典 | パス例 |
+|------|--------|
+| Cursor 正本 | `~/.cursor/skills/` |
+| Claude 用スキル | `~/.claude/skills/` |
+| Claude プラグイン | `~/.claude/plugins/cache/...` |
+
+`~/.cursor/skills/` 内が綺麗でも、`/using-superpowers` が **3件** 出ることがある。  
+**Claude 用フォルダは消さない**（Claude Code が使う）。Cursor 側の取り込みを切る。
+
+### 手順（エージェント or ヒデさん）
+
+1. Cursor Settings → **Rules, Skills, Subagents**
+2. **Third-Party Imports** の  
+   **Include Third-Party Plugins, Skills, and Other Configs** を **OFF**
+3. Cursor を完全終了して起動し直す
+4. `/using-superpowers` が **1件** になるか確認
+
+これで Cursor は `~/.cursor/skills/`（と Cursor 組み込み）だけ見る。  
+Claude Code はこれまでどおり `~/.claude/skills/` を使う。両方可。
+
+OFF にしたあとも `~/.cursor/skills/` 内のネスト残骸がある場合のみ、下の手順 2〜5 を実行する。
 
 ---
 
@@ -190,12 +219,14 @@ if ($dupes) {
 
 ## 原因（参考）
 
-`install.ps1` はフォルダを上書きコピーするが、**古いネスト構造**（例: `writing-plans\writing-plans\`）は自動では消えない。新旧が共存すると Cursor が同じ `name:` のスキルを2回登録する。
+1. **Cursor × Claude 同居:** Cursor は互換のため `~/.claude/skills/` と `~/.claude/plugins/` も読む（デフォルト ON）。フォルダ分けしても Cursor 側に全部出る。
+2. **ネスト残骸:** `install.ps1` はフォルダを上書きコピーするが、**古いネスト構造**（例: `writing-plans\writing-plans\`）は自動では消えない。新旧が共存すると Cursor が同じ `name:` のスキルを2回登録する。
 
 ---
 
 ## やってはいけないこと
 
+- `~/.claude/skills/` を消して Cursor の重複だけ直そうとする（Claude Code が壊れる）
 - `~/.cursor/skills-cursor/` を触る（Cursor 組み込み用）
 - 中身を比較せずにフォルダごと全削除する
 - `superpowers\` 以下を丸ごと消す
