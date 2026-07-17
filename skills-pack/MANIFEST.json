@@ -184,12 +184,24 @@
         "path":  "marketingskills/marketing-psychology/SKILL.md"
     },
     {
+        "name":  "new-project",
+        "path":  "new-project/SKILL.md"
+    },
+    {
         "name":  "notebooklm",
         "path":  "notebooklm-skill/SKILL.md"
     },
     {
+        "name":  "obsidian-markdown",
+        "path":  "obsidian-markdown/SKILL.md"
+    },
+    {
         "name":  "obsidian-vault",
         "path":  "obsidian-vault/SKILL.md"
+    },
+    {
+        "name":  "json-canvas",
+        "path":  "json-canvas/SKILL.md"
     },
     {
         "name":  "offers",
@@ -290,6 +302,10 @@
     {
         "name":  "seo-audit",
         "path":  "marketingskills/seo-audit/SKILL.md"
+    },
+    {
+        "name":  "session-recap",
+        "path":  "session-recap/SKILL.md"
     },
     {
         "name":  "signup",

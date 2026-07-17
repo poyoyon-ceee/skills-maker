@@ -2,8 +2,9 @@
 name: playbook-research-assets
 description: >-
   Research assetization playbook. Runs notebooklm integration, obsidian-vault,
-  content-research-writer, and optional terminology cleanup. Use when turning
-  scattered notes, customer feedback, and course materials into reusable knowledge.
+  obsidian-markdown, json-canvas, content-research-writer, and optional
+  terminology cleanup. Use when turning scattered notes, customer feedback, and
+  course materials into reusable knowledge.
 disable-model-invocation: true
 ---
 
@@ -21,7 +22,9 @@ NotebookLM / Obsidian / リサーチ → 再利用可能なナレッジ資産化
 | Skill | Status |
 |-------|--------|
 | notebooklm | Required if using NotebookLM sources (folder: notebooklm-skill) |
-| obsidian-vault | Required if using Obsidian |
+| obsidian-vault | Required if using Obsidian (vault path: `D:\vault`) |
+| obsidian-markdown | Use when writing or fixing Obsidian note syntax (callouts, properties, embeds) |
+| json-canvas | Use when creating or updating `.canvas` overview maps (`D:\vault\canvas\`) |
 | content-research-writer | Required |
 | ubiquitous-language | Optional — skip deprecated; do glossary inline if needed |
 
@@ -39,8 +42,9 @@ NotebookLM / Obsidian / リサーチ → 再利用可能なナレッジ資産化
 
 ### Step 3 — Obsidian (if applicable)
 
-1. Read and follow `obsidian-vault` SKILL.md.
-2. Organize notes with links, tags, and MOC if useful.
+1. Read and follow `obsidian-vault` SKILL.md — search, create, organize notes; update Index notes.
+2. When writing note bodies, read and follow `obsidian-markdown` SKILL.md for callouts, frontmatter, embeds.
+3. When a visual overview helps, read and follow `json-canvas` SKILL.md; save under `D:\vault\canvas\`.
 
 ### Step 4 — Research synthesis
 

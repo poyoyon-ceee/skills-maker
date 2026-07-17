@@ -1,6 +1,6 @@
-# Cursor グローバルスキル一覧（全94件・日本語）
+# Cursor グローバルスキル一覧（全98件・日本語）
 
-取得日: 2026-07-02  
+取得日: 2026-07-05  
 対象: `~/.cursor/skills/`（= このリポジトリの `skills-pack/` を配布した内容）。**運用方針: すべてグローバルに置く。プロジェクト内 `.cursor/skills/` は使わない。**
 
 **凡例**
@@ -19,9 +19,9 @@
 2. [ドキュメント／データ処理（8件）](#2-ドキュメントデータ処理8件)
 3. [Google Workspace 連携（3件）](#3-google-workspace-連携3件)
 4. [設計・開発ワークフロー（Superpowers 系・12件）](#4-設計開発ワークフローsuperpowers系12件)
-5. [独自の開発系スキル（8件）](#5-独自の開発系スキル8件)
+5. [独自の開発系スキル（9件）](#5-独自の開発系スキル9件)
 6. [デザイン・コンテンツ制作（8件）](#6-デザインコンテンツ制作8件)
-7. [ナレッジ管理・リサーチ（3件）](#7-ナレッジ管理リサーチ3件)
+7. [ナレッジ管理・リサーチ（5件）](#7-ナレッジ管理リサーチ5件)
 8. [GitHub / Git 運用（3件）](#8-github--git-運用3件)
 9. [マーケティング（marketingskills・46件）](#9-マーケティングmarketingskills46件)
 
@@ -39,7 +39,7 @@
 | `/playbook-lp-creative` | marketingskills（訴求設計）→ `frontend-design` → `canvas-design` → `theme-factory` → `pptx` の順。訴求→UI→ビジュアル→トンマナ統一→スライド化。 | 商品ローンチ、無料特典、セミナー募集の制作一式をトンマナ統一で作りたい |
 | `/playbook-mini-webapp` | `to-prd` → `frontend-design` → `web-artifacts-builder` → `webapp-testing` → `verification-before-completion` の順。PRD→UI設計→実装→ブラウザQA→完了検証。 | 社内管理表、入力フォーム、簡易ダッシュボードを企画からQAまで一気に作りたい |
 | `/playbook-app-improvement` | `systematic-debugging` → `improve-codebase-architecture` → `requesting-code-review` → `react-best-practices` の順。根本原因デバッグ→アーキ改善→レビュー→最適化。 | 過去に作ったWebアプリ／自動化スクリプトの改善、直しても再発するバグ、複雑化したコード |
-| `/playbook-research-assets` | `notebooklm` → `obsidian-vault` → `content-research-writer`（任意で用語整理）の順。散らかったナレッジを検索・再利用可能な資産にする。 | 顧客の声、教材、過去記事、社内メモを横断整理して知識資産にしたい |
+| `/playbook-research-assets` | `notebooklm` → `obsidian-vault` →（任意で `obsidian-markdown` / `json-canvas`）→ `content-research-writer`（任意で用語整理）の順。散らかったナレッジを検索・再利用可能な資産にする。 | 顧客の声、教材、過去記事、社内メモを横断整理して知識資産にしたい |
 
 ---
 
@@ -91,10 +91,11 @@
 
 ---
 
-## 5. 独自の開発系スキル（8件）
+## 5. 独自の開発系スキル（9件）
 
 | コマンド | 説明 | 使いどころ |
 |----------|------|-----------|
+| `/new-project`（手動のみ） | Hidem プロジェクトキット（Web/Tauri/MAUI）で新規グリーンフィールドを CLI 対話式に scaffold。`PROJECT.md` / `.project_rules/MASTER_PROTOCOL.md` 等を生成。 | 新規アプリ・新規プロジェクト立ち上げ時（Day 0 の1回のみ）。既存プロジェクトの機能追加・バグ修正では使わない |
 | `/test-driven-development` | RED-GREEN-REFACTORのTDDを実装前に徹底。ローカル改良版（Superpowers本体＋マルチスタックテストコマンド表付き）。 | 機能追加・バグ修正・リファクタリング前。「TDDで」「テストファーストで」と言われたとき |
 | `/writing-plans` | ファイルパス・コード断片・検証手順まで含めた実装プランを、コーディング前に作成。ローカル Cursor 向け Adapt 版。 | 仕様が複数ステップにわたる非自明な機能に着手する前 |
 | `/webapp-testing` | Cursorのブラウザ MCP または Playwright スクリプトでローカル Web アプリをテスト。ユニット/E2E(IDE)/E2E(スクリプト)の使い分け表あり。 | 「アプリをテストして」「UIを確認して」、フロントエンドの動作検証全般 |
@@ -121,12 +122,16 @@
 
 ---
 
-## 7. ナレッジ管理・リサーチ（3件）
+## 7. ナレッジ管理・リサーチ（5件）
+
+Obsidian 系は **3スキル連携**。`obsidian-vault` が vault パス（`D:\vault`）と運用、`obsidian-markdown` が文法、`json-canvas` が `.canvas` 俯瞰。
 
 | コマンド | 説明 | 使いどころ |
 |----------|------|-----------|
 | `/notebooklm`（`notebooklm-skill`） | Google NotebookLM のノートブックにブラウザ自動化で問い合わせ、Geminiの根拠付き回答を取得。ハルシネーションを大幅抑制。 | NotebookLMのURLを共有された、「自分のNotebookLMに聞いて」と言われたとき |
-| `/obsidian-vault` | Obsidian Vault内のノートをwikilink・インデックスノートで検索・作成・整理。 | Obsidianでノートを探す・作る・整理したいとき |
+| `/obsidian-vault` | `D:\vault` 内のノートを wikilink・インデックスノートで検索・作成・整理。vault パスと命名規則の正本。 | Obsidianでノートを探す・作る・整理したいとき |
+| `/obsidian-markdown` | callout、frontmatter（properties）、embed、wikilink 等の Obsidian Flavored Markdown 文法。kepano/obsidian-skills 由来。 | Obsidian ノートの書式・callout・メタデータを正確に書きたいとき |
+| `/json-canvas` | `.canvas` ファイル（ノード・エッジ・グループ）の生成・編集。`D:\vault\canvas\` 推奨。kepano/obsidian-skills 由来。 | マインドマップ、フローチャート、Index の視覚俯瞰を Canvas で作りたいとき |
 | `/content-research-writer` | （6章参照）リサーチ付き執筆パートナー | — |
 
 ---
@@ -141,7 +146,9 @@
 
 ---
 
-## 9. マーケティング（marketingskills・46件）
+## 9. マーケティング（marketingskills・46件・すべて手動のみ）
+
+**2026-07-05から全46件を手動のみ（`disable-model-invocation: true`）に変更。** 会話から自動選択されず、`/copywriting` のように明示的に呼んだときだけ動く。理由: 実際の作業（FX検証、図面整理、skills-maker運用）と噛み合わず、80個中46個が自動発火対象という配分の悪さがコンテキストコストになっていたため。`playbook-lp-creative` からは変わらず明示的に読み込める。
 
 **すべて `.agents/product-marketing.md`（プロダクト・ターゲット・ポジショニングの共通コンテキスト）を先にチェックしてから動く設計。** 各スキルは隣接スキルへの誘導コメント付き（例: cro⇔signup⇔onboarding）。
 
@@ -246,5 +253,6 @@
 - **配布パッケージ**は `skills-pack/` 一式。別 PC では `skills-pack/引き継ぎ.md` の一言をエージェントに送るだけ。
 - **重複回避の仕組み**は [skills-pack/引き継ぎ.md](skills-pack/引き継ぎ.md) と [skills-pack/skills重複処理.md](skills-pack/skills重複処理.md) を参照。
 - **GWS（Google Workspace）連携**は PC ごとに `gws auth login` が必要。skills-pack にOAuth情報は含まれない。
+- **Obsidian 連携**は `obsidian-vault`（運用・`D:\vault`）＋ `obsidian-markdown`（文法）＋ `json-canvas`（`.canvas`）。vault を移したら `obsidian-vault` のパスを更新すること。
 - **`skills-cursor/`**（Cursor組み込みスキル）は本一覧に含めない。触らない運用。
 - 各スキルの正確な原文説明は `skills-pack/<カテゴリ>/<スキル名>/SKILL.md` の `description:` を参照。

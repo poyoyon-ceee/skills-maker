@@ -1,0 +1,11 @@
+{
+  "name": "original-source-scaffolder",
+  "version": "1.0.0",
+  "description": "AI-driven project generator based on Markdown sources",
+  "type": "module",
+  "main": "scaffold.js",
+  "dependencies": {
+    "@clack/prompts": "^0.7.0",
+    "picocolors": "^1.0.0"
+  }
+}

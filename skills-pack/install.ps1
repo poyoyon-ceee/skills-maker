@@ -9,7 +9,7 @@ $hooksDst = Join-Path $env:USERPROFILE ".cursor\hooks"
 $hooksConfig = Join-Path $env:USERPROFILE ".cursor\hooks.json"
 $hooksSrc = Join-Path $packageRoot "_hooks"
 
-$skipTopLevel = @("_hooks")
+$skipTopLevel = @("_hooks", "_claude")
 $legacyRemove = @(
     "writing-plans\writing-plans",
     "grill-me\grill-me",
