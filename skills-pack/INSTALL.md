@@ -8,7 +8,7 @@
 
 | 種類 | 場所 | インストール先 |
 |------|------|----------------|
-| スキル本体（98個） | 各カテゴリフォルダ | `~/.cursor/skills/` |
+| スキル本体（99個） | 各カテゴリフォルダ | `~/.cursor/skills/` |
 | スキル一覧 | `MANIFEST.json` | （参照用） |
 | セッションフック | `_hooks/` | `~/.cursor/hooks/` |
 | インストーラ | `install.ps1` / `install.sh` | （実行するだけ） |
@@ -90,7 +90,7 @@ cd skills-pack
 3. **Customize → Hooks** — `session-start` が登録されている
 4. 同名スキルが2件出ない
 
-## 含まれるスキル（98個・概要）
+## 含まれるスキル（99個・概要）
 
 | カテゴリ | 例 |
 |----------|-----|
@@ -102,7 +102,7 @@ cd skills-pack
 | Obsidian（3） | `obsidian-vault`, `obsidian-markdown`, `json-canvas` |
 | 3rd party | `notebooklm`, `react-best-practices` など |
 | GWS（3） | `gws-docs`, `gws-sheets`, `gws-drive` |
-| 独自（残り） | `grill-me`, `writing-plans`, `webapp-testing`, `new-project` など |
+| 独自（残り） | `grill-me`, `writing-plans`, `webapp-testing`, `new-project`, `doc-maint` など |
 
 全件は [MANIFEST.json](MANIFEST.json) を参照。
 

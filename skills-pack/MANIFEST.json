@@ -96,6 +96,10 @@
         "path":  "doc-coauthoring/SKILL.md"
     },
     {
+        "name":  "doc-maint",
+        "path":  "doc-maint/SKILL.md"
+    },
+    {
         "name":  "docx",
         "path":  "docx/SKILL.md"
     },
