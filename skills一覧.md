@@ -1,7 +1,7 @@
-# Cursor グローバルスキル一覧（日常53件 ＋ マーケオプトイン47件・未インストール）
+# Cursor グローバルスキル一覧（日常54件 ＋ マーケオプトイン47件・未インストール）
 
 取得日: 2026-07-27  
-**いま入っているもの（この PC）:** 日常 `skills-pack` の **53件のみ**（`~/.cursor/skills/`）。マーケはリポジトリにパックがあるだけで **グローバル未導入**。
+**いま入っているもの（この PC）:** 日常 `skills-pack` の **54件のみ**（`~/.cursor/skills/`）。マーケはリポジトリにパックがあるだけで **グローバル未導入**。
 
 **運用方針**
 
@@ -27,7 +27,7 @@
 ## 目次
 
 1. [オーケストレーター（playbooks・7件）](#1-オーケストレーターplaybooks7件)
-2. [ドキュメント／データ処理（9件）](#2-ドキュメントデータ処理9件)
+2. [ドキュメント／データ処理（10件）](#2-ドキュメントデータ処理10件)
 3. [Google Workspace 連携（3件）](#3-google-workspace-連携3件)
 4. [設計・開発ワークフロー（Superpowers 系・12件）](#4-設計開発ワークフローsuperpowers系12件)
 5. [独自の開発系スキル（10件）](#5-独自の開発系スキル10件)
@@ -57,7 +57,7 @@
 
 `/playbook-lp-creative` は日常パック外・**未インストール** → [§9](#9-マーケティングオプトイン47件未インストール)。パック導入後は Adaptive proposal gate 付き。`/route-playbook` からも誘導可。
 
-## 2. ドキュメント／データ処理（9件）
+## 2. ドキュメント／データ処理（10件）
 
 | コマンド | 説明 | 使いどころ |
 |----------|------|-----------|
@@ -69,6 +69,7 @@
 | `/doc-coauthoring` | 文書・提案書・技術仕様・意思決定文書を「文脈収集→推敲・構造化→読者テスト」の3段階で共同執筆。 | 「ドキュメントを書きたい」「提案書を作りたい」「PRDを書きたい」など、ある程度分量のある文章作成 |
 | `/doc-maint` | リポジトリの README / docs を監査・整理・統合・鮮度確認。コードは触らず、証拠に基づく正本ドキュメントに再編。`dev` ブランチ前提。 | 「READMEを直して」「docsを整理して」「ドキュメントが古い」「重複を消して」「オンボーディングを分かりやすく」 |
 | `/skill-creator` | 新規スキル作成、既存スキルの編集・最適化、評価(eval)実行、性能ベンチマーク。 | スキルを新規作成したい／SKILL.mdの書き方を聞かれたとき |
+| `/promote-skill` | スキル作成直後の2段確認: global に入れる？→ skills-pack に同期する？。skills-maker パス未検出時は聞いて、検証前は書かない。 | create-skill / skill-creator 完了後、「globalに入れる」「skills-packに同期」 |
 | `/improve-codebase-architecture`（手動のみ） | コードベースをスキャンして「深化の余地」をHTMLレポートで可視化し、選んだ項目についてgrill-me形式で深掘り。 | 過去のコードの複雑化を解消したい、リファクタリング候補を洗い出したい |
 
 ---
@@ -284,7 +285,7 @@ Obsidian 系は **3スキル連携**。`obsidian-vault` が vault パス（`D:\v
 
 ## 補足
 
-- **日常配布**は `skills-pack/`（53件）。別 PC では `skills-pack/引き継ぎ.md` の一言をエージェントに送るだけ。
+- **日常配布**は `skills-pack/`（54件）。別 PC では `skills-pack/引き継ぎ.md` の一言をエージェントに送るだけ。
 - **Claude / Agents** は `skills-pack/install-claude.ps1` → `~/.claude/skills/` と `~/.agents/skills/`（平置き・除外10で各43件）。Cursor 用 `install.ps1` の結果を手コピーしない。
 - **マーケ**は `skills-pack-marketing/` に正本があるが **デフォルト非インストール**。[INSTALL.md](skills-pack-marketing/INSTALL.md) 参照。誤って入れたら `marketingskills/` と `playbook-lp-creative/` を削除。
 - **件数 100超に見えるとき:** Cursor Settings → Rules, Skills, Subagents → **Include Third-Party... を OFF**。`~/.claude` は消さない（Claude Code 用）。詳細は [skills-pack/skills重複処理.md](skills-pack/skills重複処理.md)。

@@ -1,4 +1,4 @@
-[
+﻿[
     {
         "name":  "brainstorming",
         "path":  "superpowers/brainstorming/SKILL.md"
@@ -6,6 +6,10 @@
     {
         "name":  "canvas-design",
         "path":  "canvas-design/SKILL.md"
+    },
+    {
+        "name":  "chat-handoff",
+        "path":  "chat-handoff/SKILL.md"
     },
     {
         "name":  "content-research-writer",
@@ -130,6 +134,10 @@
     {
         "name":  "pptx",
         "path":  "pptx/SKILL.md"
+    },
+    {
+        "name":  "promote-skill",
+        "path":  "promote-skill/SKILL.md"
     },
     {
         "name":  "receiving-code-review",

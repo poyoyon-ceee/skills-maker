@@ -482,4 +482,16 @@ Repeating one more time the core loop here for emphasis:
 
 Please add steps to your TodoList, if you have such a thing, to make sure you don't forget. If you're in Cowork, please specifically put "Create evals JSON and run `eval-viewer/generate_review.py` so human can review test cases" in your TodoList to make sure it happens.
 
+---
+
+## After the skill is done (required handoff)
+
+When the skill draft is written to disk and the user is satisfied (or skips evals), **immediately follow `promote-skill`**:
+
+1. Ask Gate 1: put into `~/.cursor/skills/`?
+2. If Yes, ask Gate 2: sync into skills-pack?
+3. Never invent a skills-maker path — if missing, ask. Never write to an unverified location.
+
+Read and follow `promote-skill` SKILL.md for the exact rules and scripts.
+
 Good luck!

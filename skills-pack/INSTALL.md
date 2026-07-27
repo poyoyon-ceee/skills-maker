@@ -8,7 +8,7 @@
 
 | 種類 | 場所 | インストール先 |
 |------|------|----------------|
-| スキル本体（53個） | 各カテゴリフォルダ | `~/.cursor/skills/` |
+| スキル本体（54個） | 各カテゴリフォルダ | `~/.cursor/skills/` |
 | スキル一覧 | `MANIFEST.json` | （参照用） |
 | セッションフック | `_hooks/` | `~/.cursor/hooks/` |
 | インストーラ | `install.ps1` / `install.sh` | （実行するだけ） |
@@ -90,7 +90,7 @@ cd skills-pack
 3. **Customize → Hooks** — `session-start` が登録されている
 4. 同名スキルが2件出ない
 
-## 含まれるスキル（53個・概要）
+## 含まれるスキル（54個・概要）
 
 **マーケ系は含まない。** LP・広告・訴求スキルは別パック [skills-pack-marketing](../skills-pack-marketing/INSTALL.md)（オプトイン）。通常の本 install では入らない・戻らない。
 

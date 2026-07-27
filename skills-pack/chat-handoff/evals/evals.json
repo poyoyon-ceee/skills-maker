@@ -1,0 +1,43 @@
+{
+  "skill_name": "chat-handoff",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "別PC用に残して。さっきの結論は「Cursorのチャットは端末ローカルでクラウド同期されない。続きはリポジトリの質疑応答メモに結論・決定・残タスクを落とす」。次アクションは「別PCで質疑応答7-28.MDを開いて続き」。対象は sumoho-APP。ヒデさんとTomの会話。",
+      "expected_output": "Repo-root 質疑応答M-D.MD created (or written) with 結論/事実/次アクション; not 備忘録.md; no full transcript dump.",
+      "files": [],
+      "assertions": [
+        "A file named like 質疑応答M-D.MD exists under the repo root (or outputs)",
+        "The memo contains a 結論 section with the local-only / no-cloud-sync verdict",
+        "The memo contains 次アクション or 実務 mentioning opening the QA memo on another PC",
+        "No 備忘録.md was created",
+        "The memo is not a full chat transcript dump"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "引き継ぎ書いて。今日すでに 質疑応答7-28.MD がある前提で、新しい決定「DBはまだ未決。次は必須機能3つを出す」だけ追記して。上書き禁止。",
+      "expected_output": "Appends a new Qn section to existing 質疑応答7-28.MD; preserves prior content; continues Q numbering.",
+      "files": [],
+      "assertions": [
+        "質疑応答7-28.MD still contains the original Q1 section about Cursor chat locality",
+        "A new Q2 (or higher) section was appended with the DB-undecided / 必須機能3つ decision",
+        "The file was not replaced with only the new content (prior Q1 text remains)",
+        "No separate 備忘録.md was created as the primary output"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "このチャット持ち運べないから文書化して。内容: FirebaseとSupabaseは未決定、主目的は端末またぎ同期、参照は収支アプリ機能一覧.MD。備忘録じゃなくて質疑応答形式で。",
+      "expected_output": "質疑応答M-D.MD in Q&A style with 現状の合意 table and 参照; does not write 備忘録.md.",
+      "files": [],
+      "assertions": [
+        "Output is a 質疑応答M-D.MD style file, not 備忘録.md",
+        "Includes 現状の合意 (or equivalent table) mentioning 端末またぎ同期",
+        "Mentions Firebase/Supabase as undecided",
+        "References 収支アプリ機能一覧.MD",
+        "No 備忘録.md was written"
+      ]
+    }
+  ]
+}
