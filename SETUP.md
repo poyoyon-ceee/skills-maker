@@ -21,20 +21,21 @@ skills-maker/
 │   ├── session-start.ps1       # Windows: Superpowers セッションフック
 │   ├── session-start           # macOS/Linux
 │   └── hooks.json.example
-└── skills-pack/               # 配布パッケージ（スキル + インストーラ + 別PC手順）
-    ├── INSTALL.md             # 別PC向け手順（ここを読む）
-    ├── 引き継ぎ.md            # エージェントに渡す一言
-    ├── MANIFEST.json          # 99スキル一覧
-    ├── install.ps1            # Windows: 一括インストール（重複安全）
-    ├── install.sh             # macOS/Linux
-    ├── _hooks/                # セッションフック（スキルではない）
-    ├── debug/
-    ├── github/
-    ├── grill-me/
-    ├── superpowers/
-    ├── test-driven-development/
-    ├── webapp-testing/
-    └── writing-plans/
+├── skills-pack/               # 日常用配布（スキル + インストーラ + 別PC手順）
+│   ├── INSTALL.md
+│   ├── 引き継ぎ.md
+│   ├── MANIFEST.json          # 52スキル一覧
+│   ├── install.ps1 / install.sh
+│   ├── install-claude.ps1
+│   ├── _hooks/
+│   └── …（marketingskills なし）
+└── skills-pack-marketing/     # マーケ用オプトイン（通常 install では入らない）
+    ├── INSTALL.md
+    ├── 引き継ぎ.md
+    ├── MANIFEST.json          # 47件（marketingskills 46 + playbook-lp-creative）
+    ├── install.ps1 / install.sh
+    ├── marketingskills/
+    └── playbooks/playbook-lp-creative/
 ```
 
 ## Cursor がスキルを読む場所

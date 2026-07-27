@@ -8,11 +8,11 @@
 
 | 種類 | 場所 | インストール先 |
 |------|------|----------------|
-| スキル本体（99個） | 各カテゴリフォルダ | `~/.cursor/skills/` |
+| スキル本体（53個） | 各カテゴリフォルダ | `~/.cursor/skills/` |
 | スキル一覧 | `MANIFEST.json` | （参照用） |
 | セッションフック | `_hooks/` | `~/.cursor/hooks/` |
 | インストーラ | `install.ps1` / `install.sh` | （実行するだけ） |
-| Claude Code 用差分 | `_claude/` | `~/.claude/skills/`（`install-claude.ps1` 経由） |
+| Claude Code / Agents 用差分 | `_claude/` | `~/.claude/skills/` と `~/.agents/skills/`（`install-claude.ps1` 経由） |
 | Claude Code 用インストーラ | `install-claude.ps1` | （実行するだけ） |
 
 `_hooks/`・`_claude/`・`install.*` はスキルではない。インストール時に Cursor のスキルフォルダへはコピーされない。
@@ -26,7 +26,7 @@ cd C:\path\to\skills-maker\skills-pack
 
 Cursor 版との違い:
 
-- インストール先は `~/.claude/skills/`。カテゴリフォルダ（marketingskills/ 等）は剥がして `~/.claude/skills/<スキル名>/` に平置きされる
+- インストール先は `~/.claude/skills/` **と** `~/.agents/skills/`（同じ内容を平置き）。カテゴリフォルダ（playbooks/ 等）は剥がして `<スキル名>/SKILL.md` になる
 - **除外10スキル**（Claude Code の組み込み機能と重複するため入れない・既存なら削除）:
   `docx`, `pdf`, `pptx`, `xlsx`, `skill-creator`（公式スキルと重複）,
   `using-superpowers`, `requesting-code-review`, `receiving-code-review`,
@@ -90,12 +90,13 @@ cd skills-pack
 3. **Customize → Hooks** — `session-start` が登録されている
 4. 同名スキルが2件出ない
 
-## 含まれるスキル（99個・概要）
+## 含まれるスキル（53個・概要）
+
+**マーケ系は含まない。** LP・広告・訴求スキルは別パック [skills-pack-marketing](../skills-pack-marketing/INSTALL.md)（オプトイン）。通常の本 install では入らない・戻らない。
 
 | カテゴリ | 例 |
 |----------|-----|
-| playbooks（7） | `playbook-document-data`, `playbook-mini-webapp` |
-| marketingskills（46） | `copywriting`, `seo-audit`, `launch` |
+| playbooks（7） | `route-playbook`（入口ルーター）, `playbook-document-data`, `playbook-mini-webapp` 等（`playbook-lp-creative` は marketing パック）。各 playbook は Adaptive proposal gate 付き |
 | superpowers（12） | `brainstorming`, `systematic-debugging` |
 | Anthropic（8） | `pdf`, `docx`, `xlsx`, `pptx`, `skill-creator` |
 | Matt Pocock | `to-prd`, `to-issues`, `edit-article` など |

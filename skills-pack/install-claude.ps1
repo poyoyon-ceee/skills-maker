@@ -1,7 +1,8 @@
-# Install global Claude Code skills from skills-pack.
-# Unlike install.ps1 (Cursor), Claude Code expects skills flattened directly
-# under ~/.claude/skills/<skill-name>/SKILL.md — category folders
-# (marketingskills/, playbooks/, superpowers/, github/, debug/) are stripped.
+# Install global Claude Code / Agents skills from skills-pack.
+# Unlike install.ps1 (Cursor), these runtimes expect skills flattened directly
+# under ~/.claude/skills/<skill-name>/SKILL.md and ~/.agents/skills/<skill-name>/SKILL.md
+# — category folders (playbooks/, superpowers/, github/, debug/) are stripped.
+# Marketing skills live in skills-pack-marketing/ and are not installed here.
 #
 # _claude/ holds Claude-specific overrides: after the base copy, any file in
 # _claude/<skill-name>/ overwrites the installed skill (fixes Cursor-specific
@@ -16,8 +17,11 @@
 $ErrorActionPreference = "Stop"
 
 $packageRoot = $PSScriptRoot
-$skillsDst = Join-Path $env:USERPROFILE ".claude\skills"
 $overlayRoot = Join-Path $packageRoot "_claude"
+$destRoots = @(
+    (Join-Path $env:USERPROFILE ".claude\skills"),
+    (Join-Path $env:USERPROFILE ".agents\skills")
+)
 
 $skipTopLevel = @("_hooks", "_claude")
 $excludeSkills = @(
@@ -36,116 +40,125 @@ function Get-SkillName {
     return $null
 }
 
-New-Item -ItemType Directory -Force -Path $skillsDst | Out-Null
+function Install-ToRoot {
+    param([string]$skillsDst)
 
-Write-Host "=== skills-pack install (Claude Code) ==="
+    New-Item -ItemType Directory -Force -Path $skillsDst | Out-Null
 
-$skillDirs = Get-ChildItem -Path $packageRoot -Directory |
-    Where-Object { $skipTopLevel -notcontains $_.Name } |
-    ForEach-Object {
-        Get-ChildItem $_.FullName -Recurse -Filter "SKILL.md" -File
-    } | ForEach-Object { $_.Directory }
+    Write-Host "=== skills-pack install -> $skillsDst ==="
 
-Write-Host "Found skills: $($skillDirs.Count)"
-Write-Host ""
+    $skillDirs = Get-ChildItem -Path $packageRoot -Directory |
+        Where-Object { $skipTopLevel -notcontains $_.Name } |
+        ForEach-Object {
+            Get-ChildItem $_.FullName -Recurse -Filter "SKILL.md" -File
+        } | ForEach-Object { $_.Directory }
 
-$copied = 0
-$updated = 0
-$excluded = 0
-$nameConflicts = @{}
+    Write-Host "Found skills: $($skillDirs.Count)"
+    Write-Host ""
 
-foreach ($srcDir in $skillDirs) {
-    $skillMd = Join-Path $srcDir.FullName "SKILL.md"
-    $frontmatterName = Get-SkillName $skillMd
-    $leafName = $srcDir.Name
-    $name = if ($frontmatterName) { $frontmatterName } else { $leafName }
+    $copied = 0
+    $updated = 0
+    $excluded = 0
+    $nameConflicts = @{}
 
-    if (($excludeSkills -contains $name) -or ($excludeSkills -contains $leafName)) {
-        $excluded++
-        Write-Host "Excluded (duplicates Claude built-in): $name"
-        continue
-    }
+    foreach ($srcDir in $skillDirs) {
+        $skillMd = Join-Path $srcDir.FullName "SKILL.md"
+        $frontmatterName = Get-SkillName $skillMd
+        $leafName = $srcDir.Name
+        $name = if ($frontmatterName) { $frontmatterName } else { $leafName }
 
-    if ($nameConflicts.ContainsKey($name)) {
-        Write-Host "WARNING: duplicate skill name '$name' at $($srcDir.FullName) (already installed from $($nameConflicts[$name])) - skipped"
-        continue
-    }
-    $nameConflicts[$name] = $srcDir.FullName
-
-    $dstDir = Join-Path $skillsDst $name
-    New-Item -ItemType Directory -Force -Path $dstDir | Out-Null
-
-    Get-ChildItem $srcDir.FullName -Recurse -File | ForEach-Object {
-        $rel = $_.FullName.Substring($srcDir.FullName.Length).TrimStart('\', '/')
-        if (Test-Path (Join-Path $overlayRoot (Join-Path $name $rel))) {
-            return # the _claude/ overlay owns this file; don't copy the base version
+        if (($excludeSkills -contains $name) -or ($excludeSkills -contains $leafName)) {
+            $excluded++
+            Write-Host "Excluded (duplicates Claude built-in): $name"
+            continue
         }
-        $destFile = Join-Path $dstDir $rel
-        $destFileDir = Split-Path $destFile -Parent
-        New-Item -ItemType Directory -Force -Path $destFileDir | Out-Null
 
-        if ((Test-Path $destFile) -and ((Get-FileHash $destFile -Algorithm SHA256).Hash -eq (Get-FileHash $_.FullName -Algorithm SHA256).Hash)) {
-            return
+        if ($nameConflicts.ContainsKey($name)) {
+            Write-Host "WARNING: duplicate skill name '$name' at $($srcDir.FullName) (already installed from $($nameConflicts[$name])) - skipped"
+            continue
         }
-        $existed = Test-Path $destFile
-        Copy-Item $_.FullName -Destination $destFile -Force
-        if ($existed) { $script:updated++ } else { $script:copied++ }
-    }
+        $nameConflicts[$name] = $srcDir.FullName
 
-    Write-Host "Installed: $name"
-}
-
-Write-Host ""
-Write-Host "=== Removing excluded skills if present ==="
-$removedExcluded = 0
-foreach ($name in $excludeSkills) {
-    $path = Join-Path $skillsDst $name
-    if (Test-Path $path) {
-        Remove-Item $path -Recurse -Force
-        $removedExcluded++
-        Write-Host "Removed: $name"
-    }
-}
-if ($removedExcluded -eq 0) { Write-Host "(none present)" }
-
-Write-Host ""
-Write-Host "=== Applying Claude-specific overrides (_claude/) ==="
-$overlaid = 0
-if (Test-Path $overlayRoot) {
-    Get-ChildItem $overlayRoot -Directory | ForEach-Object {
-        $name = $_.Name
         $dstDir = Join-Path $skillsDst $name
-        if (-not (Test-Path $dstDir)) {
-            Write-Host "WARNING: overlay '$name' has no installed base skill - skipped"
-            return
-        }
-        $script:changed = 0
-        Get-ChildItem $_.FullName -Recurse -File | ForEach-Object {
-            $rel = $_.FullName.Substring((Join-Path $overlayRoot $name).Length).TrimStart('\', '/')
+        New-Item -ItemType Directory -Force -Path $dstDir | Out-Null
+
+        Get-ChildItem $srcDir.FullName -Recurse -File | ForEach-Object {
+            $rel = $_.FullName.Substring($srcDir.FullName.Length).TrimStart('\', '/')
+            if (Test-Path (Join-Path $overlayRoot (Join-Path $name $rel))) {
+                return # the _claude/ overlay owns this file; don't copy the base version
+            }
             $destFile = Join-Path $dstDir $rel
             $destFileDir = Split-Path $destFile -Parent
             New-Item -ItemType Directory -Force -Path $destFileDir | Out-Null
+
             if ((Test-Path $destFile) -and ((Get-FileHash $destFile -Algorithm SHA256).Hash -eq (Get-FileHash $_.FullName -Algorithm SHA256).Hash)) {
                 return
             }
+            $existed = Test-Path $destFile
             Copy-Item $_.FullName -Destination $destFile -Force
-            $script:changed++
+            if ($existed) { $updated++ } else { $copied++ }
         }
-        $script:overlaid++
-        Write-Host "Overlay applied: $name ($script:changed file(s) changed)"
+
+        Write-Host "Installed: $name"
     }
-}
-else {
-    Write-Host "(no _claude/ folder)"
+
+    Write-Host ""
+    Write-Host "=== Removing excluded skills if present ==="
+    $removedExcluded = 0
+    foreach ($name in $excludeSkills) {
+        $path = Join-Path $skillsDst $name
+        if (Test-Path $path) {
+            Remove-Item $path -Recurse -Force
+            $removedExcluded++
+            Write-Host "Removed: $name"
+        }
+    }
+    if ($removedExcluded -eq 0) { Write-Host "(none present)" }
+
+    Write-Host ""
+    Write-Host "=== Applying Claude-specific overrides (_claude/) ==="
+    $overlaid = 0
+    if (Test-Path $overlayRoot) {
+        Get-ChildItem $overlayRoot -Directory | ForEach-Object {
+            $name = $_.Name
+            $dstDir = Join-Path $skillsDst $name
+            if (-not (Test-Path $dstDir)) {
+                Write-Host "WARNING: overlay '$name' has no installed base skill - skipped"
+                return
+            }
+            $changed = 0
+            Get-ChildItem $_.FullName -Recurse -File | ForEach-Object {
+                $rel = $_.FullName.Substring((Join-Path $overlayRoot $name).Length).TrimStart('\', '/')
+                $destFile = Join-Path $dstDir $rel
+                $destFileDir = Split-Path $destFile -Parent
+                New-Item -ItemType Directory -Force -Path $destFileDir | Out-Null
+                if ((Test-Path $destFile) -and ((Get-FileHash $destFile -Algorithm SHA256).Hash -eq (Get-FileHash $_.FullName -Algorithm SHA256).Hash)) {
+                    return
+                }
+                Copy-Item $_.FullName -Destination $destFile -Force
+                $changed++
+            }
+            $overlaid++
+            Write-Host "Overlay applied: $name ($changed file(s) changed)"
+        }
+    }
+    else {
+        Write-Host "(no _claude/ folder)"
+    }
+
+    Write-Host ""
+    Write-Host "=== Summary ($skillsDst) ==="
+    Write-Host "Files copied (new): $copied"
+    Write-Host "Files updated: $updated"
+    Write-Host "Excluded skills (duplicate Claude built-ins): $excluded (removed locally: $removedExcluded)"
+    Write-Host "Overlays applied: $overlaid"
+    Write-Host "Unique skills installed: $($nameConflicts.Count)"
+    Write-Host ""
 }
 
-Write-Host ""
-Write-Host "=== Summary ==="
-Write-Host "Files copied (new): $copied"
-Write-Host "Files updated: $updated"
-Write-Host "Excluded skills (duplicate Claude built-ins): $excluded (removed locally: $removedExcluded)"
-Write-Host "Overlays applied: $overlaid"
-Write-Host "Unique skills installed: $($nameConflicts.Count)"
-Write-Host ""
+foreach ($root in $destRoots) {
+    Install-ToRoot -skillsDst $root
+}
+
 Write-Host "Note: Claude Code hooks are not installed by this script (different format from Cursor's hooks.json)."
-Write-Host "Done. Restart Claude Code and check that skills are listed."
+Write-Host "Done. Restart Claude Code / Agents runtimes and check that skills are listed."

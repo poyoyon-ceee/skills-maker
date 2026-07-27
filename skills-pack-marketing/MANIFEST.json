@@ -1,0 +1,190 @@
+[
+    {
+        "name":  "ab-testing",
+        "path":  "marketingskills/ab-testing/SKILL.md"
+    },
+    {
+        "name":  "ad-creative",
+        "path":  "marketingskills/ad-creative/SKILL.md"
+    },
+    {
+        "name":  "ads",
+        "path":  "marketingskills/ads/SKILL.md"
+    },
+    {
+        "name":  "ai-seo",
+        "path":  "marketingskills/ai-seo/SKILL.md"
+    },
+    {
+        "name":  "analytics",
+        "path":  "marketingskills/analytics/SKILL.md"
+    },
+    {
+        "name":  "aso",
+        "path":  "marketingskills/aso/SKILL.md"
+    },
+    {
+        "name":  "churn-prevention",
+        "path":  "marketingskills/churn-prevention/SKILL.md"
+    },
+    {
+        "name":  "cold-email",
+        "path":  "marketingskills/cold-email/SKILL.md"
+    },
+    {
+        "name":  "co-marketing",
+        "path":  "marketingskills/co-marketing/SKILL.md"
+    },
+    {
+        "name":  "community-marketing",
+        "path":  "marketingskills/community-marketing/SKILL.md"
+    },
+    {
+        "name":  "competitor-profiling",
+        "path":  "marketingskills/competitor-profiling/SKILL.md"
+    },
+    {
+        "name":  "competitors",
+        "path":  "marketingskills/competitors/SKILL.md"
+    },
+    {
+        "name":  "content-strategy",
+        "path":  "marketingskills/content-strategy/SKILL.md"
+    },
+    {
+        "name":  "copy-editing",
+        "path":  "marketingskills/copy-editing/SKILL.md"
+    },
+    {
+        "name":  "copywriting",
+        "path":  "marketingskills/copywriting/SKILL.md"
+    },
+    {
+        "name":  "cro",
+        "path":  "marketingskills/cro/SKILL.md"
+    },
+    {
+        "name":  "customer-research",
+        "path":  "marketingskills/customer-research/SKILL.md"
+    },
+    {
+        "name":  "directory-submissions",
+        "path":  "marketingskills/directory-submissions/SKILL.md"
+    },
+    {
+        "name":  "emails",
+        "path":  "marketingskills/emails/SKILL.md"
+    },
+    {
+        "name":  "free-tools",
+        "path":  "marketingskills/free-tools/SKILL.md"
+    },
+    {
+        "name":  "image",
+        "path":  "marketingskills/image/SKILL.md"
+    },
+    {
+        "name":  "launch",
+        "path":  "marketingskills/launch/SKILL.md"
+    },
+    {
+        "name":  "lead-magnets",
+        "path":  "marketingskills/lead-magnets/SKILL.md"
+    },
+    {
+        "name":  "marketing-ideas",
+        "path":  "marketingskills/marketing-ideas/SKILL.md"
+    },
+    {
+        "name":  "marketing-loops",
+        "path":  "marketingskills/marketing-loops/SKILL.md"
+    },
+    {
+        "name":  "marketing-plan",
+        "path":  "marketingskills/marketing-plan/SKILL.md"
+    },
+    {
+        "name":  "marketing-psychology",
+        "path":  "marketingskills/marketing-psychology/SKILL.md"
+    },
+    {
+        "name":  "offers",
+        "path":  "marketingskills/offers/SKILL.md"
+    },
+    {
+        "name":  "onboarding",
+        "path":  "marketingskills/onboarding/SKILL.md"
+    },
+    {
+        "name":  "paywalls",
+        "path":  "marketingskills/paywalls/SKILL.md"
+    },
+    {
+        "name":  "playbook-lp-creative",
+        "path":  "playbooks/playbook-lp-creative/SKILL.md"
+    },
+    {
+        "name":  "popups",
+        "path":  "marketingskills/popups/SKILL.md"
+    },
+    {
+        "name":  "pricing",
+        "path":  "marketingskills/pricing/SKILL.md"
+    },
+    {
+        "name":  "product-marketing",
+        "path":  "marketingskills/product-marketing/SKILL.md"
+    },
+    {
+        "name":  "programmatic-seo",
+        "path":  "marketingskills/programmatic-seo/SKILL.md"
+    },
+    {
+        "name":  "prospecting",
+        "path":  "marketingskills/prospecting/SKILL.md"
+    },
+    {
+        "name":  "public-relations",
+        "path":  "marketingskills/public-relations/SKILL.md"
+    },
+    {
+        "name":  "referrals",
+        "path":  "marketingskills/referrals/SKILL.md"
+    },
+    {
+        "name":  "revops",
+        "path":  "marketingskills/revops/SKILL.md"
+    },
+    {
+        "name":  "sales-enablement",
+        "path":  "marketingskills/sales-enablement/SKILL.md"
+    },
+    {
+        "name":  "schema",
+        "path":  "marketingskills/schema/SKILL.md"
+    },
+    {
+        "name":  "seo-audit",
+        "path":  "marketingskills/seo-audit/SKILL.md"
+    },
+    {
+        "name":  "signup",
+        "path":  "marketingskills/signup/SKILL.md"
+    },
+    {
+        "name":  "site-architecture",
+        "path":  "marketingskills/site-architecture/SKILL.md"
+    },
+    {
+        "name":  "sms",
+        "path":  "marketingskills/sms/SKILL.md"
+    },
+    {
+        "name":  "social",
+        "path":  "marketingskills/social/SKILL.md"
+    },
+    {
+        "name":  "video",
+        "path":  "marketingskills/video/SKILL.md"
+    }
+]

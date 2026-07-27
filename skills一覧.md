@@ -1,7 +1,17 @@
-# Cursor グローバルスキル一覧（全99件・日本語）
+# Cursor グローバルスキル一覧（日常53件 ＋ マーケオプトイン47件・未インストール）
 
-取得日: 2026-07-05  
-対象: `~/.cursor/skills/`（= このリポジトリの `skills-pack/` を配布した内容）。**運用方針: すべてグローバルに置く。プロジェクト内 `.cursor/skills/` は使わない。**
+取得日: 2026-07-27  
+**いま入っているもの（この PC）:** 日常 `skills-pack` の **53件のみ**（`~/.cursor/skills/`）。マーケはリポジトリにパックがあるだけで **グローバル未導入**。
+
+**運用方針**
+
+| 項目 | 内容 |
+|------|------|
+| 日常 | `skills-pack/` → `install.ps1` で `~/.cursor/skills/` |
+| Claude / Agents | 同パックを `install-claude.ps1` で `~/.claude/skills/` と `~/.agents/skills/` に平置き（除外10あり → 各43件） |
+| マーケ | `skills-pack-marketing/` は**作るが入れない**。必要になったときだけ `install.ps1`（Cursor のみ）。通常更新では入らない・戻らない |
+| プロジェクト内 | `.cursor/skills/` は使わない |
+| 件数の膨張 | Cursor の **Include Third-Party Plugins, Skills, and Other Configs** が ON だと `~/.claude` 等も合算され 100件超に見える → **OFF 推奨** |
 
 **凡例**
 
@@ -9,7 +19,8 @@
 - **手動のみ**: `disable-model-invocation: true`。会話から自動選択されず、明示的に呼ぶ必要がある
 - **使いどころ**: どんな場面・キーワードで出すべきか
 
-全件の生データは [skills-pack/MANIFEST.json](skills-pack/MANIFEST.json)。
+日常の生データ: [skills-pack/MANIFEST.json](skills-pack/MANIFEST.json)  
+マーケの生データ（未インストール時はカタログ参照用）: [skills-pack-marketing/MANIFEST.json](skills-pack-marketing/MANIFEST.json)
 
 ---
 
@@ -19,29 +30,32 @@
 2. [ドキュメント／データ処理（9件）](#2-ドキュメントデータ処理9件)
 3. [Google Workspace 連携（3件）](#3-google-workspace-連携3件)
 4. [設計・開発ワークフロー（Superpowers 系・12件）](#4-設計開発ワークフローsuperpowers系12件)
-5. [独自の開発系スキル（9件）](#5-独自の開発系スキル9件)
+5. [独自の開発系スキル（10件）](#5-独自の開発系スキル10件)
 6. [デザイン・コンテンツ制作（8件）](#6-デザインコンテンツ制作8件)
 7. [ナレッジ管理・リサーチ（5件）](#7-ナレッジ管理リサーチ5件)
 8. [GitHub / Git 運用（3件）](#8-github--git-運用3件)
-9. [マーケティング（marketingskills・46件）](#9-マーケティングmarketingskills46件)
+9. [マーケティング（オプトイン・47件・未インストール）](#9-マーケティングオプトイン47件未インストール)
 
 ---
 
 ## 1. オーケストレーター（playbooks・7件）
 
-**手動のみ。** 複数スキルを順番に読ませる「進行台本」。中身のスキル自体は自動で連鎖しないので、都度エージェントに次のステップを読ませる。
+**手動のみ。日常パックに含まれるのはルーター1＋台本6。** 中身のスキル自体は自動で連鎖しない。
+
+**入口:** どれを使うか分からなければ `/route-playbook`。要求に合う台本＋適応スケッチを提案し、`GO` 後に該当 playbook へ渡す。  
+**各 playbook:** 起動直後に **Adaptive proposal gate**（必須/任意/スキップ・通し/チェックポイント）を出し、承認まで作業しない。スキップした Step は Done when から外す。
 
 | コマンド | 内容 | 使いどころ |
 |----------|------|-----------|
-| `/playbook-fable5-7day` | `skill-creator` → `brainstorming` → `grill-me` → `verification-before-completion` → `systematic-debugging` の順で、業務棚卸しからスキル作成・設計・穴埋め・QA・デバッグまで一気通貫。 | 自分の業務 OS を作り直したい／Fable5期間中にスキル基盤を整えたい |
-| `/playbook-article-production` | `content-research-writer` → `doc-coauthoring` → `edit-article` →（任意で marketingskills）の順。リサーチ→共同執筆→構造編集→訴求調整。 | X投稿・note記事・メルマガ・セミナー告知文を量産したい |
-| `/playbook-document-data` | `pdf`/`docx`/`xlsx` で取込・構造化（Phase 1）→ 任意で `gws` CLI による Google Docs/Sheets/Drive 連携（Phase 2）。**Firecrawl は明示指示がない限り使わない。** | 見積書・請求書・契約書の整理、バラバラな Excel/Word の比較表化、Google Drive 上の資料整理 |
-| `/playbook-lp-creative` | marketingskills（訴求設計）→ `frontend-design` → `canvas-design` → `theme-factory` → `pptx` の順。訴求→UI→ビジュアル→トンマナ統一→スライド化。 | 商品ローンチ、無料特典、セミナー募集の制作一式をトンマナ統一で作りたい |
-| `/playbook-mini-webapp` | `to-prd` → `frontend-design` → `web-artifacts-builder` → `webapp-testing` → `verification-before-completion` の順。PRD→UI設計→実装→ブラウザQA→完了検証。 | 社内管理表、入力フォーム、簡易ダッシュボードを企画からQAまで一気に作りたい |
-| `/playbook-app-improvement` | `systematic-debugging` → `improve-codebase-architecture` → `requesting-code-review` → `react-best-practices` の順。根本原因デバッグ→アーキ改善→レビュー→最適化。 | 過去に作ったWebアプリ／自動化スクリプトの改善、直しても再発するバグ、複雑化したコード |
-| `/playbook-research-assets` | `notebooklm` → `obsidian-vault` →（任意で `obsidian-markdown` / `json-canvas`）→ `content-research-writer`（任意で用語整理）の順。散らかったナレッジを検索・再利用可能な資産にする。 | 顧客の声、教材、過去記事、社内メモを横断整理して知識資産にしたい |
+| `/route-playbook` | 要求を見て最適な `/playbook-*` を1つ（＋代替）提案し、適応スケッチを出して `GO` 待ち。実行はしない。マーケ未導入なら `playbook-lp-creative` は候補から外すか導入を促す。 | 「どのplaybook？」「台本を選んで」「記事書いて／見積まとめて」など入口が曖昧なとき |
+| `/playbook-fable5-7day` | `skill-creator` → `brainstorming` → `grill-me` → `verification-before-completion` → `systematic-debugging`。業務棚卸しからスキル作成・設計・穴埋め・QA・デバッグ。 | 自分の業務 OS を作り直したい／スキル基盤を整えたい |
+| `/playbook-article-production` | `content-research-writer` → `doc-coauthoring` → `edit-article` →（任意・**marketing パック導入時のみ**訴求調整）。 | X投稿・note記事・メルマガ・セミナー告知文 |
+| `/playbook-document-data` | `pdf`/`docx`/`xlsx` 取込・構造化（Phase 1）→ 任意で `gws`（Phase 2）。**Firecrawl は明示指示がない限り使わない。** | 見積・請求・契約の整理、Excel/Word 比較表、Drive 資料 |
+| `/playbook-mini-webapp` | `to-prd` → `frontend-design` → `web-artifacts-builder` → `webapp-testing` → `verification-before-completion`。 | 社内管理表・フォーム・簡易ダッシュボード |
+| `/playbook-app-improvement` | `systematic-debugging` → `improve-codebase-architecture` → `requesting-code-review` → `react-best-practices`（非 React はスキップ可）。 | 再発バグ、複雑化した既存アプリ |
+| `/playbook-research-assets` | `notebooklm` → `obsidian-vault`（＋任意で markdown / canvas）→ `content-research-writer`。 | 散在ナレッジの資産化 |
 
----
+`/playbook-lp-creative` は日常パック外・**未インストール** → [§9](#9-マーケティングオプトイン47件未インストール)。パック導入後は Adaptive proposal gate 付き。`/route-playbook` からも誘導可。
 
 ## 2. ドキュメント／データ処理（9件）
 
@@ -51,7 +65,7 @@
 | `/docx` | Word 文書（.docx）の作成・読取・編集。目次・見出し・ページ番号・レターヘッド付き文書、画像挿入・置換、検索置換、変更履歴・コメント対応。 | 「Wordドキュメント」「.docx」「レポート」「メモ」「レター」「テンプレート」の作成・編集依頼 |
 | `/xlsx` | 既存/新規の .xlsx・.xlsm・.csv・.tsv の読取・編集・修正（列追加、数式計算、書式設定、グラフ化、汚いデータの整形）。成果物は必ずスプレッドシート。 | 「このExcelを直して」「スプレッドシートを作って」など、成果物がスプレッドシートである依頼 |
 | `/pptx` | .pptx が入出力どちらかに関わる全作業。スライド作成、テキスト抽出、既存プレゼン編集、テンプレート/レイアウト/スピーカーノート操作。 | 「デッキ」「スライド」「プレゼン」「.pptx」に言及されたら常に使う |
-| `/theme-factory` | スライド・文書・レポート・LP等に一貫したテーマ（色・フォント）を適用。10種のプリセットテーマ or 新規生成。 | 成果物のトンマナを統一したいとき。`playbook-lp-creative` で使用 |
+| `/theme-factory` | スライド・文書・レポート・LP等に一貫したテーマ（色・フォント）を適用。10種のプリセットテーマ or 新規生成。 | 成果物のトンマナを統一したいとき。marketing パックの `playbook-lp-creative` でも使用 |
 | `/doc-coauthoring` | 文書・提案書・技術仕様・意思決定文書を「文脈収集→推敲・構造化→読者テスト」の3段階で共同執筆。 | 「ドキュメントを書きたい」「提案書を作りたい」「PRDを書きたい」など、ある程度分量のある文章作成 |
 | `/doc-maint` | リポジトリの README / docs を監査・整理・統合・鮮度確認。コードは触らず、証拠に基づく正本ドキュメントに再編。`dev` ブランチ前提。 | 「READMEを直して」「docsを整理して」「ドキュメントが古い」「重複を消して」「オンボーディングを分かりやすく」 |
 | `/skill-creator` | 新規スキル作成、既存スキルの編集・最適化、評価(eval)実行、性能ベンチマーク。 | スキルを新規作成したい／SKILL.mdの書き方を聞かれたとき |
@@ -92,7 +106,7 @@
 
 ---
 
-## 5. 独自の開発系スキル（9件）
+## 5. 独自の開発系スキル（10件）
 
 | コマンド | 説明 | 使いどころ |
 |----------|------|-----------|
@@ -105,6 +119,7 @@
 | `/to-prd`（手動のみ） | 今の会話をヒアリングなしでそのままPRDに合成し、Issueトラッカーへ公開。 | すでに会話で要件が固まっており、そのままPRD化したいとき |
 | `/to-issues`（手動のみ） | プラン・仕様・PRDを、独立して着手可能な「トレーサーバレット」の垂直スライスIssueに分解。 | PRDや設計書を実装可能な単位のIssueに分割したいとき |
 | `/git-guardrails-claude-code` | 危険なGitコマンド（push、reset --hard、clean、branch -D等）を実行前にブロックするフックを設定。 | 誤操作防止のガードレールを設定したいとき |
+| `/session-recap`（手動のみ） | 今の会話を `備忘録.md` の日付エントリにする（決定・調査・次のTODO）。コード変更履歴用の `変更履歴.md` には書かない。 | 「まとめて」「備忘録に残して」「このやり取りを記録して」と明示されたときだけ |
 
 ---
 
@@ -147,11 +162,29 @@ Obsidian 系は **3スキル連携**。`obsidian-vault` が vault パス（`D:\v
 
 ---
 
-## 9. マーケティング（marketingskills・46件・すべて手動のみ）
+## 9. マーケティング（オプトイン・47件・未インストール）
 
-**2026-07-05から全46件を手動のみ（`disable-model-invocation: true`）に変更。** 会話から自動選択されず、`/copywriting` のように明示的に呼んだときだけ動く。理由: 実際の作業（FX検証、図面整理、skills-maker運用）と噛み合わず、80個中46個が自動発火対象という配分の悪さがコンテキストコストになっていたため。`playbook-lp-creative` からは変わらず明示的に読み込める。
+**日常の `skills-pack` には含まれない。いまの PC にも入っていない。**  
+正本は [skills-pack-marketing](skills-pack-marketing/INSTALL.md)。**パックはリポジトリに置くが、必要なときまで install しない。** 通常の skills 更新では入らない・戻らない。
 
-**すべて `.agents/product-marketing.md`（プロダクト・ターゲット・ポジショニングの共通コンテキスト）を先にチェックしてから動く設計。** 各スキルは隣接スキルへの誘導コメント付き（例: cro⇔signup⇔onboarding）。
+| 項目 | 内容 |
+|------|------|
+| 入れるとき | LP・広告・ローンチ等のマーケ制作が必要なときだけ |
+| 入れ方 | `skills-pack-marketing/install.ps1`（→ `~/.cursor/skills/` のみ） |
+| 置かない先 | `~/.agents/skills/`、原則 `~/.claude/skills/` |
+| 外し方 | `~/.cursor/skills/marketingskills/` と `playbooks/playbook-lp-creative/` を削除 |
+| 入口（導入後） | `/playbook-lp-creative`、または `/route-playbook`（パック導入済みのときだけ候補に載る） |
+| 発火 | 当面すべて手動。一括自動はしない |
+
+前提スキル（`frontend-design` / `canvas-design` / `theme-factory` / `pptx`）は日常パック側（こちらは入っている）。
+
+以下は **marketing パック導入後**に使えるカタログ（手動のみ）。未導入のあいだは参照用。
+
+### 入口 playbook
+
+| コマンド | 内容 | 使いどころ |
+|----------|------|-----------|
+| `/playbook-lp-creative` | marketingskills（訴求設計）→ `frontend-design` → `canvas-design` → `theme-factory` → `pptx`。Adaptive proposal gate 付き。 | 商品ローンチ、無料特典、セミナー募集の制作一式（**パック導入後**） |
 
 ### 戦略・計画系
 
@@ -251,9 +284,13 @@ Obsidian 系は **3スキル連携**。`obsidian-vault` が vault パス（`D:\v
 
 ## 補足
 
-- **配布パッケージ**は `skills-pack/` 一式。別 PC では `skills-pack/引き継ぎ.md` の一言をエージェントに送るだけ。
-- **重複回避の仕組み**は [skills-pack/引き継ぎ.md](skills-pack/引き継ぎ.md) と [skills-pack/skills重複処理.md](skills-pack/skills重複処理.md) を参照。
-- **GWS（Google Workspace）連携**は PC ごとに `gws auth login` が必要。skills-pack にOAuth情報は含まれない。
-- **Obsidian 連携**は `obsidian-vault`（運用・`D:\vault`）＋ `obsidian-markdown`（文法）＋ `json-canvas`（`.canvas`）。vault を移したら `obsidian-vault` のパスを更新すること。
-- **`skills-cursor/`**（Cursor組み込みスキル）は本一覧に含めない。触らない運用。
-- 各スキルの正確な原文説明は `skills-pack/<カテゴリ>/<スキル名>/SKILL.md` の `description:` を参照。
+- **日常配布**は `skills-pack/`（53件）。別 PC では `skills-pack/引き継ぎ.md` の一言をエージェントに送るだけ。
+- **Claude / Agents** は `skills-pack/install-claude.ps1` → `~/.claude/skills/` と `~/.agents/skills/`（平置き・除外10で各43件）。Cursor 用 `install.ps1` の結果を手コピーしない。
+- **マーケ**は `skills-pack-marketing/` に正本があるが **デフォルト非インストール**。[INSTALL.md](skills-pack-marketing/INSTALL.md) 参照。誤って入れたら `marketingskills/` と `playbook-lp-creative/` を削除。
+- **件数 100超に見えるとき:** Cursor Settings → Rules, Skills, Subagents → **Include Third-Party... を OFF**。`~/.claude` は消さない（Claude Code 用）。詳細は [skills-pack/skills重複処理.md](skills-pack/skills重複処理.md)。
+- **playbook の使い方:** 入口は `/route-playbook`、または既知なら `/playbook-*` 直呼び。どちらも最初に適応プラン → `GO` / `通しで`。
+- **重複回避**は [skills-pack/引き継ぎ.md](skills-pack/引き継ぎ.md) と [skills重複処理.md](skills-pack/skills重複処理.md)。
+- **GWS** は PC ごとに `gws auth login`。skills-pack に OAuth は含まれない。
+- **Obsidian** は `obsidian-vault`（`D:\vault`）＋ `obsidian-markdown` ＋ `json-canvas`。vault を移したらパス更新。
+- **`skills-cursor/`**（Cursor組み込み）は本一覧に含めない。触らない。
+- 各スキルの原文は該当パック内 `SKILL.md` の `description:` を参照。
