@@ -3,11 +3,6 @@ description:
 alwaysApply: true
 ---
 
----
-description: 
-alwaysApply: true
----
-
 # AGENTS
 
 ## 作業原則
