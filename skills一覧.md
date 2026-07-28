@@ -1,15 +1,23 @@
-# Cursor グローバルスキル一覧（日常54件 ＋ マーケオプトイン47件・未インストール）
+# Cursor グローバルスキル一覧（日常パック）
 
-取得日: 2026-07-27  
-**いま入っているもの（この PC）:** 日常 `skills-pack` の **54件のみ**（`~/.cursor/skills/`）。マーケはリポジトリにパックがあるだけで **グローバル未導入**。
+取得日: 2026-07-28  
+**いま入っているもの（この PC）:**
+
+| 区分 | 件数 | 場所 |
+|------|------|------|
+| 日常 `skills-pack` | **55** | `~/.cursor/skills/`（正本） |
+| この PC のみの追加 | **2** | `brainstorming-devils` / `brainstorming-persona`（パック外） |
+| Cursor 組み込み | **約20** | `~/.cursor/skills-cursor/`（本一覧対象外・触らない） |
+| Skills UI 表示 | **約76** | 日常57 + 組み込み − 非表示1件程度 |
+| マーケ | **0（未導入）** | カタログは [marketing-skills一覧.md](marketing-skills一覧.md) |
 
 **運用方針**
 
 | 項目 | 内容 |
 |------|------|
 | 日常 | `skills-pack/` → `install.ps1` で `~/.cursor/skills/` |
-| Claude / Agents | 同パックを `install-claude.ps1` で `~/.claude/skills/` と `~/.agents/skills/` に平置き（除外10あり → 各43件） |
-| マーケ | `skills-pack-marketing/` は**作るが入れない**。必要になったときだけ `install.ps1`（Cursor のみ）。通常更新では入らない・戻らない |
+| Claude / Agents | 同パックを `install-claude.ps1` で `~/.claude/skills/` と `~/.agents/skills/` に平置き（除外10あり → 各45件） |
+| マーケ | `skills-pack-marketing/` は**作るが入れない**。必要時だけ install（Cursor のみ）。詳細は [marketing-skills一覧.md](marketing-skills一覧.md) |
 | プロジェクト内 | `.cursor/skills/` は使わない |
 | 件数の膨張 | Cursor の **Include Third-Party Plugins, Skills, and Other Configs** が ON だと `~/.claude` 等も合算され 100件超に見える → **OFF 推奨** |
 
@@ -19,8 +27,8 @@
 - **手動のみ**: `disable-model-invocation: true`。会話から自動選択されず、明示的に呼ぶ必要がある
 - **使いどころ**: どんな場面・キーワードで出すべきか
 
-日常の生データ: [skills-pack/MANIFEST.json](skills-pack/MANIFEST.json)  
-マーケの生データ（未インストール時はカタログ参照用）: [skills-pack-marketing/MANIFEST.json](skills-pack-marketing/MANIFEST.json)
+日常の生データ: [skills-pack/MANIFEST.json](skills-pack/MANIFEST.json)（55件）  
+マーケのカタログ: [marketing-skills一覧.md](marketing-skills一覧.md) / [skills-pack-marketing/MANIFEST.json](skills-pack-marketing/MANIFEST.json)
 
 ---
 
@@ -30,11 +38,12 @@
 2. [ドキュメント／データ処理（10件）](#2-ドキュメントデータ処理10件)
 3. [Google Workspace 連携（3件）](#3-google-workspace-連携3件)
 4. [設計・開発ワークフロー（Superpowers 系・12件）](#4-設計開発ワークフローsuperpowers系12件)
-5. [独自の開発系スキル（10件）](#5-独自の開発系スキル10件)
-6. [デザイン・コンテンツ制作（8件）](#6-デザインコンテンツ制作8件)
-7. [ナレッジ管理・リサーチ（5件）](#7-ナレッジ管理リサーチ5件)
-8. [GitHub / Git 運用（3件）](#8-github--git-運用3件)
-9. [マーケティング（オプトイン・47件・未インストール）](#9-マーケティングオプトイン47件未インストール)
+5. [独自の開発系スキル（11件）](#5-独自の開発系スキル11件)
+6. [デザイン・コンテンツ制作（5件）](#6-デザインコンテンツ制作5件)
+7. [ナレッジ管理・リサーチ（4件）](#7-ナレッジ管理リサーチ4件)
+8. [GitHub / Git / デバッグ（3件）](#8-github--git--デバッグ3件)
+9. [この PC のみの追加（2件・パック外）](#9-この-pc-のみの追加2件パック外)
+10. [マーケティング（オプトイン・別紙）](#10-マーケティングオプトイン別紙)
 
 ---
 
@@ -55,7 +64,9 @@
 | `/playbook-app-improvement` | `systematic-debugging` → `improve-codebase-architecture` → `requesting-code-review` → `react-best-practices`（非 React はスキップ可）。 | 再発バグ、複雑化した既存アプリ |
 | `/playbook-research-assets` | `notebooklm` → `obsidian-vault`（＋任意で markdown / canvas）→ `content-research-writer`。 | 散在ナレッジの資産化 |
 
-`/playbook-lp-creative` は日常パック外・**未インストール** → [§9](#9-マーケティングオプトイン47件未インストール)。パック導入後は Adaptive proposal gate 付き。`/route-playbook` からも誘導可。
+`/playbook-lp-creative` は日常パック外 → [marketing-skills一覧.md](marketing-skills一覧.md)。
+
+---
 
 ## 2. ドキュメント／データ処理（10件）
 
@@ -107,7 +118,7 @@
 
 ---
 
-## 5. 独自の開発系スキル（10件）
+## 5. 独自の開発系スキル（11件）
 
 | コマンド | 説明 | 使いどころ |
 |----------|------|-----------|
@@ -121,10 +132,11 @@
 | `/to-issues`（手動のみ） | プラン・仕様・PRDを、独立して着手可能な「トレーサーバレット」の垂直スライスIssueに分解。 | PRDや設計書を実装可能な単位のIssueに分割したいとき |
 | `/git-guardrails-claude-code` | 危険なGitコマンド（push、reset --hard、clean、branch -D等）を実行前にブロックするフックを設定。 | 誤操作防止のガードレールを設定したいとき |
 | `/session-recap`（手動のみ） | 今の会話を `備忘録.md` の日付エントリにする（決定・調査・次のTODO）。コード変更履歴用の `変更履歴.md` には書かない。 | 「まとめて」「備忘録に残して」「このやり取りを記録して」と明示されたときだけ |
+| `/chat-handoff`（手動のみ） | 別PCで続きをやるための引き継ぎメモ（リポジトリ直下の日付付き `質疑応答M-D.MD`）。Cursor チャット履歴は端末ローカルのため、持ち運び用の正本をファイルに落とす。 | 「別PC用に残して」「引き継ぎ書いて」「質疑応答に落として」「続きは別端末で」と明示されたとき。通常の備忘録は `/session-recap` |
 
 ---
 
-## 6. デザイン・コンテンツ制作（8件）
+## 6. デザイン・コンテンツ制作（5件）
 
 | コマンド | 説明 | 使いどころ |
 |----------|------|-----------|
@@ -133,13 +145,10 @@
 | `/edit-article`（手動のみ） | 記事を見出しで章分けし、各章を明確さ・一貫性・流れの観点で書き直す（1段落最大240字）。 | 記事の下書きを編集・改善・推敲したいとき |
 | `/content-research-writer` | リサーチ・引用付与・フック改善・アウトライン反復・セクションごとのリアルタイムFBで、執筆をパートナー作業に変える。 | ブログ・記事・ニュースレター・技術文書の執筆、根拠付きの文章を書きたいとき |
 | `/grill-me` | プラン・設計について執拗に一問一答で質問し、決定木の分岐を一つずつ潰して共通理解に至る。各質問に推奨回答も提示。 | 「grill me」「プランを詰めて」と言われたとき、設計の穴を潰したいとき |
-| `/git-guardrails-claude-code` | （5章参照）Gitの危険操作をブロック | — |
-| `/debug-allrun`（手動のみ） | デバッガ付きで起動し、サイレントなデータ破損・非同期レース・分岐ミスという3種の隠れバグを能動的に探索・自動修正・報告。 | `/debug-allrun` 明示呼び出し時。「クラッシュしないから安全」を信用しない徹底デバッグ |
-| `/git-in-clone`（手動のみ） | 指定したGitHubリポジトリを現在の空ディレクトリへ `git clone .` で取得。 | 「このフォルダにクローンして」と言われたとき |
 
 ---
 
-## 7. ナレッジ管理・リサーチ（5件）
+## 7. ナレッジ管理・リサーチ（4件）
 
 Obsidian 系は **3スキル連携**。`obsidian-vault` が vault パス（`D:\vault`）と運用、`obsidian-markdown` が文法、`json-canvas` が `.canvas` 俯瞰。
 
@@ -149,145 +158,49 @@ Obsidian 系は **3スキル連携**。`obsidian-vault` が vault パス（`D:\v
 | `/obsidian-vault` | `D:\vault` 内のノートを wikilink・インデックスノートで検索・作成・整理。vault パスと命名規則の正本。 | Obsidianでノートを探す・作る・整理したいとき |
 | `/obsidian-markdown` | callout、frontmatter（properties）、embed、wikilink 等の Obsidian Flavored Markdown 文法。kepano/obsidian-skills 由来。 | Obsidian ノートの書式・callout・メタデータを正確に書きたいとき |
 | `/json-canvas` | `.canvas` ファイル（ノード・エッジ・グループ）の生成・編集。`D:\vault\canvas\` 推奨。kepano/obsidian-skills 由来。 | マインドマップ、フローチャート、Index の視覚俯瞰を Canvas で作りたいとき |
-| `/content-research-writer` | （6章参照）リサーチ付き執筆パートナー | — |
+
+執筆パートナーは `/content-research-writer`（[§6](#6-デザインコンテンツ制作5件)）。
 
 ---
 
-## 8. GitHub / Git 運用（3件・すべて手動のみ）
+## 8. GitHub / Git / デバッグ（3件）
 
 | コマンド | 説明 | 使いどころ |
 |----------|------|-----------|
-| `/github-make-sync` | 指定した名前で非公開GitHubリポジトリを作成し、`gh` CLIで現在のプロジェクトに `origin` を設定。 | 新規プロジェクトをGitHubに接続したいとき |
-| `/git-in-clone` | （6章参照）空ディレクトリへのクローン | — |
-| `/git-guardrails-claude-code` | （5章参照）危険なGit操作のブロック | — |
+| `/github-make-sync`（手動のみ） | 指定した名前で非公開GitHubリポジトリを作成し、`gh` CLIで現在のプロジェクトに `origin` を設定。 | 新規プロジェクトをGitHubに接続したいとき |
+| `/git-in-clone`（手動のみ） | 指定したGitHubリポジトリを現在の空ディレクトリへ `git clone .` で取得。 | 「このフォルダにクローンして」と言われたとき |
+| `/debug-allrun`（手動のみ） | デバッガ付きで起動し、サイレントなデータ破損・非同期レース・分岐ミスという3種の隠れバグを能動的に探索・自動修正・報告。 | `/debug-allrun` 明示呼び出し時。「クラッシュしないから安全」を信用しない徹底デバッグ |
+
+`/git-guardrails-claude-code` は [§5](#5-独自の開発系スキル11件)。
 
 ---
 
-## 9. マーケティング（オプトイン・47件・未インストール）
+## 9. この PC のみの追加（2件・パック外）
 
-**日常の `skills-pack` には含まれない。いまの PC にも入っていない。**  
-正本は [skills-pack-marketing](skills-pack-marketing/INSTALL.md)。**パックはリポジトリに置くが、必要なときまで install しない。** 通常の skills 更新では入らない・戻らない。
-
-| 項目 | 内容 |
-|------|------|
-| 入れるとき | LP・広告・ローンチ等のマーケ制作が必要なときだけ |
-| 入れ方 | `skills-pack-marketing/install.ps1`（→ `~/.cursor/skills/` のみ） |
-| 置かない先 | `~/.agents/skills/`、原則 `~/.claude/skills/` |
-| 外し方 | `~/.cursor/skills/marketingskills/` と `playbooks/playbook-lp-creative/` を削除 |
-| 入口（導入後） | `/playbook-lp-creative`、または `/route-playbook`（パック導入済みのときだけ候補に載る） |
-| 発火 | 当面すべて手動。一括自動はしない |
-
-前提スキル（`frontend-design` / `canvas-design` / `theme-factory` / `pptx`）は日常パック側（こちらは入っている）。
-
-以下は **marketing パック導入後**に使えるカタログ（手動のみ）。未導入のあいだは参照用。
-
-### 入口 playbook
-
-| コマンド | 内容 | 使いどころ |
-|----------|------|-----------|
-| `/playbook-lp-creative` | marketingskills（訴求設計）→ `frontend-design` → `canvas-design` → `theme-factory` → `pptx`。Adaptive proposal gate 付き。 | 商品ローンチ、無料特典、セミナー募集の制作一式（**パック導入後**） |
-
-### 戦略・計画系
+**`skills-pack/MANIFEST.json` には含まれない。** 別 PC へ `install.ps1` しても入らない。このマシンの `~/.cursor/skills/brainstorming/` 配下にだけある。
 
 | コマンド | 説明 | 使いどころ |
 |----------|------|-----------|
-| `/product-marketing` | プロダクトマーケティングの共通コンテキスト文書（`.agents/product-marketing.md`）を作成・更新。他の全マーケティングスキルが参照する起点。 | 新規プロジェクトでマーケティング系スキルを使う前に最初にやる |
-| `/marketing-plan` | fCMOレベルの、AARRR構造・139のアイデアライブラリ・17項目監査ルーブリックを組み込んだ包括的な12ヶ月マーケティングプランを生成。 | クライアントや自社の本格的な成長計画・GTMプランが欲しいとき |
-| `/marketing-ideas` | 139件の実証済みマーケティング施策ライブラリから、状況・ステージ・リソースに合う施策を提案。 | 「何をすればいいかわからない」「マーケティングのアイデアが欲しい」とき |
-| `/marketing-loops` | 週次SEOスキャン、広告疲労チェック、解約シグナル監視など、AIエージェントが一定周期で回す「マーケティングループ」の設計・スケジューリング。 | 一度きりでなく継続的に回る仕組みを作りたいとき |
-| `/marketing-psychology` | アンカリング・社会的証明・希少性・損失回避などの心理原則・メンタルモデルをマーケティングに応用。 | 「なぜ人は買うのか」を踏まえた施策・訴求を考えたいとき |
+| `/brainstorming-persona`（手動のみ） | 専門家ペルソナを回して多角的にブレスト。単一視点の盲点を潰す。実装はしない。 | 「複数の専門家視点で」「ペルソナでブレストして」 |
+| `/brainstorming-devils`（手動のみ） | 提案をデビルズアドボケイト視点で攻撃し、前提・リスク・反例を洗い出す。実装はしない。 | 「ストレステストして」「悪魔の代弁者で」「敵対レビューして」 |
 
-### コピー・コンテンツ系
+パックに載せるなら `promote-skill` / 手動で `skills-pack` へ同期が別途必要。
 
-| コマンド | 説明 | 使いどころ |
-|----------|------|-----------|
-| `/copywriting` | ホームページ・LP・料金・機能ページ等のマーケティングコピーを新規作成・改善。 | 「コピーを書いて」「もっと魅力的に」と言われたとき |
-| `/copy-editing` | 既存コピーの編集・レビュー・改善（リライトではなく強化）。1回のパスで1観点に集中。 | すでにあるコピーを磨きたい、古くなったコンテンツを更新したいとき |
-| `/content-strategy` | 何を書くべきかのトピック選定・コンテンツピラー・エディトリアルカレンダー計画。 | 「何を書けばいいかわからない」ときの戦略レイヤー |
-| `/edit-article` | （6章参照）記事の構造編集 | — |
-| `/content-research-writer` | （6章参照）リサーチ付き執筆 | — |
-| `/doc-coauthoring` | （2章参照）文書の共同執筆ワークフロー | — |
+---
 
-### 広告・クリエイティブ系
+## 10. マーケティング（オプトイン・別紙）
 
-| コマンド | 説明 | 使いどころ |
-|----------|------|-----------|
-| `/ads` | Google/Meta/LinkedIn/X等の有料広告キャンペーン戦略・ターゲティング・入札・最適化。 | 広告キャンペーンの立ち上げ・改善相談 |
-| `/ad-creative` | 見出し・説明文・本文などの広告クリエイティブを量産・反復生成。 | 「広告文のバリエーションが欲しい」とき |
-| `/image` | ブログヒーロー・SNS画像・製品モックアップ等のマーケティング画像をAI生成・最適化。 | マーケティング用の画像を作りたいとき |
-| `/video` | AIツールやプログラマティックフレームワークでマーケティング動画を制作。 | 製品デモ、説明動画、SNS動画を作りたいとき |
-| `/social` | LinkedIn/X/Instagram/TikTok等のSNSコンテンツ作成・スケジューリング・ソーシャルリスニング。 | SNS投稿の作成・トレンド監視・エンゲージメント戦略 |
-
-### コンバージョン最適化系
-
-| コマンド | 説明 | 使いどころ |
-|----------|------|-----------|
-| `/cro` | LP・料金ページ・フォーム等のコンバージョン率最適化分析と改善提案。 | 「このページのCVRが低い」「改善してほしい」とき |
-| `/signup` | サインアップ・登録・トライアル開始フローの離脱削減・完了率向上。 | 登録フローがうまく機能していないとき |
-| `/onboarding` | サインアップ後のオンボーディング・アクティベーション・初回体験の最適化。 | 「登録はされるが使われない」とき |
-| `/paywalls` | アプリ内ペイウォール・アップグレード画面・アップセルモーダルの設計最適化。 | 無料→有料転換の画面を作りたいとき |
-| `/popups` | ポップアップ・モーダル・スライドイン・バナーの設計最適化。 | メール獲得ポップアップ、離脱防止オーバーレイなど |
-| `/pricing` | SaaS料金・パッケージング・マネタイズ戦略設計。 | 料金プランの設計・見直し相談 |
-| `/offers` | オファー自体の設計（価値訴求、ボーナス、保証、緊急性、命名、支払い構造）。 | サービス・コース・高額商材のオファー作り |
-
-### メール・SMS系
-
-| コマンド | 説明 | 使いどころ |
-|----------|------|-----------|
-| `/emails` | ドリップ・ナーチャリング・ライフサイクルなど自動化メールシーケンス設計。 | ウェルカムメール、再エンゲージメール等の設計 |
-| `/cold-email` | 返信率を高めるB2Bコールドメールとフォローアップ連続文の作成。 | 新規開拓・営業メールを書きたいとき |
-| `/sms` | ウェルカム・カート放棄・購入後・ウィンバック等のSMS/MMSマーケティング設計。 | SMS施策を計画・構築したいとき |
-
-### 分析・実験系
-
-| コマンド | 説明 | 使いどころ |
-|----------|------|-----------|
-| `/analytics` | GA4等の計測・トラッキング実装の設定・改善・監査。 | 「イベントが計測できているか確認したい」とき |
-| `/ab-testing` | A/Bテスト・実験の設計、実験バックログ運用。 | 「どちらのバージョンが良いか検証したい」とき |
-| `/customer-research` | 顧客インタビュー・レビュー・チケット分析からインサイトを抽出、または新規に外部調査。 | 顧客の声を分析したい、ペルソナを作りたいとき |
-| `/competitor-profiling` | 競合URLリストから構造化された競合プロファイルを作成。 | 複数の競合を深く調査したいとき |
-
-### SEO・発見性系
-
-| コマンド | 説明 | 使いどころ |
-|----------|------|-----------|
-| `/seo-audit` | サイトのSEO問題の診断・技術的SEOレビュー。 | 「ランキングが落ちた」「SEOを見てほしい」とき（曖昧な相談でもまずこれ） |
-| `/ai-seo` | ChatGPT/Perplexity/AI Overviews等のAI検索・AI回答内で引用されるための最適化。 | AI検索エンジンでの露出を高めたいとき |
-| `/schema` | schema.org構造化データ・JSON-LDの実装。 | リッチリザルト表示のための構造化データ追加 |
-| `/programmatic-seo` | テンプレートとデータでSEO用ページを大量生成。 | 都市名×キーワード等、パターン化されたページを量産したいとき |
-| `/site-architecture` | サイトのページ階層・ナビゲーション・URL構造・内部リンクの計画。 | サイト全体の構成を設計・見直ししたいとき |
-| `/directory-submissions` | スタートアップ/SaaS/AI向けディレクトリへの登録戦略（被リンク・発見性）。 | Product Hunt等のディレクトリ登録を計画したいとき |
-| `/aso` | App Store / Google Playのアプリストア最適化診断。 | アプリのストア掲載を改善したいとき |
-
-### 獲得・アウトバウンド系
-
-| コマンド | 説明 | 使いどころ |
-|----------|------|-----------|
-| `/prospecting` | B2B SaaS/一般B2B/地域中小企業向けの見込み客リスト構築・選定。 | アウトバウンド用のリードリストを作りたいとき |
-| `/public-relations` | プレスリリース・記者アウトリーチ・アーンドメディア戦略。 | メディア掲載を狙いたいとき |
-| `/co-marketing` | 共同マーケティングパートナーの発掘・共同キャンペーン企画。 | 他社との協業施策を考えたいとき |
-| `/referrals` | 紹介プログラム・アフィリエイトプログラムの設計最適化。 | 既存顧客からの紹介を増やす仕組みを作りたいとき |
-| `/community-marketing` | Discord/Slackコミュニティの立ち上げ・成長戦略。 | コミュニティ主導成長を仕掛けたいとき |
-| `/launch` | プロダクトローンチ・機能発表・リリース戦略。 | 新機能・新商品の発表を計画したいとき |
-| `/free-tools` | リード獲得・SEO・認知向上のための無料ツール企画。 | 無料計算機・診断ツール等で集客したいとき |
-| `/lead-magnets` | メール獲得のためのダウンロード資料（ebook、チェックリスト等）企画。 | リードマグネットを作りたいとき |
-
-### 収益・営業系
-
-| コマンド | 説明 | 使いどころ |
-|----------|------|-----------|
-| `/sales-enablement` | 営業デッキ・1ページ資料・反論対応集・デモ台本の作成。 | 営業チーム向け資料を作りたいとき |
-| `/competitors` | 競合比較ページ・オルタナティブページの作成（SEO＋営業支援）。 | 「vs競合」「〜の代替」ページを作りたいとき |
-| `/revops` | リードスコアリング・ルーティング・営業引き渡しプロセスの設計。 | マーケ→営業の引き渡しが機能していないとき |
-| `/churn-prevention` | 解約防止フロー・セーブオファー・支払い失敗の回収施策設計。 | 解約率が高い、キャンセルフローを作りたいとき |
+日常パック外・**いまの PC には未インストール（0件）**。  
+カタログ・入れ方・全47件の表は **[marketing-skills一覧.md](marketing-skills一覧.md)** を参照。
 
 ---
 
 ## 補足
 
-- **日常配布**は `skills-pack/`（54件）。別 PC では `skills-pack/引き継ぎ.md` の一言をエージェントに送るだけ。
-- **Claude / Agents** は `skills-pack/install-claude.ps1` → `~/.claude/skills/` と `~/.agents/skills/`（平置き・除外10で各43件）。Cursor 用 `install.ps1` の結果を手コピーしない。
-- **マーケ**は `skills-pack-marketing/` に正本があるが **デフォルト非インストール**。[INSTALL.md](skills-pack-marketing/INSTALL.md) 参照。誤って入れたら `marketingskills/` と `playbook-lp-creative/` を削除。
+- **日常配布**は `skills-pack/`（MANIFEST **55件**）。別 PC では `skills-pack/引き継ぎ.md` の一言をエージェントに送るだけ。
+- **この PC の `~/.cursor/skills/`** は 55 + ローカル2 = **57件**。Skills UI の約76は組み込み `skills-cursor` 合算。
+- **Claude / Agents** は `skills-pack/install-claude.ps1` → `~/.claude/skills/` と `~/.agents/skills/`（平置き・除外10で各45件）。除外: `docx` `pdf` `pptx` `xlsx` `skill-creator` `using-superpowers` `requesting-code-review` `receiving-code-review` `verification-before-completion` `using-git-worktrees`。
+- **マーケ**は [marketing-skills一覧.md](marketing-skills一覧.md)。デフォルト非インストール。
 - **件数 100超に見えるとき:** Cursor Settings → Rules, Skills, Subagents → **Include Third-Party... を OFF**。`~/.claude` は消さない（Claude Code 用）。詳細は [skills-pack/skills重複処理.md](skills-pack/skills重複処理.md)。
 - **playbook の使い方:** 入口は `/route-playbook`、または既知なら `/playbook-*` 直呼び。どちらも最初に適応プラン → `GO` / `通しで`。
 - **重複回避**は [skills-pack/引き継ぎ.md](skills-pack/引き継ぎ.md) と [skills重複処理.md](skills-pack/skills重複処理.md)。
