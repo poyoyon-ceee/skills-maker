@@ -25,7 +25,7 @@ Settings → Rules, Skills, Subagents → **Include Third-Party Plugins, Skills,
 - **使いどころ**: どんな場面・キーワードで出すべきか
 
 日常の生データ: [skills-pack/MANIFEST.json](skills-pack/MANIFEST.json)  
-マーケの生データ（未インストール時はカタログ参照用）: [skills-pack-marketing/MANIFEST.json](skills-pack-marketing/MANIFEST.json)
+マーケのカタログ: [marketing-skills一覧.md](marketing-skills一覧.md) / [skills-pack-marketing/MANIFEST.json](skills-pack-marketing/MANIFEST.json)
 
 ---
 
