@@ -35,7 +35,7 @@ Settings → Rules, Skills, Subagents → **Include Third-Party Plugins, Skills,
 2. [ドキュメント／データ処理（10件）](#2-ドキュメントデータ処理10件)
 3. [Google Workspace 連携（3件）](#3-google-workspace-連携3件)
 4. [設計・開発ワークフロー（Superpowers 系・12件）](#4-設計開発ワークフローsuperpowers系12件)
-5. [独自の開発系スキル（10件）](#5-独自の開発系スキル10件)
+5. [独自の開発系スキル（11件）](#5-独自の開発系スキル11件)
 6. [デザイン・コンテンツ制作（8件）](#6-デザインコンテンツ制作8件)
 7. [ナレッジ管理・リサーチ（5件）](#7-ナレッジ管理リサーチ5件)
 8. [GitHub / Git 運用（3件）](#8-github--git-運用3件)
@@ -112,7 +112,7 @@ Settings → Rules, Skills, Subagents → **Include Third-Party Plugins, Skills,
 
 ---
 
-## 5. 独自の開発系スキル（10件）
+## 5. 独自の開発系スキル（11件）
 
 | コマンド | 説明 | 使いどころ |
 |----------|------|-----------|
@@ -126,6 +126,7 @@ Settings → Rules, Skills, Subagents → **Include Third-Party Plugins, Skills,
 | `/to-issues`（手動のみ） | プラン・仕様・PRDを、独立して着手可能な「トレーサーバレット」の垂直スライスIssueに分解。 | PRDや設計書を実装可能な単位のIssueに分割したいとき |
 | `/git-guardrails-claude-code` | 危険なGitコマンド（push、reset --hard、clean、branch -D等）を実行前にブロックするフックを設定。 | 誤操作防止のガードレールを設定したいとき |
 | `/session-recap`（手動のみ） | 今の会話を `備忘録.md` の日付エントリにする（決定・調査・次のTODO）。コード変更履歴用の `変更履歴.md` には書かない。 | 「まとめて」「備忘録に残して」「このやり取りを記録して」と明示されたときだけ |
+| `/chat-handoff`（手動のみ） | 別PCで続きをやるための引き継ぎメモを、リポジトリ直下の `質疑応答M-D.MD` に作成・追記。結論・決定・未解決TODOを残す。Cursor チャット履歴は端末に残る前提。 | 「別PC用に残して」「引き継ぎ書いて」「質疑応答に落として」「続きは別端末で」と明示されたとき。通常の備忘録は `/session-recap` |
 
 ---
 

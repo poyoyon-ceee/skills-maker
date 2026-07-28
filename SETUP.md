@@ -109,13 +109,11 @@ Superpowers を丸ごと `/add-plugin` する場合は、上記2つは**重複�
 
 ### Superpowers の導入（TDD / writing-plans 除外）
 
-`skills/install.ps1` がスキル12個 + セッションフックを一括インストールする。
-
-`skills/superpowers/` 以下に12スキル。`test-driven-development` と `writing-plans` は同梱のローカル版を使用。
+`skills-pack/install.ps1` がスキル一式 + セッションフックをインストールする。`skills-pack/superpowers/` 以下に12スキル。`test-driven-development` と `writing-plans` は同梱のローカル版を使用（Superpowers プラグイン版で上書きしない）。
 
 ### Superpowers セッションフック（プラグイン代替）
 
-`/add-plugin superpowers` は使わない。`skills/_hooks/` のフックを `install.ps1` が `~/.cursor/hooks/` へ配置する。
+`/add-plugin superpowers` は使わない。`skills-pack/_hooks/` のフックを `install.ps1` が `~/.cursor/hooks/` へ配置する。
 
 ## 新しいスキルを追加するとき
 

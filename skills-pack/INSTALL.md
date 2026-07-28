@@ -116,11 +116,13 @@ cd skills-pack
 |----------|-----|
 | playbooks（7） | `route-playbook`（入口ルーター）, `playbook-document-data`, `playbook-mini-webapp` 等（`playbook-lp-creative` は marketing パック）。各 playbook は Adaptive proposal gate 付き |
 | superpowers（12） | `brainstorming`, `systematic-debugging` |
-| Anthropic（8） | `pdf`, `docx`, `xlsx`, `pptx`, `skill-creator` |
+| Anthropic系（5） | `pdf`, `docx`, `xlsx`, `pptx`, `skill-creator` |
+| デザイン系 | `theme-factory`, `canvas-design`, `frontend-design`, `doc-coauthoring` など |
 | Matt Pocock | `to-prd`, `to-issues`, `edit-article` など |
 | Obsidian（3） | `obsidian-vault`, `obsidian-markdown`, `json-canvas` |
 | 3rd party | `notebooklm`, `react-best-practices` など |
 | GWS（3） | `gws-docs`, `gws-sheets`, `gws-drive` |
+| Cursor 固有（3） | `chat-handoff`, `skill-creator`, `promote-skill`（`~/.cursor/skills/` のみ） |
 | 独自（残り） | `grill-me`, `writing-plans`, `webapp-testing`, `new-project`, `doc-maint` など |
 
 全件は [MANIFEST.json](MANIFEST.json) を参照。
