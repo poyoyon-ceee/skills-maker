@@ -18,12 +18,25 @@ description: >-
 2. **skills-maker ルートを推測で新規作成しない。** 検証に失敗したら書かない。
 3. **git commit / push しない**（ユーザーが明示したときだけ）。
 4. マーケ専用は `skills-pack-marketing`（ユーザーがマーケと言ったときのみ）。通常は `skills-pack`。
+5. **同じスキルを2箇所に置かない。** 置き場所は下の表でどちらか一方に決める。
+
+## 置き場所の決め方（重複防止の要）
+
+| 条件 | 宛先 |
+|------|------|
+| 通常のスキル（IDE 非依存） | `~/.agents/skills/<skill-folder-name>/` |
+| Cursor 固有（`~/.cursor` パス・Cursor UI・Cursor 用 PowerShell を前提にする） | `~/.cursor/skills/<skill-folder-name>/` |
+
+- `~/.agents/skills` は Cursor・Codex・ChatGPT 系が共通で読む。**原則こっち**
+- 現在 Cursor 固有なのは `chat-handoff` / `skill-creator` / `promote-skill` の3つだけ
+- **カテゴリのサブフォルダを作らない**（`playbooks/` 等）。Codex がネストを辿る保証がないため、インストール先は必ず平置き
+- 判断に迷ったら `~/.agents/skills`。IDE 名や IDE 固有パスを SKILL.md に書かずに済むよう設計する
 
 ## フロー
 
 ```text
 スキル作成完了
-  → Gate 1「グローバル（~/.cursor/skills/）に入れる？」
+  → Gate 1「グローバルに入れる？」（宛先は上の表で決める）
       No  → 終了（project-local のまま等）。Gate 2 は出さない
       Yes → global に配置
   → Gate 2「skills-pack に同期する？」
@@ -33,15 +46,18 @@ description: >-
 
 ### Gate 1 — 入れる？（global）
 
-質問例: 「このスキルを `~/.cursor/skills/` に入れる？」
+質問例: 「このスキルを `~/.agents/skills/` に入れる？」（Cursor 固有なら `~/.cursor/skills/`）
 
 Yes のとき:
 
 1. ソース = いま書いたスキルフォルダ（`SKILL.md` を含むディレクトリ）
-2. 宛先 = `%USERPROFILE%\.cursor\skills\<skill-folder-name>\`（macOS/Linux: `~/.cursor/skills/<skill-folder-name>/`）
-3. 同名が既にある → 上書き前に確認
-4. フォルダごとコピー（`SKILL.md` 以外の scripts / references も含む）
-5. 成功パスをユーザーに報告
+2. 宛先 = 「置き場所の決め方」の表で決めた root ＋ `<skill-folder-name>\`
+   - 通常: `%USERPROFILE%\.agents\skills\<skill-folder-name>\`（macOS/Linux: `~/.agents/skills/...`）
+   - Cursor 固有: `%USERPROFILE%\.cursor\skills\<skill-folder-name>\`
+3. **もう一方の root に同名が無いことを確認**（あると Cursor が2回登録する）
+4. 同名が既にある → 上書き前に確認
+5. フォルダごとコピー（`SKILL.md` 以外の scripts / references も含む）
+6. 成功パスをユーザーに報告
 
 No のとき: 何もコピーせず終了。
 
@@ -115,3 +131,5 @@ bash ~/.cursor/skills/promote-skill/scripts/promote-to-pack.sh "<skill-folder-na
 - 検証前に `skills-pack` 配下へコピー
 - `sync-skills-pack.ps1` の全件ミラーをこのフローの既定にする（実験スキル混入の原因）
 - `~/.cursor/skills-cursor/` へ書く
+- **`~/.agents/skills` と `~/.cursor/skills` の両方に同じスキルを置く**（設定画面と `/` メニューの件数がズレ、編集しても効かない側が残る）
+- インストール先に `playbooks/` のようなカテゴリフォルダを作る（pack 内の整理用であって、配置先では平置き）

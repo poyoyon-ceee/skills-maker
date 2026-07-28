@@ -2,20 +2,37 @@
 
 **コードがわからなくてもOK → [引き継ぎ.md](引き継ぎ.md) を開き、コピペ用の一言を Cursor エージェントに送るだけ。**
 
-この `skills-pack/` フォルダだけで、別PCの Cursor にグローバルスキルを入れられます。
+この `skills-pack/` フォルダだけで、別PCにグローバルスキルを入れられます。
+
+## インストール先の構成（重要）
+
+**1スキル＝1箇所。同じスキルを2つの root に置かない。**
+
+| root | 中身 | 読むツール |
+|------|------|-----------|
+| `~/.agents/skills/<スキル名>/` | 通常のスキル（52件・平置き） | Cursor / Codex / ChatGPT 系 |
+| `~/.cursor/skills/<スキル名>/` | Cursor 固有スキル（3件） | Cursor のみ |
+| `~/.cursor/hooks/` | セッションフック | Cursor のみ |
+| `~/.claude/skills/<スキル名>/` | Claude Code 用（`install-claude.ps1`・除外10で42件） | Claude Code のみ |
+
+Cursor 固有の3件は `chat-handoff` / `skill-creator` / `promote-skill`。`~/.cursor` パス・Cursor UI・Cursor 用 PowerShell を前提にしているため共有 root に置かない。
+
+**平置きにする理由**: pack 内のカテゴリフォルダ（`playbooks/` `superpowers/` `github/` `debug/`）は整理用。Codex がネストしたスキルディレクトリを辿る保証がないため、インストール時に剥がして `<スキル名>/SKILL.md` にする。
+
+**`~/.agents` を主にする理由**: Cursor の設定 **Include Third-Party Plugins, Skills, and Other Configs** を OFF にしても `~/.agents/skills` は読まれる（あのトグルの対象は `~/.claude` 等のよそのベンダー設定）。ChatGPT / Codex とも共有できるので、ここを正本にすれば重複が起きない。
 
 ## このフォルダの中身
 
 | 種類 | 場所 | インストール先 |
 |------|------|----------------|
-| スキル本体（54個） | 各カテゴリフォルダ | `~/.cursor/skills/` |
-| スキル一覧 | `MANIFEST.json` | （参照用） |
+| スキル本体（55個） | 各カテゴリフォルダ | `~/.agents/skills/`（52） / `~/.cursor/skills/`（3） |
+| スキル一覧 | `MANIFEST.json` | （参照用。`installTarget` に宛先が入っている） |
 | セッションフック | `_hooks/` | `~/.cursor/hooks/` |
 | インストーラ | `install.ps1` / `install.sh` | （実行するだけ） |
-| Claude Code / Agents 用差分 | `_claude/` | `~/.claude/skills/` と `~/.agents/skills/`（`install-claude.ps1` 経由） |
+| Claude Code 用差分 | `_claude/` | `~/.claude/skills/`（`install-claude.ps1` 経由） |
 | Claude Code 用インストーラ | `install-claude.ps1` | （実行するだけ） |
 
-`_hooks/`・`_claude/`・`install.*` はスキルではない。インストール時に Cursor のスキルフォルダへはコピーされない。
+`_hooks/`・`_claude/`・`install.*` はスキルではない。インストール時にスキルフォルダへはコピーされない。
 
 ## Claude Code 向けインストール
 
@@ -24,9 +41,9 @@ cd C:\path\to\skills-maker\skills-pack
 .\install-claude.ps1
 ```
 
-Cursor 版との違い:
+`install.ps1` との違い:
 
-- インストール先は `~/.claude/skills/` **と** `~/.agents/skills/`（同じ内容を平置き）。カテゴリフォルダ（playbooks/ 等）は剥がして `<スキル名>/SKILL.md` になる
+- インストール先は **`~/.claude/skills/` のみ**。`~/.agents/skills/` は `install.ps1` が管理するので、こちらからは書かない
 - **除外10スキル**（Claude Code の組み込み機能と重複するため入れない・既存なら削除）:
   `docx`, `pdf`, `pptx`, `xlsx`, `skill-creator`（公式スキルと重複）,
   `using-superpowers`, `requesting-code-review`, `receiving-code-review`,
@@ -40,12 +57,13 @@ Cursor 版との違い:
 
 `install.ps1` / `install.sh` は次を自動で行う:
 
-1. **同名・同内容** → スキップ（二重インストールしない）
-2. **同名・別パス・別内容** → skills-pack のパスを正本として残し、重複パスを削除
-3. **旧ネスト構造**（例: `writing-plans/writing-plans/`）→ 既知パターンを削除
-4. **skills-pack に無い別スキル** → 触らない（devils / persona など）
+1. **同名・同内容** → 書き込まない（ハッシュ比較でスキップ）
+2. **`~/.cursor/skills/` に残った移行前のスキル** → `~/.cursor/skills.bak/` へ退避（削除はしない）
+3. **Cursor 固有3件が `~/.agents/skills/` にある** → 削除（正しい root は `~/.cursor`）
+4. **pack 内に同名スキルが2つ** → エラーで中断（壊れた状態を配らない）
+5. **skills-pack に無い別スキル** → 触らない（devils / persona など）
 
-まだ重複が残る場合は [skills重複処理.md](skills重複処理.md) をエージェントに実行させる。
+最後に全 root を走査して同名が2件以上ないことを検証し、残っていれば WARNING を出す。まだ重複が残る場合は [skills重複処理.md](skills重複処理.md) をエージェントに実行させる。
 
 ## 注意（別PC向け）
 
@@ -88,9 +106,9 @@ cd skills-pack
 1. **Cursor を再起動**
 2. **Customize → Skills** — `/playbook-document-data`, `/gws-docs`, `/brainstorming` などが見える
 3. **Customize → Hooks** — `session-start` が登録されている
-4. 同名スキルが2件出ない
+4. **同名スキルが2件出ない** — 設定画面の件数と `/` メニューの件数が一致すること（ズレていたら重複が残っている）
 
-## 含まれるスキル（54個・概要）
+## 含まれるスキル（55個・概要）
 
 **マーケ系は含まない。** LP・広告・訴求スキルは別パック [skills-pack-marketing](../skills-pack-marketing/INSTALL.md)（オプトイン）。通常の本 install では入らない・戻らない。
 
@@ -112,8 +130,11 @@ cd skills-pack
 | 症状 | 対処 |
 |------|------|
 | スキルが出ない | Cursor 再起動 |
-| 同名スキルが2つ（例: `/writing-plans`） | Superpowers プラグインと skills-pack が共存、または Cursor が `~/.claude/skills` も読んでいる。Settings → Rules, Skills, Subagents → **Include Third-Party...** を OFF → 残れば [skills重複処理.md](skills重複処理.md) |
+| 設定画面と `/` メニューで件数が違う | 同名スキルが複数 root にある。設定画面は名前で重複排除するが `/` メニューはしないため件数がズレる。[skills重複処理.md](skills重複処理.md) |
+| 同名スキルが2つ（例: `/writing-plans`） | `~/.agents/skills` と `~/.cursor/skills` の両方にある、または Superpowers プラグインと共存。`install.ps1` 再実行で自動退避 → 残れば [skills重複処理.md](skills重複処理.md) |
+| `~/.agents` のスキルを編集しても反映されない | 同名が `~/.cursor/skills` にもあり、そちらが読まれている可能性。片方に寄せる |
 | フックが出ない | `~/.cursor/hooks/session-start.ps1`（Windows）があるか確認 |
+| Office スキル（docx/xlsx/pptx）が動かない | Python ライブラリ不足。`pip install python-docx openpyxl python-pptx` |
 | GWS が動かない | `gws auth login` を別途実行（OAuth は PC ごと） |
 
 ## リポジトリ全体の説明

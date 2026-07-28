@@ -22,8 +22,8 @@ disable-model-invocation: true
 
 | OS | パス |
 |---|---|
-| Windows | `%USERPROFILE%\.cursor\skills\new-project\scripts\scaffold.js` |
-| macOS/Linux | `~/.cursor/skills/new-project/scripts/scaffold.js` |
+| Windows | `%USERPROFILE%\.claude\skills\new-project\scripts\scaffold.js` |
+| macOS/Linux | `~/.claude/skills/new-project/scripts/scaffold.js` |
 
 依存は `scripts/` 配下に同梱。初回のみ `scripts/` で `npm install` が必要（未実施なら先に実行）。
 
@@ -43,13 +43,13 @@ disable-model-invocation: true
 Windows (PowerShell):
 
 ```powershell
-node "$env:USERPROFILE\.cursor\skills\new-project\scripts\scaffold.js"
+node "$env:USERPROFILE\.claude\skills\new-project\scripts\scaffold.js"
 ```
 
 macOS / Linux:
 
 ```bash
-node ~/.cursor/skills/new-project/scripts/scaffold.js
+node ~/.claude/skills/new-project/scripts/scaffold.js
 ```
 
 - 実行中は AI がヒアリング選択肢を補助してよい

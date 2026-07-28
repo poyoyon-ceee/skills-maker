@@ -1,222 +1,277 @@
 ﻿[
     {
         "name":  "brainstorming",
-        "path":  "superpowers/brainstorming/SKILL.md"
+        "path":  "superpowers/brainstorming/SKILL.md",
+        "installTarget":  "~/.agents/skills/brainstorming/"
     },
     {
         "name":  "canvas-design",
-        "path":  "canvas-design/SKILL.md"
+        "path":  "canvas-design/SKILL.md",
+        "installTarget":  "~/.agents/skills/canvas-design/"
     },
     {
         "name":  "chat-handoff",
-        "path":  "chat-handoff/SKILL.md"
+        "path":  "chat-handoff/SKILL.md",
+        "installTarget":  "~/.cursor/skills/chat-handoff/"
     },
     {
         "name":  "content-research-writer",
-        "path":  "content-research-writer/SKILL.md"
+        "path":  "content-research-writer/SKILL.md",
+        "installTarget":  "~/.agents/skills/content-research-writer/"
     },
     {
         "name":  "debug-allrun",
-        "path":  "debug/debug-allrun/SKILL.md"
+        "path":  "debug/debug-allrun/SKILL.md",
+        "installTarget":  "~/.agents/skills/debug-allrun/"
     },
     {
         "name":  "dispatching-parallel-agents",
-        "path":  "superpowers/dispatching-parallel-agents/SKILL.md"
+        "path":  "superpowers/dispatching-parallel-agents/SKILL.md",
+        "installTarget":  "~/.agents/skills/dispatching-parallel-agents/"
     },
     {
         "name":  "doc-coauthoring",
-        "path":  "doc-coauthoring/SKILL.md"
+        "path":  "doc-coauthoring/SKILL.md",
+        "installTarget":  "~/.agents/skills/doc-coauthoring/"
     },
     {
         "name":  "doc-maint",
-        "path":  "doc-maint/SKILL.md"
+        "path":  "doc-maint/SKILL.md",
+        "installTarget":  "~/.agents/skills/doc-maint/"
     },
     {
         "name":  "docx",
-        "path":  "docx/SKILL.md"
+        "path":  "docx/SKILL.md",
+        "installTarget":  "~/.agents/skills/docx/"
     },
     {
         "name":  "edit-article",
-        "path":  "edit-article/SKILL.md"
+        "path":  "edit-article/SKILL.md",
+        "installTarget":  "~/.agents/skills/edit-article/"
     },
     {
         "name":  "executing-plans",
-        "path":  "superpowers/executing-plans/SKILL.md"
+        "path":  "superpowers/executing-plans/SKILL.md",
+        "installTarget":  "~/.agents/skills/executing-plans/"
     },
     {
         "name":  "finishing-a-development-branch",
-        "path":  "superpowers/finishing-a-development-branch/SKILL.md"
+        "path":  "superpowers/finishing-a-development-branch/SKILL.md",
+        "installTarget":  "~/.agents/skills/finishing-a-development-branch/"
     },
     {
         "name":  "frontend-design",
-        "path":  "frontend-design/SKILL.md"
+        "path":  "frontend-design/SKILL.md",
+        "installTarget":  "~/.agents/skills/frontend-design/"
     },
     {
         "name":  "git-guardrails-claude-code",
-        "path":  "git-guardrails-claude-code/SKILL.md"
+        "path":  "git-guardrails-claude-code/SKILL.md",
+        "installTarget":  "~/.agents/skills/git-guardrails-claude-code/"
     },
     {
         "name":  "github-make-sync",
-        "path":  "github/github-make-sync/SKILL.md"
+        "path":  "github/github-make-sync/SKILL.md",
+        "installTarget":  "~/.agents/skills/github-make-sync/"
     },
     {
         "name":  "git-in-clone",
-        "path":  "github/git-in-clone/SKILL.md"
+        "path":  "github/git-in-clone/SKILL.md",
+        "installTarget":  "~/.agents/skills/git-in-clone/"
     },
     {
         "name":  "grill-me",
-        "path":  "grill-me/SKILL.md"
+        "path":  "grill-me/SKILL.md",
+        "installTarget":  "~/.agents/skills/grill-me/"
     },
     {
         "name":  "gws-docs",
-        "path":  "gws-docs/SKILL.md"
+        "path":  "gws-docs/SKILL.md",
+        "installTarget":  "~/.agents/skills/gws-docs/"
     },
     {
         "name":  "gws-drive",
-        "path":  "gws-drive/SKILL.md"
+        "path":  "gws-drive/SKILL.md",
+        "installTarget":  "~/.agents/skills/gws-drive/"
     },
     {
         "name":  "gws-sheets",
-        "path":  "gws-sheets/SKILL.md"
+        "path":  "gws-sheets/SKILL.md",
+        "installTarget":  "~/.agents/skills/gws-sheets/"
     },
     {
         "name":  "improve-codebase-architecture",
-        "path":  "improve-codebase-architecture/SKILL.md"
+        "path":  "improve-codebase-architecture/SKILL.md",
+        "installTarget":  "~/.agents/skills/improve-codebase-architecture/"
     },
     {
         "name":  "json-canvas",
-        "path":  "json-canvas/SKILL.md"
+        "path":  "json-canvas/SKILL.md",
+        "installTarget":  "~/.agents/skills/json-canvas/"
     },
     {
         "name":  "new-project",
-        "path":  "new-project/SKILL.md"
+        "path":  "new-project/SKILL.md",
+        "installTarget":  "~/.agents/skills/new-project/"
     },
     {
         "name":  "notebooklm",
-        "path":  "notebooklm-skill/SKILL.md"
+        "path":  "notebooklm/SKILL.md",
+        "installTarget":  "~/.agents/skills/notebooklm/"
     },
     {
         "name":  "obsidian-markdown",
-        "path":  "obsidian-markdown/SKILL.md"
+        "path":  "obsidian-markdown/SKILL.md",
+        "installTarget":  "~/.agents/skills/obsidian-markdown/"
     },
     {
         "name":  "obsidian-vault",
-        "path":  "obsidian-vault/SKILL.md"
+        "path":  "obsidian-vault/SKILL.md",
+        "installTarget":  "~/.agents/skills/obsidian-vault/"
     },
     {
         "name":  "pdf",
-        "path":  "pdf/SKILL.md"
+        "path":  "pdf/SKILL.md",
+        "installTarget":  "~/.agents/skills/pdf/"
     },
     {
         "name":  "playbook-app-improvement",
-        "path":  "playbooks/playbook-app-improvement/SKILL.md"
+        "path":  "playbooks/playbook-app-improvement/SKILL.md",
+        "installTarget":  "~/.agents/skills/playbook-app-improvement/"
     },
     {
         "name":  "playbook-article-production",
-        "path":  "playbooks/playbook-article-production/SKILL.md"
+        "path":  "playbooks/playbook-article-production/SKILL.md",
+        "installTarget":  "~/.agents/skills/playbook-article-production/"
     },
     {
         "name":  "playbook-document-data",
-        "path":  "playbooks/playbook-document-data/SKILL.md"
+        "path":  "playbooks/playbook-document-data/SKILL.md",
+        "installTarget":  "~/.agents/skills/playbook-document-data/"
     },
     {
         "name":  "playbook-fable5-7day",
-        "path":  "playbooks/playbook-fable5-7day/SKILL.md"
+        "path":  "playbooks/playbook-fable5-7day/SKILL.md",
+        "installTarget":  "~/.agents/skills/playbook-fable5-7day/"
     },
     {
         "name":  "playbook-mini-webapp",
-        "path":  "playbooks/playbook-mini-webapp/SKILL.md"
+        "path":  "playbooks/playbook-mini-webapp/SKILL.md",
+        "installTarget":  "~/.agents/skills/playbook-mini-webapp/"
     },
     {
         "name":  "playbook-research-assets",
-        "path":  "playbooks/playbook-research-assets/SKILL.md"
+        "path":  "playbooks/playbook-research-assets/SKILL.md",
+        "installTarget":  "~/.agents/skills/playbook-research-assets/"
     },
     {
         "name":  "pptx",
-        "path":  "pptx/SKILL.md"
+        "path":  "pptx/SKILL.md",
+        "installTarget":  "~/.agents/skills/pptx/"
     },
     {
         "name":  "promote-skill",
-        "path":  "promote-skill/SKILL.md"
+        "path":  "promote-skill/SKILL.md",
+        "installTarget":  "~/.cursor/skills/promote-skill/"
+    },
+    {
+        "name":  "react-best-practices",
+        "path":  "react-best-practices/SKILL.md",
+        "installTarget":  "~/.agents/skills/react-best-practices/"
     },
     {
         "name":  "receiving-code-review",
-        "path":  "superpowers/receiving-code-review/SKILL.md"
+        "path":  "superpowers/receiving-code-review/SKILL.md",
+        "installTarget":  "~/.agents/skills/receiving-code-review/"
     },
     {
         "name":  "requesting-code-review",
-        "path":  "superpowers/requesting-code-review/SKILL.md"
+        "path":  "superpowers/requesting-code-review/SKILL.md",
+        "installTarget":  "~/.agents/skills/requesting-code-review/"
     },
     {
         "name":  "route-playbook",
-        "path":  "playbooks/route-playbook/SKILL.md"
+        "path":  "playbooks/route-playbook/SKILL.md",
+        "installTarget":  "~/.agents/skills/route-playbook/"
     },
     {
         "name":  "session-recap",
-        "path":  "session-recap/SKILL.md"
+        "path":  "session-recap/SKILL.md",
+        "installTarget":  "~/.agents/skills/session-recap/"
     },
     {
         "name":  "skill-creator",
-        "path":  "skill-creator/SKILL.md"
+        "path":  "skill-creator/SKILL.md",
+        "installTarget":  "~/.cursor/skills/skill-creator/"
     },
     {
         "name":  "subagent-driven-development",
-        "path":  "superpowers/subagent-driven-development/SKILL.md"
+        "path":  "superpowers/subagent-driven-development/SKILL.md",
+        "installTarget":  "~/.agents/skills/subagent-driven-development/"
     },
     {
         "name":  "systematic-debugging",
-        "path":  "superpowers/systematic-debugging/SKILL.md"
+        "path":  "superpowers/systematic-debugging/SKILL.md",
+        "installTarget":  "~/.agents/skills/systematic-debugging/"
     },
     {
         "name":  "test-driven-development",
-        "path":  "test-driven-development/SKILL.md"
+        "path":  "test-driven-development/SKILL.md",
+        "installTarget":  "~/.agents/skills/test-driven-development/"
     },
     {
         "name":  "theme-factory",
-        "path":  "theme-factory/SKILL.md"
+        "path":  "theme-factory/SKILL.md",
+        "installTarget":  "~/.agents/skills/theme-factory/"
     },
     {
         "name":  "to-issues",
-        "path":  "to-issues/SKILL.md"
+        "path":  "to-issues/SKILL.md",
+        "installTarget":  "~/.agents/skills/to-issues/"
     },
     {
         "name":  "to-prd",
-        "path":  "to-prd/SKILL.md"
+        "path":  "to-prd/SKILL.md",
+        "installTarget":  "~/.agents/skills/to-prd/"
     },
     {
         "name":  "using-git-worktrees",
-        "path":  "superpowers/using-git-worktrees/SKILL.md"
+        "path":  "superpowers/using-git-worktrees/SKILL.md",
+        "installTarget":  "~/.agents/skills/using-git-worktrees/"
     },
     {
         "name":  "using-superpowers",
-        "path":  "superpowers/using-superpowers/SKILL.md"
-    },
-    {
-        "name":  "vercel-react-best-practices",
-        "path":  "react-best-practices/SKILL.md"
+        "path":  "superpowers/using-superpowers/SKILL.md",
+        "installTarget":  "~/.agents/skills/using-superpowers/"
     },
     {
         "name":  "verification-before-completion",
-        "path":  "superpowers/verification-before-completion/SKILL.md"
+        "path":  "superpowers/verification-before-completion/SKILL.md",
+        "installTarget":  "~/.agents/skills/verification-before-completion/"
     },
     {
         "name":  "webapp-testing",
-        "path":  "webapp-testing/SKILL.md"
+        "path":  "webapp-testing/SKILL.md",
+        "installTarget":  "~/.agents/skills/webapp-testing/"
     },
     {
         "name":  "web-artifacts-builder",
-        "path":  "web-artifacts-builder/SKILL.md"
+        "path":  "web-artifacts-builder/SKILL.md",
+        "installTarget":  "~/.agents/skills/web-artifacts-builder/"
     },
     {
         "name":  "writing-plans",
-        "path":  "writing-plans/SKILL.md"
+        "path":  "writing-plans/SKILL.md",
+        "installTarget":  "~/.agents/skills/writing-plans/"
     },
     {
         "name":  "writing-skills",
-        "path":  "superpowers/writing-skills/SKILL.md"
+        "path":  "superpowers/writing-skills/SKILL.md",
+        "installTarget":  "~/.agents/skills/writing-skills/"
     },
     {
         "name":  "xlsx",
-        "path":  "xlsx/SKILL.md"
+        "path":  "xlsx/SKILL.md",
+        "installTarget":  "~/.agents/skills/xlsx/"
     }
 ]

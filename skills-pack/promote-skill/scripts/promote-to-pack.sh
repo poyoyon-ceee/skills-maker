@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# Promote ONE skill from ~/.cursor/skills into a verified skills-maker pack.
+# Promote ONE installed skill into a verified skills-maker pack.
+# Looks in ~/.agents/skills first, then ~/.cursor/skills (Cursor-only skills).
 # NEVER creates skills-maker root. NEVER writes if validation fails.
 #
 # Usage:
@@ -54,11 +55,16 @@ validate_root() {
   return 0
 }
 
-GLOBAL_SKILLS="${HOME}/.cursor/skills"
-SRC="${GLOBAL_SKILLS}/${SkillFolderName}"
+SRC=""
+for root in "${HOME}/.agents/skills" "${HOME}/.cursor/skills"; do
+  if [[ -d "${root}/${SkillFolderName}" ]]; then
+    SRC="${root}/${SkillFolderName}"
+    break
+  fi
+done
 
-if [[ ! -d "$SRC" ]]; then
-  echo "Global skill not found (run Gate 1 first): $SRC" >&2
+if [[ -z "$SRC" ]]; then
+  echo "Global skill not found in ~/.agents/skills or ~/.cursor/skills (run Gate 1 first): $SkillFolderName" >&2
   exit 1
 fi
 if [[ ! -f "${SRC}/SKILL.md" ]]; then
@@ -95,6 +101,7 @@ import json, sys
 from pathlib import Path
 root = Path(sys.argv[1])
 out = Path(sys.argv[2])
+CURSOR_ONLY = {"chat-handoff", "skill-creator", "promote-skill"}
 entries = []
 for skill_md in root.rglob("SKILL.md"):
     rel = skill_md.relative_to(root).as_posix()
@@ -106,7 +113,8 @@ for skill_md in root.rglob("SKILL.md"):
             name = line.split(":", 1)[1].strip()
             break
     if name:
-        entries.append({"name": name, "path": rel})
+        target = "~/.cursor/skills" if name in CURSOR_ONLY else "~/.agents/skills"
+        entries.append({"name": name, "path": rel, "installTarget": f"{target}/{name}/"})
 entries.sort(key=lambda e: e["name"])
 out.write_text(json.dumps(entries, indent=4, ensure_ascii=False) + "\n", encoding="utf-8")
 print(len(entries))

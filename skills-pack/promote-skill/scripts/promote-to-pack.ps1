@@ -1,4 +1,5 @@
-# Promote ONE skill from ~/.cursor/skills into a verified skills-maker pack.
+# Promote ONE installed skill into a verified skills-maker pack.
+# Looks in ~/.agents/skills first, then ~/.cursor/skills (Cursor-only skills).
 # NEVER creates skills-maker root. NEVER writes if validation fails.
 #
 # Usage:
@@ -49,10 +50,17 @@ if ($SkillFolderName -match '[\\/]' -or $SkillFolderName -eq '.' -or $SkillFolde
     Write-Error "SkillFolderName must be a single folder name, not a path: $SkillFolderName"
 }
 
-$globalSkills = Join-Path $env:USERPROFILE ".cursor\skills"
-$src = Join-Path $globalSkills $SkillFolderName
-if (-not (Test-Path -LiteralPath $src -PathType Container)) {
-    Write-Error "Global skill not found (run Gate 1 first): $src"
+$globalRoots = @(
+    (Join-Path $env:USERPROFILE ".agents\skills"),
+    (Join-Path $env:USERPROFILE ".cursor\skills")
+)
+$src = $null
+foreach ($root in $globalRoots) {
+    $candidate = Join-Path $root $SkillFolderName
+    if (Test-Path -LiteralPath $candidate -PathType Container) { $src = $candidate; break }
+}
+if (-not $src) {
+    Write-Error "Global skill not found in $($globalRoots -join ' or ') (run Gate 1 first): $SkillFolderName"
 }
 $skillMd = Join-Path $src "SKILL.md"
 if (-not (Test-Path -LiteralPath $skillMd -PathType Leaf)) {
@@ -82,6 +90,8 @@ if (Test-Path -LiteralPath $dst) {
 Copy-Item -LiteralPath $src -Destination $dst -Recurse -Force
 
 # Regenerate MANIFEST.json for this pack only
+# Keep this in sync with scripts/generate-manifest.ps1
+$cursorOnlySkills = @("chat-handoff", "skill-creator", "promote-skill")
 $manifest = @()
 Get-ChildItem $packRoot -Recurse -Filter "SKILL.md" -File | ForEach-Object {
     $head = Get-Content $_.FullName -TotalCount 15 -Encoding UTF8
@@ -93,11 +103,16 @@ Get-ChildItem $packRoot -Recurse -Filter "SKILL.md" -File | ForEach-Object {
     $rel = $_.FullName.Substring($packRoot.Length).TrimStart('\', '/').Replace('\', '/')
     # skip installer-only / non-skill trees if any
     if ($rel -match '^(_hooks|_claude)/') { return }
-    $manifest += [PSCustomObject]@{ name = $name; path = $rel }
+    $target = if ($cursorOnlySkills -contains $name) { "~/.cursor/skills" } else { "~/.agents/skills" }
+    $manifest += [PSCustomObject][ordered]@{
+        name          = $name
+        path          = $rel
+        installTarget = "$target/$name/"
+    }
 }
 
 $manifestPath = Join-Path $packRoot "MANIFEST.json"
-$manifest | Sort-Object name | ConvertTo-Json -Depth 3 | Set-Content $manifestPath -Encoding UTF8
+$manifest | Sort-Object name | ConvertTo-Json -Depth 4 | Set-Content $manifestPath -Encoding UTF8
 
 Write-Host ""
 Write-Host "OK. Copied skill and refreshed MANIFEST ($($manifest.Count) entries)."

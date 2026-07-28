@@ -13,14 +13,14 @@
 ````markdown
 # プロジェクト掟（MASTER_PROTOCOL）
 
-> **優先順位**: Cursor User Rules > **本ファイル** > `PROJECT.md`
-> User Rules と矛盾する場合は User Rules に従う。本ファイルは **このプロジェクト固有の差分とリマインダー**。
+> **優先順位**: グローバル CLAUDE.md（`~/.claude/CLAUDE.md`） > **本ファイル** > `PROJECT.md`
+> グローバル CLAUDE.md と矛盾する場合はグローバル CLAUDE.md に従う。本ファイルは **このプロジェクト固有の差分とリマインダー**。
 
 > **関連ドキュメント**: 技術品質・ナレッジは `.project_rules/KNOWLEDGE_BASE.md` および `docs/` を参照。
 
-## 0. グローバル掟（Cursor User Rules に委譲）
+## 0. グローバル掟（グローバル CLAUDE.md に委譲）
 
-以下は **Cursor User Rules（Tom ルール）** に従う。ここでは再掲しない。
+以下は **グローバル CLAUDE.md（Tom ルール）** に従う。ここでは再掲しない。
 
 - ユーザー向け出力は日本語
 - 指示スコープ外の変更・リファクタ・コメント/Print 削除禁止
@@ -59,7 +59,7 @@
 
 ## 3. 実装フェーズ（このプロジェクト）
 
-- **トリガー語**: `PROJECT.md` の「実装開始トリガー」に従う。明示指示までコード変更しない（詳細は User Rules）。
+- **トリガー語**: `PROJECT.md` の「実装開始トリガー」に従う。明示指示までコード変更しない（詳細はグローバル CLAUDE.md）。
 - **ノンストップ**: 実装開始後は、Yes/No 等の途中確認で止めず、指示タスク完了まで自動で進める（ブロッカー・仕様不明時は別）。
 
 ## 4. バージョンタグ（devVERSION）
@@ -117,5 +117,5 @@
 
 - **YAGNI**: ユーザーが選ばなかったファイル・モジュールは作らない。
 - **トリガー語**: 「実装して」等は `PROJECT.md` にのみ書き、憲法はプロジェクト差分に留める。
-- **重複禁止**: User Rules と同内容の条文を `MASTER_PROTOCOL.md` に再掲しない（委譲節で十分）。
-- **Git**: 初回インタビューでパターン A / B と `{{GIT_WORK_BRANCH}}` を確定させる。パターン B のとき、AI の Git 操作後は**必ず `develop`（`{{GIT_WORK_BRANCH}}`）へ戻す**ことを生成する `MASTER_PROTOCOL.md` に含める。ユーザールールの独断ブランチ禁止と矛盾させない。
+- **重複禁止**: グローバル CLAUDE.md と同内容の条文を `MASTER_PROTOCOL.md` に再掲しない（委譲節で十分）。
+- **Git**: 初回インタビューでパターン A / B と `{{GIT_WORK_BRANCH}}` を確定させる。パターン B のとき、AI の Git 操作後は**必ず `develop`（`{{GIT_WORK_BRANCH}}`）へ戻す**ことを生成する `MASTER_PROTOCOL.md` に含める。グローバル CLAUDE.md の独断ブランチ禁止と矛盾させない。

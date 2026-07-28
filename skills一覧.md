@@ -1,17 +1,22 @@
-# Cursor グローバルスキル一覧（日常54件 ＋ マーケオプトイン47件・未インストール）
+# グローバルスキル一覧（日常55件 ＋ マーケオプトイン47件・未インストール）
 
-取得日: 2026-07-27  
-**いま入っているもの（この PC）:** 日常 `skills-pack` の **54件のみ**（`~/.cursor/skills/`）。マーケはリポジトリにパックがあるだけで **グローバル未導入**。
+取得日: 2026-07-28  
+**いま入っているもの（この PC）:** 日常 `skills-pack` の **55件のみ**（`~/.agents/skills/` に52・`~/.cursor/skills/` に3）。マーケはリポジトリにパックがあるだけで **グローバル未導入**。
 
 **運用方針**
 
 | 項目 | 内容 |
 |------|------|
-| 日常 | `skills-pack/` → `install.ps1` で `~/.cursor/skills/` |
-| Claude / Agents | 同パックを `install-claude.ps1` で `~/.claude/skills/` と `~/.agents/skills/` に平置き（除外10あり → 各43件） |
+| 日常（共通） | `skills-pack/` → `install.ps1` で `~/.agents/skills/` に**平置き52件**。Cursor / Codex / ChatGPT 系が共通で読む正本 |
+| 日常（Cursor 固有） | `chat-handoff` / `skill-creator` / `promote-skill` の3件だけ `~/.cursor/skills/`。`~/.cursor` パス・Cursor UI 前提のため |
+| Claude Code | 同パックを `install-claude.ps1` で `~/.claude/skills/` に平置き（除外10あり → 45件）。`~/.agents` は書かない |
 | マーケ | `skills-pack-marketing/` は**作るが入れない**。必要になったときだけ `install.ps1`（Cursor のみ）。通常更新では入らない・戻らない |
 | プロジェクト内 | `.cursor/skills/` は使わない |
-| 件数の膨張 | Cursor の **Include Third-Party Plugins, Skills, and Other Configs** が ON だと `~/.claude` 等も合算され 100件超に見える → **OFF 推奨** |
+| 重複の禁止 | **1スキル＝1 root。** 同名が2つの root にあると、設定画面（重複排除する）と `/` メニュー（しない）で件数がズレ、さらに片方の編集が効かなくなる |
+
+**Include Third-Party トグルの誤解（重要）**
+
+Settings → Rules, Skills, Subagents → **Include Third-Party Plugins, Skills, and Other Configs** を OFF にしても **`~/.agents/skills` は読まれ続ける**。あのトグルの対象は `~/.claude/skills`・`CLAUDE.md`・Copilot 設定など「よそのベンダー固有の設定」で、`~/.agents/` は `AGENTS.md` と同じベンダー中立の共通標準としてネイティブに扱われるため。`~/.agents` 由来の重複はフォルダ整理でしか直らない（[skills重複処理.md](skills-pack/skills重複処理.md)）。
 
 **凡例**
 
@@ -115,7 +120,7 @@
 | `/test-driven-development` | RED-GREEN-REFACTORのTDDを実装前に徹底。ローカル改良版（Superpowers本体＋マルチスタックテストコマンド表付き）。 | 機能追加・バグ修正・リファクタリング前。「TDDで」「テストファーストで」と言われたとき |
 | `/writing-plans` | ファイルパス・コード断片・検証手順まで含めた実装プランを、コーディング前に作成。ローカル Cursor 向け Adapt 版。 | 仕様が複数ステップにわたる非自明な機能に着手する前 |
 | `/webapp-testing` | Cursorのブラウザ MCP または Playwright スクリプトでローカル Web アプリをテスト。ユニット/E2E(IDE)/E2E(スクリプト)の使い分け表あり。 | 「アプリをテストして」「UIを確認して」、フロントエンドの動作検証全般 |
-| `/react-best-practices`（`vercel-react-best-practices`） | Vercel Engineering によるReact/Next.jsパフォーマンス最適化ガイド（8カテゴリ70ルール）。 | React/Next.jsのコンポーネント作成・データフェッチ実装・パフォーマンスレビュー・リファクタリング |
+| `/react-best-practices` | Vercel Engineering によるReact/Next.jsパフォーマンス最適化ガイド（8カテゴリ70ルール）。 | React/Next.jsのコンポーネント作成・データフェッチ実装・パフォーマンスレビュー・リファクタリング |
 | `/web-artifacts-builder` | React 18 + TypeScript + Vite + Tailwind + shadcn/ui で、状態管理やルーティングを含む多コンポーネントのHTMLアーティファクトを構築。 | 単純な単一ファイルHTML/JSXでは足りない、複雑なWebアーティファクトを作りたいとき |
 | `/to-prd`（手動のみ） | 今の会話をヒアリングなしでそのままPRDに合成し、Issueトラッカーへ公開。 | すでに会話で要件が固まっており、そのままPRD化したいとき |
 | `/to-issues`（手動のみ） | プラン・仕様・PRDを、独立して着手可能な「トレーサーバレット」の垂直スライスIssueに分解。 | PRDや設計書を実装可能な単位のIssueに分割したいとき |
@@ -145,7 +150,7 @@ Obsidian 系は **3スキル連携**。`obsidian-vault` が vault パス（`D:\v
 
 | コマンド | 説明 | 使いどころ |
 |----------|------|-----------|
-| `/notebooklm`（`notebooklm-skill`） | Google NotebookLM のノートブックにブラウザ自動化で問い合わせ、Geminiの根拠付き回答を取得。ハルシネーションを大幅抑制。 | NotebookLMのURLを共有された、「自分のNotebookLMに聞いて」と言われたとき |
+| `/notebooklm` | Google NotebookLM のノートブックにブラウザ自動化で問い合わせ、Geminiの根拠付き回答を取得。ハルシネーションを大幅抑制。 | NotebookLMのURLを共有された、「自分のNotebookLMに聞いて」と言われたとき |
 | `/obsidian-vault` | `D:\vault` 内のノートを wikilink・インデックスノートで検索・作成・整理。vault パスと命名規則の正本。 | Obsidianでノートを探す・作る・整理したいとき |
 | `/obsidian-markdown` | callout、frontmatter（properties）、embed、wikilink 等の Obsidian Flavored Markdown 文法。kepano/obsidian-skills 由来。 | Obsidian ノートの書式・callout・メタデータを正確に書きたいとき |
 | `/json-canvas` | `.canvas` ファイル（ノード・エッジ・グループ）の生成・編集。`D:\vault\canvas\` 推奨。kepano/obsidian-skills 由来。 | マインドマップ、フローチャート、Index の視覚俯瞰を Canvas で作りたいとき |
@@ -174,6 +179,7 @@ Obsidian 系は **3スキル連携**。`obsidian-vault` が vault パス（`D:\v
 | 入れ方 | `skills-pack-marketing/install.ps1`（→ `~/.cursor/skills/` のみ） |
 | 置かない先 | `~/.agents/skills/`、原則 `~/.claude/skills/` |
 | 外し方 | `~/.cursor/skills/marketingskills/` と `playbooks/playbook-lp-creative/` を削除 |
+| 注意 | マーケパックは `~/.cursor/skills/` にカテゴリフォルダごと入る旧方式のまま。日常パック（`~/.agents` 平置き）とは構成が違う |
 | 入口（導入後） | `/playbook-lp-creative`、または `/route-playbook`（パック導入済みのときだけ候補に載る） |
 | 発火 | 当面すべて手動。一括自動はしない |
 
@@ -285,10 +291,11 @@ Obsidian 系は **3スキル連携**。`obsidian-vault` が vault パス（`D:\v
 
 ## 補足
 
-- **日常配布**は `skills-pack/`（54件）。別 PC では `skills-pack/引き継ぎ.md` の一言をエージェントに送るだけ。
-- **Claude / Agents** は `skills-pack/install-claude.ps1` → `~/.claude/skills/` と `~/.agents/skills/`（平置き・除外10で各43件）。Cursor 用 `install.ps1` の結果を手コピーしない。
+- **日常配布**は `skills-pack/`（55件）。別 PC では `skills-pack/引き継ぎ.md` の一言をエージェントに送るだけ。`install.ps1` が `~/.agents`（52）と `~/.cursor`（3）へ振り分ける。
+- **Claude Code** は `skills-pack/install-claude.ps1` → `~/.claude/skills/`（平置き・除外10で45件）。`~/.agents` はこちらでは触らない（`install.ps1` の管轄）。`install.ps1` の結果を手コピーしない。
 - **マーケ**は `skills-pack-marketing/` に正本があるが **デフォルト非インストール**。[INSTALL.md](skills-pack-marketing/INSTALL.md) 参照。誤って入れたら `marketingskills/` と `playbook-lp-creative/` を削除。
-- **件数 100超に見えるとき:** Cursor Settings → Rules, Skills, Subagents → **Include Third-Party... を OFF**。`~/.claude` は消さない（Claude Code 用）。詳細は [skills-pack/skills重複処理.md](skills-pack/skills重複処理.md)。
+- **設定画面と `/` メニューで件数が違うとき:** 同名スキルが複数 root にある。設定画面は名前で重複排除するが `/` メニューはしないため。Include Third-Party の OFF では `~/.agents` 由来の重複は直らない。詳細は [skills-pack/skills重複処理.md](skills-pack/skills重複処理.md)。
+- **Office スキル（docx / xlsx / pptx）** は Python ライブラリが前提（`pip install python-docx openpyxl python-pptx`）。PDF と画像は Cursor がネイティブに読めるので、`pdf` スキルは結合・分割・フォーム入力・OCR 用。
 - **playbook の使い方:** 入口は `/route-playbook`、または既知なら `/playbook-*` 直呼び。どちらも最初に適応プラン → `GO` / `通しで`。
 - **重複回避**は [skills-pack/引き継ぎ.md](skills-pack/引き継ぎ.md) と [skills重複処理.md](skills-pack/skills重複処理.md)。
 - **GWS** は PC ごとに `gws auth login`。skills-pack に OAuth は含まれない。

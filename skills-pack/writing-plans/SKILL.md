@@ -9,7 +9,7 @@ description: >-
 
 # Writing Plans
 
-Adapted from [obra/superpowers](https://github.com/obra/superpowers/tree/main/skills/writing-plans) for Cursor.
+Adapted from [obra/superpowers](https://github.com/obra/superpowers/tree/main/skills/writing-plans) for Claude Code.
 
 ## Overview
 
@@ -24,7 +24,7 @@ Assume a skilled developer who knows almost nothing about this toolset or proble
 | Scope | Path |
 |-------|------|
 | Default | `docs/plans/YYYY-MM-DD-<feature-slug>.md` |
-| Project override | If `.cursor/templates/implementation-plan-template.md` exists, align with that structure |
+| Project override | If the project has its own plan template (check CLAUDE.md or a `templates/` directory), align with that structure |
 | User override | User-specified path wins |
 
 Create the `docs/plans/` directory if it doesn't exist.
@@ -42,7 +42,7 @@ Map files to create or modify and what each one is responsible for:
 - Files that change together should live together
 - In existing codebases, follow established patterns
 
-**Project-specific:** If the repo has a `dist/` sync rule (see `.cursor/rules/dist-folder-sync.md`), include dist sync steps in tasks that change frontend assets.
+**Project-specific:** If the repo has a `dist/` sync rule (check the project rules — CLAUDE.md or `.project_rules/`), include dist sync steps in tasks that change frontend assets.
 
 ## Task Right-Sizing
 
@@ -64,7 +64,7 @@ Every plan MUST start with this header:
 ```markdown
 # [Feature Name] Implementation Plan
 
-> **For Cursor agent:** Implement task-by-task. Use TDD (test-driven-development skill).
+> **For Claude Code agent:** Implement task-by-task. Use TDD (test-driven-development skill).
 > Track progress with checkbox (`- [ ]`) syntax.
 
 **Goal:** [One sentence describing what this builds]
@@ -160,12 +160,12 @@ After saving the plan, offer execution choice:
 
 **1. インライン実行（推奨）** — このセッションでタスクを順に実行、チェックポイントで確認
 
-**2. サブエージェント実行** — Task ツールでタスクごとにサブエージェントを起動、タスク間でレビュー
+**2. サブエージェント実行** — Agent ツールでタスクごとにサブエージェントを起動、タスク間でレビュー
 
 **どちらにしますか？"**
 
 **If subagent chosen:**
-- Launch one `generalPurpose` or appropriate subagent per task
+- Launch one general-purpose or appropriate subagent per task
 - Review output between tasks before proceeding
 
 **If inline chosen:**

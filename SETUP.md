@@ -2,8 +2,8 @@
 
 Cursor Agent Skills を複数 PC で共有・配布するためのリポジトリです。
 
-**運用方針: スキルはすべてグローバル（`~/.cursor/skills/`）に置く。**  
-各プロジェクトの `.cursor/skills/` には置かない。このリポジトリの `skills/` が配布用の正本。
+**運用方針: スキルはすべてグローバルに置く。通常は `~/.agents/skills/`、Cursor 固有のものだけ `~/.cursor/skills/`。**  
+各プロジェクトの `.cursor/skills/` には置かない。このリポジトリの `skills-pack/` が配布用の正本。**同じスキルを2つの root に置かない**（重複表示の原因）。
 
 ## リポジトリ構成
 
@@ -24,7 +24,7 @@ skills-maker/
 ├── skills-pack/               # 日常用配布（スキル + インストーラ + 別PC手順）
 │   ├── INSTALL.md
 │   ├── 引き継ぎ.md
-│   ├── MANIFEST.json          # 52スキル一覧
+│   ├── MANIFEST.json          # 55スキル一覧（name / path / installTarget）
 │   ├── install.ps1 / install.sh
 │   ├── install-claude.ps1
 │   ├── _hooks/
@@ -38,32 +38,41 @@ skills-maker/
     └── playbooks/playbook-lp-creative/
 ```
 
-## Cursor がスキルを読む場所
+## エージェントがスキルを読む場所
 
-| 場所 | スコープ | このリポの方針 |
-|------|----------|----------------|
-| `~/.cursor/skills/` | グローバル（全プロジェクト） | **ここに置く** |
-| `.cursor/skills/` | プロジェクト単位 | **使わない** |
+| 場所 | 読むツール | このリポの方針 |
+|------|-----------|----------------|
+| `~/.agents/skills/` | Cursor / Codex / ChatGPT 系 | **通常はここ（52件）** |
+| `~/.cursor/skills/` | Cursor のみ | Cursor 固有の3件だけ |
+| `~/.claude/skills/` | Claude Code | `install-claude.ps1` の管轄 |
+| `.cursor/skills/`（プロジェクト内） | Cursor のみ | **使わない** |
 
 **注意:** `~/.cursor/skills-cursor/` は Cursor 組み込み用。触らない。
 
-## フォルダの組み方（まとめて入れる）
+Cursor 固有の3件は `chat-handoff` / `skill-creator` / `promote-skill`。`~/.cursor` パス・Cursor UI・Cursor 用 PowerShell を前提にしているため共有 root に置かない。
 
-Cursor はスキルルートを**再帰的に走査**します。カテゴリフォルダは分類用で、スキル名は `SKILL.md` を直接含むフォルダ名になります。
+**Include Third-Party トグルは `~/.agents` に効かない。** OFF にしても読まれ続ける（`~/.agents/` は `AGENTS.md` と同じベンダー中立の標準パスで、Cursor はネイティブな探索先として扱うため）。
+
+## フォルダの組み方
+
+**インストール先は平置き。** カテゴリフォルダは `skills-pack/` 内の整理用で、インストール時に剥がされる。Codex がネストしたスキルディレクトリを辿る保証がないため。
 
 ```text
-~/.cursor/skills/
-├── github/
-│   └── github-make-sync/
-│       └── SKILL.md
-├── debug/
-│   └── debug-allrun/
-│       └── SKILL.md
+skills-pack/                      →  ~/.agents/skills/
+├── github/                          ├── github-make-sync/
+│   └── github-make-sync/            │   └── SKILL.md
+│       └── SKILL.md                 ├── debug-allrun/
+├── debug/                           │   └── SKILL.md
+│   └── debug-allrun/                └── writing-plans/
+│       └── SKILL.md                     └── SKILL.md
 └── writing-plans/
-    └── SKILL.md
+    └── SKILL.md                  →  ~/.cursor/skills/
+                                     ├── chat-handoff/
+                                     ├── skill-creator/
+                                     └── promote-skill/
 ```
 
-新しいスキルを追加するときは `skills/<カテゴリ>/<skill-name>/SKILL.md` を増やし、`install-global` で各 PC に反映。
+新しいスキルは `/promote-skill` で追加する（宛先の判断と MANIFEST 更新まで含む2段確認フロー）。
 
 ## 初回設置（別 PC）
 
@@ -110,12 +119,25 @@ Superpowers を丸ごと `/add-plugin` する場合は、上記2つは**重複�
 
 ## 新しいスキルを追加するとき
 
-1. `skills/<カテゴリ>/<skill-name>/SKILL.md` を追加
-2. この PC の `~/.cursor/skills/` にコピー（または `install-global` の逆同期）
-3. commit / push
-4. 他 PC で `git pull` → `skills/install.ps1`
+**`/promote-skill` を使う**（2段確認: global に入れる？ → skills-pack に同期する？）。宛先の判断・重複チェック・MANIFEST 更新まで含む。
 
-同名スキルが既にある場合は両方の `SKILL.md` を比較し、精度の高い方だけ残す。
+手動でやる場合:
+
+1. `skills-pack/<カテゴリ>/<skill-name>/SKILL.md` を追加
+2. `.\scripts\generate-manifest.ps1` で MANIFEST を再生成
+3. `cd skills-pack; .\install.ps1` でこの PC に反映
+4. commit / push
+5. 他 PC で `git pull` → `skills-pack/install.ps1`
+
+同名スキルが既にある場合は両方の `SKILL.md` を比較し、精度の高い方だけ残す。**両方の root に置かない。**
+
+### 保守用スクリプト
+
+| スクリプト | 用途 |
+|-----------|------|
+| `scripts/generate-manifest.ps1` | `skills-pack/MANIFEST.json` を再生成（pack 内の同名重複を検出して中断） |
+| `scripts/check-pack-drift.ps1` | pack とインストール済みグローバルの差分を表示（読み取り専用） |
+| `scripts/sync-skills-pack.ps1` | グローバル → pack へ逆同期（`-WhatIf` でドライラン） |
 
 ## 前提条件
 
@@ -129,17 +151,21 @@ Superpowers を丸ごと `/add-plugin` する場合は、上記2つは**重複�
 
 | OS | パス例 |
 |----|--------|
-| Windows | `C:\Users\<ユーザー名>\.cursor\skills\github\github-make-sync\SKILL.md` |
-| macOS/Linux | `~/.cursor/skills/github/github-make-sync/SKILL.md` |
+| Windows | `C:\Users\<ユーザー名>\.agents\skills\github-make-sync\SKILL.md` |
+| macOS/Linux | `~/.agents/skills/github-make-sync/SKILL.md` |
+| Cursor 固有（Windows） | `C:\Users\<ユーザー名>\.cursor\skills\promote-skill\SKILL.md` |
 
 ## トラブルシューティング
 
 | 症状 | 対処 |
 |------|------|
-| スキルが一覧に出ない | Cursor 再起動、`~/.cursor/skills/` を確認 |
-| 同名スキルが2つ出る | Superpowers プラグインと手動コピーが重複。どちらか削除 |
+| スキルが一覧に出ない | Cursor 再起動、`~/.agents/skills/` を確認 |
+| 設定画面と `/` メニューで件数が違う | 同名スキルが複数 root にある。設定画面は重複排除するが `/` メニューはしない → [skills-pack/skills重複処理.md](skills-pack/skills重複処理.md) |
+| 同名スキルが2つ出る | `~/.agents` と `~/.cursor` の両方にある、または Superpowers プラグインと重複。`skills-pack/install.ps1` 再実行で自動退避 |
+| 編集しても反映されない | 同名が別 root にもあり、そちらが読まれている。片方に寄せる |
 | `gh: command not found` | [GitHub CLI](https://cli.github.com/) をインストール |
-| フックが動かない | Customize → Hooks を確認。`~/.cursor/skills/superpowers/using-superpowers/SKILL.md` があるか確認 |
+| フックが動かない | Customize → Hooks を確認。`~/.agents/skills/using-superpowers/SKILL.md` があるか確認 |
+| Office スキルが動かない | `pip install python-docx openpyxl python-pptx` |
 
 ## 参考
 

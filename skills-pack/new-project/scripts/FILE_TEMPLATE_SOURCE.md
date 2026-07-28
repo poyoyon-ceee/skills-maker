@@ -14,7 +14,7 @@
 # {{APP_NAME}} - プロジェクト概要
 
 > **AI向け**: 作業前に本ファイルと `.project_rules/MASTER_PROTOCOL.md` を読むこと。
-> **優先順位**: Cursor User Rules > MASTER_PROTOCOL > 本ファイル
+> **優先順位**: グローバル CLAUDE.md（`~/.claude/CLAUDE.md`） > MASTER_PROTOCOL > 本ファイル
 
 ## 項目
 
@@ -55,7 +55,7 @@
 
 ## ドキュメント読み順
 
-1. **Cursor User Rules**（グローバル掟・再掲なし）
+1. **グローバル CLAUDE.md**（グローバル掟・再掲なし）
 2. **本ファイル（PROJECT.md）** — このアプリの事実
 3. **`.project_rules/MASTER_PROTOCOL.md`** — プロジェクト差分
 4. `docs/TROUBLESHOOTING.md`
@@ -176,7 +176,7 @@
 3. **セキュリティ**: インジェクション/XSS、入力処理、サニタイズの妥当性
 4. **パフォーマンス**: 描画、メモリ、状態更新の効率
 5. **テスト**（導入している場合）: カバレッジ・エッジケース
-6. **掟の遵守**: Cursor User Rules、`.project_rules/MASTER_PROTOCOL.md`、`PROJECT.md` の優先順位と整合
+6. **掟の遵守**: グローバル CLAUDE.md、`.project_rules/MASTER_PROTOCOL.md`、`PROJECT.md` の優先順位と整合
 
 出力は具体的な問題箇所と改善案にし、`REVIEW_PROGRESS.md` に集約すること。
 ```
@@ -1101,7 +1101,7 @@ public partial class MainPage : ContentPage
 # {{APP_NAME}} (MAUI版)
 
 > **AI向け**: 作業前に本ファイルと `.project_rules/MASTER_PROTOCOL.md` を読むこと。
-> **優先順位**: Cursor User Rules > MASTER_PROTOCOL > 本ファイル
+> **優先順位**: グローバル CLAUDE.md（`~/.claude/CLAUDE.md`） > MASTER_PROTOCOL > 本ファイル
 
 {{APP_DESCRIPTION}}
 
@@ -1129,7 +1129,7 @@ public partial class MainPage : ContentPage
 
 ## ドキュメント読み順
 
-1. **Cursor User Rules**（グローバル掟・再掲なし）
+1. **グローバル CLAUDE.md**（グローバル掟・再掲なし）
 2. **本ファイル（PROJECT.md）** — このアプリの事実
 3. **`.project_rules/MASTER_PROTOCOL.md`** — プロジェクト差分
 4. `docs/TROUBLESHOOTING.md`

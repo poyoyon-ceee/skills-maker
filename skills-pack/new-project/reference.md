@@ -24,13 +24,13 @@
 
 コピー後: `cd scripts && npm install`
 
-## 憲法テンプレの方針（User Rules との重複）
+## 憲法テンプレの方針（グローバル CLAUDE.md との重複）
 
 生成される `.project_rules/MASTER_PROTOCOL.md` は:
 
-- **User Rules と被る条文**（日本語、Git 安全、無断変更等）→ 委譲節のみ。再掲しない
+- **グローバル CLAUDE.md と被る条文**（日本語、Git 安全、無断変更等）→ 委譲節のみ。再掲しない
 - **プロジェクト固有**（Git A/B、devVERSION、接続形態、入店退店等）→ フル記載
-- **優先順位**: Cursor User Rules > MASTER_PROTOCOL > PROJECT.md
+- **優先順位**: グローバル CLAUDE.md（`~/.claude/CLAUDE.md`） > MASTER_PROTOCOL > PROJECT.md
 
 ## ヒアリング項目（CLI）
 

@@ -8,52 +8,47 @@
 
 ## いつ使うか
 
-- `install.ps1` 実行後、`/writing-plans` などが **2件ずつ** 出る
-- 過去の手動コピーや旧インストールの残骸が `~/.cursor/skills/` に残っている
-- **同じスキルが 2〜3 件並ぶ**（Cursor と Claude Code を同じ PC で使っている）
-- **プロジェクト内の `skills/` フォルダが原因ではない**（Cursor は `.cursor/skills/` を読む。skills-maker の `skills/` は配布用正本）
+- **設定画面の Skills 件数と `/` メニューの件数が合わない**
+- `/writing-plans` `/git-in-clone` などが **2件ずつ** 出る
+- `~/.agents/skills` のスキルを編集したのに反映されない（`~/.cursor/skills` 側が読まれている）
+- 過去の手動コピーや旧インストールの残骸が残っている
 
-## 対象は Cursor 側だけ（重要）
+## 原因（先に理解する）
 
-**この手順の対象は `~/.cursor/skills/` のみ。`~/.claude/skills/`（Claude Code 側）には絶対に適用しない。**
+Cursor は次を**全部**読み、`~/.cursor/skills-cursor/`（組み込み）も加える。
 
-- Claude Code 側はカテゴリフォルダを剥がした平置き構造で、この文書のネスト削除パターン（`writing-plans\writing-plans\` 等）は当てはまらない
-- Claude Code 側の重複・残骸は `install-claude.ps1` を再実行すれば解消する（除外スキルの削除・オーバーレイ適用も内蔵。詳細は [INSTALL.md](INSTALL.md)）
+| root | 読むツール | 備考 |
+|------|-----------|------|
+| `~/.agents/skills/` | Cursor / Codex / ChatGPT 系 | **正本。ここに寄せる** |
+| `~/.cursor/skills/` | Cursor のみ | Cursor 固有スキルだけ |
+| `~/.claude/skills/` | Claude Code（＋Cursor が取り込むことがある） | 消さない |
+| `~/.cursor/skills-cursor/` | Cursor 組み込み | **触らない** |
+
+そして:
+
+1. **設定画面は名前で重複排除するが、`/` メニューはしない。** だから件数がズレ、`/` 側だけ同じスキルが2回出る
+2. **同名が複数 root にあると、片方だけが実際に使われる。** 観測では `~/.agents` が勝つ。`~/.cursor` 側を編集しても効かない事故が起きる
+
+### ⚠️ Include Third-Party トグルでは直らない
+
+Settings → Rules, Skills, Subagents → **Include Third-Party Plugins, Skills, and Other Configs** を OFF にしても **`~/.agents/skills` は読まれ続ける**。
+
+あのトグルの対象は `~/.claude/skills`・`CLAUDE.md`・Copilot 設定など「よそのベンダー固有の設定」。`~/.agents/` は `AGENTS.md` と同じベンダー中立の共通標準なので、Cursor はネイティブな探索先として扱う。
+
+**`~/.claude` 由来の重複にはトグルが効く。`~/.agents` 由来には効かない。** 後者は下の手順でフォルダを整理するしかない。
 
 ---
 
-## 先に確認：Cursor × Claude 同居による重複（よくある）
+## 対象は `~/.agents/skills` と `~/.cursor/skills` の2つ
 
-同じ PC で Cursor と Claude Code の**両方**を使うと、Cursor が次を全部読んで同名スキルが並ぶ。
-
-| 出典 | パス例 |
-|------|--------|
-| Cursor 正本 | `~/.cursor/skills/` |
-| Claude 用スキル | `~/.claude/skills/` |
-| Claude プラグイン | `~/.claude/plugins/cache/...` |
-
-`~/.cursor/skills/` 内が綺麗でも、`/using-superpowers` が **3件** 出ることがある。  
-**Claude 用フォルダは消さない**（Claude Code が使う）。Cursor 側の取り込みを切る。
-
-### 手順（エージェント or ヒデさん）
-
-1. Cursor Settings → **Rules, Skills, Subagents**
-2. **Third-Party Imports** の  
-   **Include Third-Party Plugins, Skills, and Other Configs** を **OFF**
-3. Cursor を完全終了して起動し直す
-4. `/using-superpowers` が **1件** になるか確認
-
-これで Cursor は `~/.cursor/skills/`（と Cursor 組み込み）だけ見る。  
-Claude Code はこれまでどおり `~/.claude/skills/` を使う。両方可。
-
-OFF にしたあとも `~/.cursor/skills/` 内のネスト残骸がある場合のみ、下の手順 2〜5 を実行する。
+**`~/.claude/skills/` にはこの手順を適用しない。** Claude Code 側の重複・残骸は `install-claude.ps1` を再実行すれば解消する（除外スキルの削除・オーバーレイ適用も内蔵。詳細は [INSTALL.md](INSTALL.md)）。
 
 ---
 
 ## コピペ用の一言（これをそのまま送る）
 
 ```
-@skills-pack/skills重複処理.md に書いてある手順どおりに、このPCの ~/.cursor/skills/ の重複スキルを整理して。中身が同じものは削除、内容が違うものは skills-pack 版を残す。最後に確認結果を教えて。
+@skills-pack/skills重複処理.md に書いてある手順どおりに、このPCのグローバルスキルの重複を整理して。~/.agents/skills を正本、Cursor固有3つだけ ~/.cursor/skills に残す構成にして。削除ではなく skills.bak へ退避して。最後に確認結果を教えて。
 ```
 
 フォルダを添付できないとき:
@@ -68,19 +63,41 @@ skills-maker リポジトリの skills-pack/skills重複処理.md に従って�
 
 ### 1. 前提確認
 
-- スキル置き場: `%USERPROFILE%\.cursor\skills\`（Windows）/ `~/.cursor/skills/`（Mac/Linux）
-- **正本は skills-maker の `skills-pack/` フォルダ**（`install.ps1` がコピーする内容）
-- 先に `install.ps1` を実行済みであることが望ましい（未実行なら [引き継ぎ.md](引き継ぎ.md) の手順3を先に実行）
+- 正本は skills-maker の `skills-pack/` フォルダ（`install.ps1` がコピーする内容）
+- 目標の構成:
 
-### 2. 重複を検出（エージェントが実行）
+| root | 中身 |
+|------|------|
+| `~/.agents/skills/<スキル名>/` | 通常スキル全部（平置き・カテゴリフォルダなし） |
+| `~/.cursor/skills/<スキル名>/` | `chat-handoff` / `skill-creator` / `promote-skill` の3つだけ |
+| `~/.cursor/skills.bak/` | 退避先（削除しない） |
 
-**Windows（PowerShell）:**
+### 2. まず install.ps1 を試す（これで大半は片付く）
 
 ```powershell
-$skillsRoot = "$env:USERPROFILE\.cursor\skills"
+cd <skills-maker のパス>\skills-pack
+.\install.ps1
+```
+
+`install.ps1` は次を自動でやる:
+
+- pack の内容を正しい root へ配置（Cursor 固有3件だけ `~/.cursor`）
+- `~/.cursor/skills/` に残った移行前のスキルを `~/.cursor/skills.bak/` へ退避
+- Cursor 固有3件が `~/.agents/skills/` にあれば削除
+- 最後に全 root を走査して同名2件以上がないか検証
+
+**WARNING が出ずに終わったら手順5（報告）へ。** 残った場合だけ手順3〜4。
+
+### 3. 重複を検出（エージェントが実行）
+
+```powershell
+$roots = @(
+  (Join-Path $env:USERPROFILE ".agents\skills"),
+  (Join-Path $env:USERPROFILE ".cursor\skills")
+)
 
 function Get-SkillName($path) {
-  $head = Get-Content $path -TotalCount 10 -Encoding UTF8
+  $head = Get-Content $path -TotalCount 15 -Encoding UTF8
   foreach ($line in $head) {
     if ($line -match '^name:\s*(.+)$') { return $Matches[1].Trim() }
   }
@@ -88,130 +105,108 @@ function Get-SkillName($path) {
 }
 
 $byName = @{}
-Get-ChildItem $skillsRoot -Recurse -Filter "SKILL.md" | ForEach-Object {
-  $name = Get-SkillName $_.FullName
-  if (-not $name) { return }
-  if (-not $byName.ContainsKey($name)) { $byName[$name] = @() }
-  $hash = (Get-FileHash $_.FullName -Algorithm SHA256).Hash
-  $byName[$name] += [PSCustomObject]@{
-    Rel  = $_.FullName.Substring($skillsRoot.Length + 1)
-    Hash = $hash
+foreach ($root in $roots) {
+  if (-not (Test-Path $root)) { continue }
+  Get-ChildItem $root -Recurse -Filter "SKILL.md" | ForEach-Object {
+    $name = Get-SkillName $_.FullName
+    if (-not $name) { return }
+    if (-not $byName.ContainsKey($name)) { $byName[$name] = @() }
+    $byName[$name] += [PSCustomObject]@{
+      Full = $_.FullName
+      Hash = (Get-FileHash $_.FullName -Algorithm SHA256).Hash
+    }
   }
 }
 
 Write-Host "=== Duplicate skill names ==="
+$found = 0
 foreach ($name in ($byName.Keys | Sort-Object)) {
   $items = $byName[$name]
   if ($items.Count -le 1) { continue }
+  $found++
   Write-Host "`n[$name] ($($items.Count) copies)"
-  $items | Group-Object Hash | ForEach-Object {
-    Write-Host "  Hash $($_.Name.Substring(0,8))... ($($_.Count) files)"
-    $_.Group | ForEach-Object { Write-Host "    $($_.Rel)" }
-  }
+  $items | ForEach-Object { Write-Host "    $($_.Full)  [$($_.Hash.Substring(0,8))]" }
 }
+if ($found -eq 0) { Write-Host "OK: no duplicates." }
 ```
 
 重複が0件なら **手順5へ**（報告のみ）。
 
-### 3. 中身が同じものを削除（エージェントが実行）
+### 4. 重複を退避（削除ではなく移動）
 
-**削除してよいパターン（正本は左・skills-maker 版）:**
+**残す側の決め方:**
 
-| 削除するパス | 残す正本 |
-|-------------|----------|
-| `writing-plans\writing-plans\` | `writing-plans\SKILL.md` |
-| `grill-me\grill-me\` | `grill-me\SKILL.md` |
-| `webapp-testing\webapp-testing\` | `webapp-testing\SKILL.md` |
-| `debug\debug\` | `debug\debug-allrun\` |
-| `github\github\` | `github\github-make-sync\` |
-| `git-in-clone\`（トップレベル） | `github\git-in-clone\` ※下記参照 |
+| スキル | 残す root |
+|--------|----------|
+| `chat-handoff` / `skill-creator` / `promote-skill` | `~/.cursor/skills/` |
+| それ以外すべて | `~/.agents/skills/` |
 
-`git-in-clone` の注意: `github\git-in-clone\` が無く `github\github\git-in-clone\` だけある場合は、**先に移動**してから `github\github\` とトップレベル `git-in-clone\` を削除する。
-
-**Windows（PowerShell）一括削除:**
+ハッシュが違う（内容が違う）場合は、**先に差分を確認して新しい方を残す側へコピー**してから退避する。中身を比較せずに消さない。
 
 ```powershell
-$root = "$env:USERPROFILE\.cursor\skills"
+$agents = Join-Path $env:USERPROFILE ".agents\skills"
+$cursor = Join-Path $env:USERPROFILE ".cursor\skills"
+$bak    = Join-Path $env:USERPROFILE ".cursor\skills.bak"
+$cursorOnly = @("chat-handoff", "skill-creator", "promote-skill")
 
-# git-in-clone を正しい場所へ（必要な場合のみ）
-$srcGit = Join-Path $root "github\github\git-in-clone"
-$dstGit = Join-Path $root "github\git-in-clone"
-if ((Test-Path $srcGit) -and -not (Test-Path $dstGit)) {
-  Move-Item $srcGit $dstGit
-  Write-Host "Moved: github\github\git-in-clone -> github\git-in-clone"
+New-Item -ItemType Directory -Force -Path $bak | Out-Null
+
+# ~/.cursor/skills に残っている非Cursor固有スキルを退避
+Get-ChildItem $cursor -Directory | ForEach-Object {
+  if ($cursorOnly -contains $_.Name) { return }
+  if (-not (Get-ChildItem $_.FullName -Recurse -Filter "SKILL.md" -File)) { return }
+  $dest = Join-Path $bak $_.Name
+  if (Test-Path $dest) { Remove-Item $dest -Recurse -Force }
+  Move-Item $_.FullName $dest -Force
+  Write-Host "Moved to skills.bak: $($_.Name)"
 }
 
-$toRemove = @(
-  "writing-plans\writing-plans",
-  "grill-me\grill-me",
-  "webapp-testing\webapp-testing",
-  "debug\debug",
-  "github\github",
-  "git-in-clone"
-)
-
-foreach ($rel in $toRemove) {
-  $path = Join-Path $root $rel
-  if (Test-Path $path) {
-    Remove-Item $path -Recurse -Force
-    Write-Host "Deleted: $rel"
+# Cursor固有スキルが ~/.agents にあれば削除（正本は ~/.cursor 側）
+foreach ($name in $cursorOnly) {
+  $stray = Join-Path $agents $name
+  if (Test-Path $stray) {
+    Remove-Item $stray -Recurse -Force
+    Write-Host "Removed from agents: $name"
   }
 }
 ```
 
-### 4. 中身が違うものは skills-maker 版を残す（エージェントが実行）
-
-ハッシュが異なる重複が残っていたら、次を適用する。
-
-| 削除するパス | 残す skills-maker 版 |
-|-------------|---------------------|
-| `test-driven-development\test-driven-development\` | `test-driven-development\SKILL.md`（+ `testing-anti-patterns.md`） |
-| `brainstorming\brainstorming\` | `superpowers\brainstorming\` |
-
-**触らないもの（skills-maker に無い別スキル）:**
-
-- `brainstorming\brainstorming-devils\`
-- `brainstorming\brainstorming-persona\`
-
-```powershell
-$root = "$env:USERPROFILE\.cursor\skills"
-foreach ($rel in @(
-  "test-driven-development\test-driven-development",
-  "brainstorming\brainstorming"
-)) {
-  $path = Join-Path $root $rel
-  if (Test-Path $path) {
-    Remove-Item $path -Recurse -Force
-    Write-Host "Deleted: $rel"
-  }
-}
-```
+**触らないもの（skills-maker に無い別スキル）:** `brainstorming-devils`、`brainstorming-persona` など。pack に無いスキルは退避対象にしない。
 
 ### 5. 完了確認（エージェントが実行して報告）
 
 ```powershell
-$skillsRoot = "$env:USERPROFILE\.cursor\skills"
+$roots = @(
+  (Join-Path $env:USERPROFILE ".agents\skills"),
+  (Join-Path $env:USERPROFILE ".cursor\skills")
+)
 function Get-SkillName($path) {
-  $head = Get-Content $path -TotalCount 10 -Encoding UTF8
+  $head = Get-Content $path -TotalCount 15 -Encoding UTF8
   foreach ($line in $head) {
     if ($line -match '^name:\s*(.+)$') { return $Matches[1].Trim() }
   }
   return $null
 }
-$byName = @{}
-Get-ChildItem $skillsRoot -Recurse -Filter "SKILL.md" | ForEach-Object {
-  $n = Get-SkillName $_.FullName
-  if (-not $byName[$n]) { $byName[$n] = 0 }
-  $byName[$n]++
+$names = @()
+foreach ($root in $roots) {
+  if (-not (Test-Path $root)) { continue }
+  Get-ChildItem $root -Recurse -Filter "SKILL.md" | ForEach-Object {
+    $n = Get-SkillName $_.FullName
+    if ($n) { $names += $n }
+  }
 }
-$dupes = $byName.GetEnumerator() | Where-Object { $_.Value -gt 1 }
+$dupes = $names | Group-Object | Where-Object { $_.Count -gt 1 }
+Write-Host "agents: $((Get-ChildItem (Join-Path $env:USERPROFILE '.agents\skills') -Recurse -Filter SKILL.md).Count)"
+Write-Host "cursor: $((Get-ChildItem (Join-Path $env:USERPROFILE '.cursor\skills') -Recurse -Filter SKILL.md).Count)"
 if ($dupes) {
   Write-Host "NG: duplicate skill names remain:"
-  $dupes | ForEach-Object { Write-Host "  $($_.Name): $($_.Value)" }
+  $dupes | ForEach-Object { Write-Host "  $($_.Name): $($_.Count)" }
 } else {
   Write-Host "OK: no duplicate skill names."
 }
 ```
+
+期待値: agents **52**、cursor **3**、重複 0。
 
 ### 6. ユーザーへの報告（日本語・やさしく）
 
@@ -219,25 +214,20 @@ if ($dupes) {
 
 1. **重複処理が完了した**
 2. **Cursor を一度終了して起動し直す**
-3. **Customize → Skills** で `/writing-plans` などが **1件ずつ** になるか確認
-4. 削除したフォルダ一覧と、保留したもの（devils / persona など）があればその旨
-
----
-
-## 原因（参考）
-
-1. **Cursor × Claude 同居:** Cursor は互換のため `~/.claude/skills/` と `~/.claude/plugins/` も読む（デフォルト ON）。フォルダ分けしても Cursor 側に全部出る。
-2. **ネスト残骸:** `install.ps1` はフォルダを上書きコピーするが、**古いネスト構造**（例: `writing-plans\writing-plans\`）は自動では消えない。新旧が共存すると Cursor が同じ `name:` のスキルを2回登録する。
+3. **設定画面の Skills 件数と `/` メニューの件数が一致するか**確認（ここが一致して初めて解消）
+4. 退避したフォルダ一覧（`~/.cursor/skills.bak/`）と、保留したもの（devils / persona など）があればその旨
+5. 問題なければ `skills.bak` は後で消してよいが、**すぐには消さない**
 
 ---
 
 ## やってはいけないこと
 
-- `~/.claude/skills/` を消して Cursor の重複だけ直そうとする（Claude Code が壊れる）
+- `~/.claude/skills/` を消して重複だけ直そうとする（Claude Code が壊れる）
 - `~/.cursor/skills-cursor/` を触る（Cursor 組み込み用）
 - **`~/.claude/skills/` にこの手順を適用する**（Claude Code 側は `install-claude.ps1` の再実行で整理する）
-- 中身を比較せずにフォルダごと全削除する
-- `superpowers\` 以下を丸ごと消す
+- 中身を比較せずにフォルダごと削除する（**退避＝移動**にする）
+- **Include Third-Party トグルを OFF にしただけで解決したと報告する**（`~/.agents` には効かない）
+- 同じスキルを `~/.agents` と `~/.cursor` の両方に置く
 - 重複0件の報告を、確認コマンドなしで行う
 
 ---

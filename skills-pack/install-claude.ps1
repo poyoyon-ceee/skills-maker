@@ -1,8 +1,11 @@
-# Install global Claude Code / Agents skills from skills-pack.
-# Unlike install.ps1 (Cursor), these runtimes expect skills flattened directly
-# under ~/.claude/skills/<skill-name>/SKILL.md and ~/.agents/skills/<skill-name>/SKILL.md
+# Install global Claude Code skills from skills-pack.
+# Skills are flattened directly under ~/.claude/skills/<skill-name>/SKILL.md
 # — category folders (playbooks/, superpowers/, github/, debug/) are stripped.
 # Marketing skills live in skills-pack-marketing/ and are not installed here.
+#
+# ~/.agents/skills is NOT written here: install.ps1 owns that tree. Installing
+# both would fight over the same folders, and $excludeSkills below would delete
+# skills that install.ps1 legitimately puts there (docx, using-superpowers, ...).
 #
 # _claude/ holds Claude-specific overrides: after the base copy, any file in
 # _claude/<skill-name>/ overwrites the installed skill (fixes Cursor-specific
@@ -19,8 +22,7 @@ $ErrorActionPreference = "Stop"
 $packageRoot = $PSScriptRoot
 $overlayRoot = Join-Path $packageRoot "_claude"
 $destRoots = @(
-    (Join-Path $env:USERPROFILE ".claude\skills"),
-    (Join-Path $env:USERPROFILE ".agents\skills")
+    (Join-Path $env:USERPROFILE ".claude\skills")
 )
 
 $skipTopLevel = @("_hooks", "_claude")
@@ -161,4 +163,5 @@ foreach ($root in $destRoots) {
 }
 
 Write-Host "Note: Claude Code hooks are not installed by this script (different format from Cursor's hooks.json)."
-Write-Host "Done. Restart Claude Code / Agents runtimes and check that skills are listed."
+Write-Host "Note: ~/.agents/skills is installed by install.ps1, not here."
+Write-Host "Done. Restart Claude Code and check that skills are listed."
