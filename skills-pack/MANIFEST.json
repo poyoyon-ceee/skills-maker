@@ -1,5 +1,10 @@
 ﻿[
     {
+        "name":  "app-tech-inventory",
+        "path":  "app-tech-inventory/SKILL.md",
+        "installTarget":  "~/.agents/skills/app-tech-inventory/"
+    },
+    {
         "name":  "brainstorming",
         "path":  "superpowers/brainstorming/SKILL.md",
         "installTarget":  "~/.agents/skills/brainstorming/"
