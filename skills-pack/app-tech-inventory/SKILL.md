@@ -1,14 +1,17 @@
 ---
 name: app-tech-inventory
-description: Scan a codebase's dependency manifest files (package.json, Cargo.toml, requirements.txt, pyproject.toml, go.mod, etc.) and extract its technology stack (frameworks, major libraries, versions) into a fixed frontmatter format for an Obsidian app ledger note. Use this whenever the user asks to inventory, catalog, or identify what framework/library/tech stack an app or repo uses — especially when they say they don't remember or aren't sure what an app was built with. Also use as step ①-a of the "アプリ台帳" (app ledger) workflow, before technology-update-notice matching (step ③) can run.
+description: Scan a codebase's dependency manifest files (package.json, Cargo.toml, requirements.txt, pyproject.toml, go.mod, etc.) and README to extract its technology stack (frameworks, major libraries, versions) AND a short overview/feature summary into a fixed frontmatter format for an Obsidian app ledger note. Use this whenever the user asks to inventory, catalog, or identify what framework/library/tech stack an app or repo uses and/or what it does — especially when they say they don't remember or aren't sure what an app was built with or what it's for. Also use as step ①-a of the "アプリ台帳" (app ledger) workflow, before technology-update-notice matching (step ③) can run.
 ---
 
 # App Tech Inventory (アプリ台帳 棚卸し)
 
 このスキルは、ナレッジ集約システムの「アプリ台帳」プロジェクトの①-a工程（棚卸し）を実行する。
-本人（ユーザー）が各アプリの使用技術を正確に把握していない前提で、依存関係ファイルから機械的に技術スタックを抽出する。
+本人（ユーザー）が各アプリの使用技術・目的・機能を正確に把握していない前提で、依存関係ファイルとREADMEから機械的に「技術スタック」と「概要・主な機能」を抽出する。
 
 参照元: `spec_20260802_アプリ台帳.md`（Obsidian Vault内、ナレッジ集約システム仕様書フォルダ）
+
+> [!note] 技術スタックと概要は情報源も精度も別物
+> 技術スタック（依存関係ファイル由来）は機械的に正確に取れる。概要・機能（README由来）はREADME自体が古い/欠けている可能性があり、精度が一段落ちる。出力ではこの2つを明確に分けて扱い、概要側には情報の新しさに関する注記を必ず添える（手順4参照）。
 
 ## いつ使うか
 
@@ -40,6 +43,25 @@ Tauriアプリは`package.json`（フロント側）と`src-tauri/Cargo.toml`（
 
 各主要依存について、固定バージョンかレンジ指定か（`^1.2.3` 等）をそのまま記録する。正規化・推測はしない。ファイルに書かれた値をそのまま転記する。
 
+### 3.5 README等から概要・主な機能を抽出する
+
+依存関係ファイルとは別に、以下のファイルを探して「このアプリが何をするものか」を抽出する。
+
+**探すファイル（優先順）**: `README.md` → `README.ja.md` → `docs/README.md` → 見つからなければ `PROJECT.md`（本改修案適用済みのアプリなら、こちらの「プロジェクト概要」が最新の可能性がある）
+
+**抽出する情報**:
+- **概要**: アプリが何をするものか、1〜2文
+- **主な機能**: 箇条書き3〜5個程度（README内の機能一覧・見出し構成から拾う。無理に数を揃えない）
+
+**古さの扱い（重要）**:
+- READMEの最終更新がいつか分かる場合（git blame、commit日時等が取得できれば）、その日付も記録する
+- 取得できない場合や、依存関係ファイルの記述と明らかに矛盾する場合（例: READMEに書かれていないフレームワークが実際は使われている）は、**概要側に「要確認」の注記を付ける**。技術スタック側の抽出結果を正として扱い、概要側を無理に整合させようとしない
+
+**READMEが存在しない、またはほぼ空の場合**:
+- 概要・主な機能は「不明（README未整備）」として記録する
+- 代わりにソースコードのエントリーポイント（`main.js` / `src/main.rs` / `App.tsx` 等）やルーティング定義から機能を推測してよいが、**その場合は「ソースから推測」と明記し、README由来の情報と混同しない**
+- 無理に精度を上げようとして時間をかけすぎない。「不明」も台帳の正直な記録として価値がある
+
 ### 4. 「主要」技術だけ抽出する
 
 全依存関係を機械的に列挙すると台帳がノイズだらけになる。以下を優先的に拾う:
@@ -59,6 +81,12 @@ Tauriアプリは`package.json`（フロント側）と`src-tauri/Cargo.toml`（
 ```yaml
 種別: アプリ台帳
 アプリ名: {リポジトリ名 or アプリ名}
+概要: {1〜2文。README由来。不明なら "不明（README未整備）"}
+主な機能:
+  - {箇条書き1}
+  - {箇条書き2}
+概要情報源: {README.md / README.ja.md / PROJECT.md / ソースから推測 / 不明}
+概要要確認: {true / false}
 技術スタック:
   - name: Tauri
     version: "^2.0.0"
@@ -71,15 +99,19 @@ Tauriアプリは`package.json`（フロント側）と`src-tauri/Cargo.toml`（
 
 - `種別`と`最終更新確認日`は本書（現状まとめ）第8.3章の予約共通キー設計と整合させるため、キー名は変更しない
 - `技術スタック`配列の各要素に`role`（このアプリでの役割・一言）を必ず添える。バージョン番号だけでは後で見返したときに意味が分からないため
+- `概要情報源`は必ず記録する。後から「この概要、どこまで信用していいんだっけ」を判断する材料になる
+- `概要要確認`は、README由来の情報が技術スタックの抽出結果と矛盾する、またはREADMEの更新日が古そうな場合に`true`にする。人間が見直すべき箇所を示すフラグであり、機械的に完璧な判定は求めない
 
 ### 6. 実行後にユーザーへ提示する
 
 - 抽出できたもの／できなかったもの（依存関係ファイルが見つからない、パースできない等）を分けて報告する
 - 「主要」判定で省いたものがあれば、何を省いたか一言添える(ユーザーが後で「あれも欲しかった」とならないため)
+- **READMEが無かった/古そうだったアプリは、その旨を明示的に報告する**（「概要要確認: true」にしたアプリの一覧を最後にまとめて提示すると分かりやすい）
 - 台帳ノートへの保存は、ユーザーに保存先フォルダを確認してから行う(spec未決事項: 保存先フォルダ未確定のため)
 
 ## 注意点
 
-- ユーザーは技術構造を把握していない前提。専門用語で問い詰めず、抽出結果は素直に一覧で見せる
+- ユーザーは技術構造も、READMEの状態も正確に把握していない前提。専門用語で問い詰めず、抽出結果は素直に一覧で見せる
 - 推測でバージョンを埋めない。ファイルに書かれていない情報は「不明」として残す
+- **概要・機能は技術スタックより精度が落ちる情報源であることを常に意識する**。断定的に書かず、情報源（`概要情報源`）を必ず添えて、後から人間が裏取りできる状態にする
 - このスキルは棚卸し（①-a）のみを担当する。commit履歴分析（②）やリリースノート突き合わせ（③）は別工程であり、このスキルの範囲外
