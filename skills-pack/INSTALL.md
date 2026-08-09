@@ -50,7 +50,7 @@ cd C:\path\to\skills-maker\skills-pack
   `docx`, `pdf`, `pptx`, `xlsx`, `skill-creator`（公式スキルと重複）,
   `using-superpowers`, `requesting-code-review`, `receiving-code-review`,
   `verification-before-completion`, `using-git-worktrees`（組み込みの /code-review・/verify・worktree 機能と重複）
-- **`_claude/` オーバーレイ**: ベースコピー後、`_claude/<スキル名>/` のファイルで上書きする。Cursor 固有の記述（`~/.cursor/skills/` パス、Cursor browser MCP、Cursor User Rules 参照）を Claude Code 向けに直した差し替え版。現在 `new-project` / `webapp-testing` / `writing-plans` の3つ
+- **`_claude/` オーバーレイ**: ベースコピー後、`_claude/<スキル名>/` のファイルで上書きする。Cursor 固有の記述（`~/.cursor/skills/` パス、Cursor browser MCP、Cursor User Rules 参照）や、除外スキルへの断線参照を Claude Code 向けに直した差し替え版。現在 `new-project` / `webapp-testing` / `writing-plans` / `subagent-driven-development` / `systematic-debugging` の5つ
 - Cursor 用フック（`_hooks/`）は入れない（Claude Code のフック形式は別物）
 
 **今後の運用ルール**: 新スキルは原則プラットフォーム中立に書く（IDE 名・IDE 固有パスを書かない）。どうしても IDE 固有の手順が必要な場合のみ `_claude/<スキル名>/` に Claude 版の差し替えファイルを置く。
