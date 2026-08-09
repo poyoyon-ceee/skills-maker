@@ -10,10 +10,10 @@
 
 | root | 中身 | 読むツール |
 |------|------|-----------|
-| `~/.agents/skills/<スキル名>/` | 通常のスキル（52件・平置き） | Cursor / Codex / ChatGPT 系 |
+| `~/.agents/skills/<スキル名>/` | 通常のスキル（53件・平置き） | Cursor / Codex / ChatGPT 系 |
 | `~/.cursor/skills/<スキル名>/` | Cursor 固有スキル（3件） | Cursor のみ |
 | `~/.cursor/hooks/` | セッションフック | Cursor のみ |
-| `~/.claude/skills/<スキル名>/` | Claude Code 用（`install-claude.ps1`・除外10で42件） | Claude Code のみ |
+| `~/.claude/skills/<スキル名>/` | Claude Code 用（`install-claude.ps1`・除外10で46件） | Claude Code のみ |
 
 Cursor 固有の3件は `chat-handoff` / `skill-creator` / `promote-skill`。`install.ps1` では `~/.cursor/skills/` のみに置く（共有の `~/.agents` には置かない）。ただし **`promote-skill` の手順自体は Claude Code でも使う**（`install-claude.ps1` で `~/.claude` にも入り、Gate 1 宛先に `~/.claude/skills/` を選べる）。`chat-handoff` / `skill-creator` は従来どおり Cursor 前提。
 
@@ -27,7 +27,7 @@ Cursor 固有の3件は `chat-handoff` / `skill-creator` / `promote-skill`。`in
 
 | 種類 | 場所 | インストール先 |
 |------|------|----------------|
-| スキル本体（55個） | 各カテゴリフォルダ | `~/.agents/skills/`（52） / `~/.cursor/skills/`（3） |
+| スキル本体（56個） | 各カテゴリフォルダ | `~/.agents/skills/`（53） / `~/.cursor/skills/`（3） |
 | スキル一覧 | `MANIFEST.json` | （参照用。`installTarget` に宛先が入っている） |
 | セッションフック | `_hooks/` | `~/.cursor/hooks/` |
 | インストーラ | `install.ps1` / `install.sh` | （実行するだけ） |
@@ -110,7 +110,7 @@ cd skills-pack
 3. **Customize → Hooks** — `session-start` が登録されている
 4. **同名スキルが2件出ない** — 設定画面の件数と `/` メニューの件数が一致すること（ズレていたら重複が残っている）
 
-## 含まれるスキル（55個・概要）
+## 含まれるスキル（56個・概要）
 
 **マーケ系は含まない。** LP・広告・訴求スキルは別パック [skills-pack-marketing](../skills-pack-marketing/INSTALL.md)（オプトイン）。通常の本 install では入らない・戻らない。
 

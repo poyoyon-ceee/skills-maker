@@ -24,7 +24,7 @@ skills-maker/
 ├── skills-pack/               # 日常用配布（スキル + インストーラ + 別PC手順）
 │   ├── INSTALL.md
 │   ├── 引き継ぎ.md
-│   ├── MANIFEST.json          # 55スキル一覧（name / path / installTarget）
+│   ├── MANIFEST.json          # 56スキル一覧（name / path / installTarget）
 │   ├── install.ps1 / install.sh
 │   ├── install-claude.ps1
 │   ├── _hooks/
@@ -42,7 +42,7 @@ skills-maker/
 
 | 場所 | 読むツール | このリポの方針 |
 |------|-----------|----------------|
-| `~/.agents/skills/` | Cursor / Codex / ChatGPT 系 | **通常はここ（52件）** |
+| `~/.agents/skills/` | Cursor / Codex / ChatGPT 系 | **通常はここ（53件）** |
 | `~/.cursor/skills/` | Cursor のみ | Cursor 固有の3件だけ |
 | `~/.claude/skills/` | Claude Code | `install-claude.ps1` の管轄 |
 | `.cursor/skills/`（プロジェクト内） | Cursor のみ | **使わない** |
