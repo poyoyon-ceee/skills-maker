@@ -13,7 +13,7 @@
 | `~/.agents/skills/<スキル名>/` | 通常のスキル（53件・平置き） | Cursor / Codex / ChatGPT 系 |
 | `~/.cursor/skills/<スキル名>/` | Cursor 固有スキル（3件） | Cursor のみ |
 | `~/.cursor/hooks/` | セッションフック | Cursor のみ |
-| `~/.claude/skills/<スキル名>/` | Claude Code 用（`install-claude.ps1`・除外10で46件） | Claude Code のみ |
+| `~/.claude/skills/<スキル名>/` | Claude Code 用（`install-claude.ps1`・除外9で47件） | Claude Code のみ |
 
 Cursor 固有の3件は `chat-handoff` / `skill-creator` / `promote-skill`。`install.ps1` では `~/.cursor/skills/` のみに置く（共有の `~/.agents` には置かない）。ただし **`promote-skill` の手順自体は Claude Code でも使う**（`install-claude.ps1` で `~/.claude` にも入り、Gate 1 宛先に `~/.claude/skills/` を選べる）。`chat-handoff` / `skill-creator` は従来どおり Cursor 前提。
 
@@ -46,10 +46,11 @@ cd C:\path\to\skills-maker\skills-pack
 `install.ps1` との違い:
 
 - インストール先は **`~/.claude/skills/` のみ**。`~/.agents/skills/` は `install.ps1` が管理するので、こちらからは書かない
-- **除外10スキル**（Claude Code の組み込み機能と重複するため入れない・既存なら削除）:
+- **除外9スキル**（Claude Code の組み込み機能と重複するため入れない・既存なら削除）:
   `docx`, `pdf`, `pptx`, `xlsx`, `skill-creator`（公式スキルと重複）,
   `using-superpowers`, `requesting-code-review`, `receiving-code-review`,
-  `verification-before-completion`, `using-git-worktrees`（組み込みの /code-review・/verify・worktree 機能と重複）
+  `using-git-worktrees`（組み込みの /code-review・worktree 機能と重複）。
+  `verification-before-completion` は除外しない（対応する組み込みコマンドが無いため本物を入れる）
 - **`_claude/` オーバーレイ**: ベースコピー後、`_claude/<スキル名>/` のファイルで上書きする。Cursor 固有の記述（`~/.cursor/skills/` パス、Cursor browser MCP、Cursor User Rules 参照）や、除外スキルへの断線参照を Claude Code 向けに直した差し替え版。現在 `new-project` / `webapp-testing` / `writing-plans` / `subagent-driven-development` / `systematic-debugging` の5つ
 - Cursor 用フック（`_hooks/`）は入れない（Claude Code のフック形式は別物）
 

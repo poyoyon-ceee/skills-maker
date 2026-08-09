@@ -13,7 +13,9 @@
 #
 # $excludeSkills are never installed and are removed if present: they duplicate
 # Claude Code built-ins (official docx/pdf/pptx/xlsx/skill-creator plugins,
-# /code-review, /verify, worktree support) and only cause ambiguous triggering.
+# /code-review, worktree support) and only cause ambiguous triggering.
+# verification-before-completion is NOT excluded: no matching Claude Code
+# built-in was found on-device; install the real skill instead.
 #
 # Run from: skills-maker/skills-pack/install-claude.ps1
 
@@ -30,7 +32,7 @@ $excludeSkills = @(
     "docx", "pdf", "pptx", "xlsx", "skill-creator",
     "using-superpowers",
     "requesting-code-review", "receiving-code-review",
-    "verification-before-completion", "using-git-worktrees"
+    "using-git-worktrees"
 )
 
 function Get-SkillName {

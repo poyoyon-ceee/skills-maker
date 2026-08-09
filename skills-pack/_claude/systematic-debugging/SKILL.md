@@ -285,7 +285,7 @@ These techniques are part of systematic debugging and available in this director
 
 **Related skills / commands (Claude Code):**
 - **test-driven-development** - For creating failing test case (Phase 4, Step 1)
-- **`/verify`** - Bundled command: build and run the app to confirm the fix does what it should before claiming success. Invoke explicitly; do not invent a substitute name.
+- **verification-before-completion** - Verify fix worked before claiming success
 
 ## Real-World Impact
 
