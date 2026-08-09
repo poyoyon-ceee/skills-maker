@@ -70,9 +70,9 @@
         "installTarget":  "~/.agents/skills/frontend-design/"
     },
     {
-        "name":  "git-guardrails-claude-code",
-        "path":  "git-guardrails-claude-code/SKILL.md",
-        "installTarget":  "~/.agents/skills/git-guardrails-claude-code/"
+        "name":  "git-guardrails",
+        "path":  "git-guardrails/SKILL.md",
+        "installTarget":  "~/.agents/skills/git-guardrails/"
     },
     {
         "name":  "github-make-sync",
