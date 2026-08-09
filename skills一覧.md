@@ -8,11 +8,11 @@
 | 項目 | 内容 |
 |------|------|
 | 日常（共通） | `skills-pack/` → `install.ps1` で `~/.agents/skills/` に**平置き53件**。Cursor / Codex / ChatGPT 系が共通で読む正本 |
-| 日常（Cursor 固有） | `chat-handoff` / `skill-creator` / `promote-skill` の3件だけ `~/.cursor/skills/`。`~/.cursor` パス・Cursor UI 前提のため |
+| 日常（Cursor 固有） | `chat-handoff` / `skill-creator` / `promote-skill` の3件だけ `~/.cursor/skills/`（`install.ps1`）。`promote-skill` は手順として Claude でも使う（`~/.claude` にも入り、Gate 1 で `~/.claude` 可） |
 | Claude Code | 同パックを `install-claude.ps1` で `~/.claude/skills/` に平置き（除外10あり → 46件）。`~/.agents` は書かない |
 | マーケ | `skills-pack-marketing/` は**作るが入れない**。必要になったときだけ `install.ps1`（Cursor のみ）。通常更新では入らない・戻らない |
 | プロジェクト内 | `.cursor/skills/` は使わない |
-| 重複の禁止 | **1スキル＝1 root。** 同名が2つの root にあると、設定画面（重複排除する）と `/` メニュー（しない）で件数がズレ、さらに片方の編集が効かなくなる |
+| 重複の禁止 | **Cursor 向け: 同名を `~/.agents` と `~/.cursor` の両方に置かない。** `~/.agents`∩`~/.claude` は可 |
 
 **Include Third-Party トグルの誤解（重要）**
 
@@ -73,7 +73,7 @@ Settings → Rules, Skills, Subagents → **Include Third-Party Plugins, Skills,
 | `/improve-codebase-architecture`（手動のみ） | コードベースをスキャンして「深化の余地」をHTMLレポートで可視化し、選んだ項目についてgrill-me形式で深掘り。 | 過去のコードの複雑化を解消したい、リファクタリング候補を洗い出したい |
 | `/pdf` | PDF のテキスト・表抽出、結合・分割、回転、透かし、新規作成、フォーム入力、暗号化/復号、画像抽出、スキャンPDFのOCR。 | 「.pdf」に言及、または PDF を作りたい／読みたい／編集したいとき |
 | `/pptx` | .pptx が入出力どちらかに関わる全作業。スライド作成、テキスト抽出、既存プレゼン編集、テンプレート/レイアウト/スピーカーノート操作。 | 「デッキ」「スライド」「プレゼン」「.pptx」に言及されたら常に使う |
-| `/promote-skill` | スキル作成直後の2段確認: global に入れる？→ skills-pack に同期する？。skills-maker パス未検出時は聞いて、検証前は書かない。 | create-skill / skill-creator 完了後、「globalに入れる」「skills-packに同期」 |
+| `/promote-skill` | スキル作成直後の2段確認: global に入れる？→ skills-pack に同期する？。宛先は `~/.agents` / `~/.cursor` / `~/.claude`。Cursor・Claude Code 両対応。パス未検出時は聞いて、検証前は書かない。 | create-skill / skill-creator 完了後、「globalに入れる」「skills-packに同期」 |
 | `/skill-creator` | 新規スキル作成、既存スキルの編集・最適化、評価(eval)実行、性能ベンチマーク。 | スキルを新規作成したい／SKILL.mdの書き方を聞かれたとき |
 | `/theme-factory` | スライド・文書・レポート・LP等に一貫したテーマ（色・フォント）を適用。10種のプリセットテーマ or 新規生成。 | 成果物のトンマナを統一したいとき。marketing パックの `playbook-lp-creative` でも使用 |
 | `/xlsx` | 既存/新規の .xlsx・.xlsm・.csv・.tsv の読取・編集・修正（列追加、数式計算、書式設定、グラフ化、汚いデータの整形）。成果物は必ずスプレッドシート。 | 「このExcelを直して」「スプレッドシートを作って」など、成果物がスプレッドシートである依頼 |

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Promote ONE installed skill into a verified skills-maker pack.
-# Looks in ~/.agents/skills first, then ~/.cursor/skills (Cursor-only skills).
+# Looks in ~/.agents/skills, then ~/.cursor/skills, then ~/.claude/skills.
 # NEVER creates skills-maker root. NEVER writes if validation fails.
 #
 # Usage:
@@ -56,7 +56,7 @@ validate_root() {
 }
 
 SRC=""
-for root in "${HOME}/.agents/skills" "${HOME}/.cursor/skills"; do
+for root in "${HOME}/.agents/skills" "${HOME}/.cursor/skills" "${HOME}/.claude/skills"; do
   if [[ -d "${root}/${SkillFolderName}" ]]; then
     SRC="${root}/${SkillFolderName}"
     break
@@ -64,7 +64,7 @@ for root in "${HOME}/.agents/skills" "${HOME}/.cursor/skills"; do
 done
 
 if [[ -z "$SRC" ]]; then
-  echo "Global skill not found in ~/.agents/skills or ~/.cursor/skills (run Gate 1 first): $SkillFolderName" >&2
+  echo "Global skill not found in ~/.agents/skills, ~/.cursor/skills, or ~/.claude/skills (run Gate 1 first): $SkillFolderName" >&2
   exit 1
 fi
 if [[ ! -f "${SRC}/SKILL.md" ]]; then

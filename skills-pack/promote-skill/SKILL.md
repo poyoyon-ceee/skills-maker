@@ -5,12 +5,12 @@ description: >-
   is written to disk. Use when the user finishes making a skill, asks to install a
   skill globally, or mentions skills-pack / 同期 / 入れる. Always run the two
   confirmation gates (global first, then pack sync) — do not skip even if the
-  user did not say "promote".
+  user did not say "promote". Works in Cursor and Claude Code.
 ---
 
 # Promote Skill（作成後の global / skills-pack 反映）
 
-スキル作成・編集の**直後に必ず**このフローを走らせる。作成スキル本体（create-skill / skill-creator）の締めとして扱う。
+スキル作成・編集の**直後に必ず**このフローを走らせる。作成スキル本体（create-skill / skill-creator）の締めとして扱う。Cursor でも Claude Code でも同じ手順。
 
 ## 絶対ルール
 
@@ -18,7 +18,7 @@ description: >-
 2. **skills-maker ルートを推測で新規作成しない。** 検証に失敗したら書かない。
 3. **git commit / push しない**（ユーザーが明示したときだけ）。
 4. マーケ専用は `skills-pack-marketing`（ユーザーがマーケと言ったときのみ）。通常は `skills-pack`。
-5. **同じスキルを2箇所に置かない。** 置き場所は下の表でどちらか一方に決める。
+5. **`~/.agents` と `~/.cursor` に同じスキルを置かない。**（Cursor が二重登録する）
 
 ## 置き場所の決め方（重複防止の要）
 
@@ -26,11 +26,14 @@ description: >-
 |------|------|
 | 通常のスキル（IDE 非依存） | `~/.agents/skills/<skill-folder-name>/` |
 | Cursor 固有（`~/.cursor` パス・Cursor UI・Cursor 用 PowerShell を前提にする） | `~/.cursor/skills/<skill-folder-name>/` |
+| Claude Code で今すぐ使う | `~/.claude/skills/<skill-folder-name>/` |
 
 - `~/.agents/skills` は Cursor・Codex・ChatGPT 系が共通で読む。**原則こっち**
-- 現在 Cursor 固有なのは `chat-handoff` / `skill-creator` / `promote-skill` の3つだけ
+- `~/.claude/skills` は Claude Code だけが読む。Claude 上で作ってすぐ使うならここ（必要なら `~/.agents` にもコピー可）
+- **`~/.agents` と `~/.claude` の併置は可**（別ツールが読む。Cursor 二重登録にはならない）
+- install 配置上 Cursor 固有なのは今も `chat-handoff` / `skill-creator` / `promote-skill` の3つ（`install.ps1` → `~/.cursor`）。ただし **本スキルの手順自体は Claude でも使う**（`install-claude.ps1` で `~/.claude` にも入る）
 - **カテゴリのサブフォルダを作らない**（`playbooks/` 等）。Codex がネストを辿る保証がないため、インストール先は必ず平置き
-- 判断に迷ったら `~/.agents/skills`。IDE 名や IDE 固有パスを SKILL.md に書かずに済むよう設計する
+- 判断に迷ったら `~/.agents/skills`。Claude でもすぐ使うなら `~/.claude/skills`
 
 ## フロー
 
@@ -46,7 +49,11 @@ description: >-
 
 ### Gate 1 — 入れる？（global）
 
-質問例: 「このスキルを `~/.agents/skills/` に入れる？」（Cursor 固有なら `~/.cursor/skills/`）
+質問例:
+
+- 通常: 「このスキルを `~/.agents/skills/` に入れる？」
+- Cursor 固有: 「`~/.cursor/skills/` に入れる？」
+- Claude で今すぐ使う: 「`~/.claude/skills/` に入れる？」（agents にも置くかは別確認可）
 
 Yes のとき:
 
@@ -54,8 +61,9 @@ Yes のとき:
 2. 宛先 = 「置き場所の決め方」の表で決めた root ＋ `<skill-folder-name>\`
    - 通常: `%USERPROFILE%\.agents\skills\<skill-folder-name>\`（macOS/Linux: `~/.agents/skills/...`）
    - Cursor 固有: `%USERPROFILE%\.cursor\skills\<skill-folder-name>\`
-3. **もう一方の root に同名が無いことを確認**（あると Cursor が2回登録する）
-4. 同名が既にある → 上書き前に確認
+   - Claude: `%USERPROFILE%\.claude\skills\<skill-folder-name>\`
+3. **`~/.agents` と `~/.cursor` に同名が無いことを確認**（あると Cursor が2回登録する）
+4. 同名が既にある（選んだ root 内） → 上書き前に確認
 5. フォルダごとコピー（`SKILL.md` 以外の scripts / references も含む）
 6. 成功パスをユーザーに報告
 
@@ -96,10 +104,19 @@ No のとき → global のみで終了。
 
 検証済み `$ROOT` に対して、**その1スキルだけ**を pack へコピーする（global 全件ミラーはしない）。
 
+### スクリプトの探し方（自己解決）
+
+`promote-to-pack.ps1` / `promote-to-pack.sh` を次の順で探す。**最初に見つかったものを使う。** 無ければ止めて報告（勝手に別手段へフォールバックしない）。
+
+1. いま従っているこの `promote-skill` フォルダの `scripts/`（隣）
+2. `%USERPROFILE%\.claude\skills\promote-skill\scripts\`（`~/.claude/...`）
+3. `%USERPROFILE%\.cursor\skills\promote-skill\scripts\`（`~/.cursor/...`）
+4. `%USERPROFILE%\.agents\skills\promote-skill\scripts\`（将来用）
+
 ### Windows
 
 ```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File "$env:USERPROFILE\.cursor\skills\promote-skill\scripts\promote-to-pack.ps1" -SkillFolderName "<skill-folder-name>" -SkillsMakerRoot "<verified-root>"
+powershell -NoProfile -ExecutionPolicy Bypass -File "<resolved>\promote-to-pack.ps1" -SkillFolderName "<skill-folder-name>" -SkillsMakerRoot "<verified-root>"
 ```
 
 マーケ pack のときだけ:
@@ -111,9 +128,9 @@ powershell -NoProfile -ExecutionPolicy Bypass -File "$env:USERPROFILE\.cursor\sk
 ### macOS / Linux
 
 ```bash
-bash ~/.cursor/skills/promote-skill/scripts/promote-to-pack.sh "<skill-folder-name>" "<verified-root>"
+bash "<resolved>/promote-to-pack.sh" "<skill-folder-name>" "<verified-root>"
 # marketing:
-# bash .../promote-to-pack.sh "<skill-folder-name>" "<verified-root>" skills-pack-marketing
+# bash "<resolved>/promote-to-pack.sh" "<skill-folder-name>" "<verified-root>" skills-pack-marketing
 ```
 
 スクリプトが exit ≠ 0 なら書き込み失敗。勝手に別パスへリトライしない。ユーザーに報告して止める。

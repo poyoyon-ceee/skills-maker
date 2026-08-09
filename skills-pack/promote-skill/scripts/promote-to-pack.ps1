@@ -1,5 +1,5 @@
 # Promote ONE installed skill into a verified skills-maker pack.
-# Looks in ~/.agents/skills first, then ~/.cursor/skills (Cursor-only skills).
+# Looks in ~/.agents/skills, then ~/.cursor/skills, then ~/.claude/skills.
 # NEVER creates skills-maker root. NEVER writes if validation fails.
 #
 # Usage:
@@ -52,7 +52,8 @@ if ($SkillFolderName -match '[\\/]' -or $SkillFolderName -eq '.' -or $SkillFolde
 
 $globalRoots = @(
     (Join-Path $env:USERPROFILE ".agents\skills"),
-    (Join-Path $env:USERPROFILE ".cursor\skills")
+    (Join-Path $env:USERPROFILE ".cursor\skills"),
+    (Join-Path $env:USERPROFILE ".claude\skills")
 )
 $src = $null
 foreach ($root in $globalRoots) {
@@ -60,7 +61,7 @@ foreach ($root in $globalRoots) {
     if (Test-Path -LiteralPath $candidate -PathType Container) { $src = $candidate; break }
 }
 if (-not $src) {
-    Write-Error "Global skill not found in $($globalRoots -join ' or ') (run Gate 1 first): $SkillFolderName"
+    Write-Error "Global skill not found in ~/.agents/skills, ~/.cursor/skills, or ~/.claude/skills (run Gate 1 first): $SkillFolderName"
 }
 $skillMd = Join-Path $src "SKILL.md"
 if (-not (Test-Path -LiteralPath $skillMd -PathType Leaf)) {

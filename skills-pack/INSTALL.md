@@ -15,7 +15,9 @@
 | `~/.cursor/hooks/` | セッションフック | Cursor のみ |
 | `~/.claude/skills/<スキル名>/` | Claude Code 用（`install-claude.ps1`・除外10で42件） | Claude Code のみ |
 
-Cursor 固有の3件は `chat-handoff` / `skill-creator` / `promote-skill`。`~/.cursor` パス・Cursor UI・Cursor 用 PowerShell を前提にしているため共有 root に置かない。
+Cursor 固有の3件は `chat-handoff` / `skill-creator` / `promote-skill`。`install.ps1` では `~/.cursor/skills/` のみに置く（共有の `~/.agents` には置かない）。ただし **`promote-skill` の手順自体は Claude Code でも使う**（`install-claude.ps1` で `~/.claude` にも入り、Gate 1 宛先に `~/.claude/skills/` を選べる）。`chat-handoff` / `skill-creator` は従来どおり Cursor 前提。
+
+**重複の禁止範囲:** ダメなのは同名を `~/.agents` と `~/.cursor` の両方に置くこと。`~/.agents` と `~/.claude` の併置は可（別ツールが読む）。
 
 **平置きにする理由**: pack 内のカテゴリフォルダ（`playbooks/` `superpowers/` `github/` `debug/`）は整理用。Codex がネストしたスキルディレクトリを辿る保証がないため、インストール時に剥がして `<スキル名>/SKILL.md` にする。
 
