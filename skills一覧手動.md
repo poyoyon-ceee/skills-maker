@@ -1,6 +1,6 @@
 # 手動のみスキル一覧（`disable-model-invocation: true`）
 
-取得日: 2026-08-04  
+取得日: 2026-08-17  
 出典: [skills一覧.md](skills一覧.md) / [skills-pack/MANIFEST.json](skills-pack/MANIFEST.json)
 
 **対象:** 日常 `skills-pack` のうち、会話から自動選択されず **明示呼び出しが必要なスキルのみ**（**17件**）。  
@@ -61,7 +61,7 @@
 | コマンド | 説明 | 使いどころ |
 |----------|------|-----------|
 | `/chat-handoff` | 別PCで続きをやるための引き継ぎメモを、リポジトリ直下の `質疑応答M-D.MD` に作成・追記。結論・決定・未解決TODOを残す。Cursor チャット履歴は端末に残る前提。 | 「別PC用に残して」「引き継ぎ書いて」「質疑応答に落として」「続きは別端末で」と明示されたとき。通常の備忘録は `/session-recap` |
-| `/new-project` | Hidem プロジェクトキット（Web/Tauri/MAUI）で新規グリーンフィールドを CLI 対話式に scaffold。`PROJECT.md` / `.project_rules/MASTER_PROTOCOL.md` 等を生成。 | 新規アプリ・新規プロジェクト立ち上げ時（Day 0 の1回のみ）。既存プロジェクトの機能追加・バグ修正では使わない |
+| `/new-project` | 空ディレクトリ向け scaffold。CLI 対話。必須は README。Hidem プロファイルは選択式。既存ファイルは上書きしない。 | `project-foundation` が新規と判定したとき。既存リポジトリでは使わない |
 | `/session-recap` | 今の会話を `備忘録.md` の日付エントリにする（決定・調査・次のTODO）。コード変更履歴用の `変更履歴.md` には書かない。 | 「まとめて」「備忘録に残して」「このやり取りを記録して」と明示されたときだけ |
 | `/to-issues` | プラン・仕様・PRDを、独立して着手可能な「トレーサーバレット」の垂直スライスIssueに分解。 | PRDや設計書を実装可能な単位のIssueに分割したいとき |
 | `/to-prd` | 今の会話をヒアリングなしでそのままPRDに合成し、Issueトラッカーへ公開。 | すでに会話で要件が固まっており、そのままPRD化したいとき |
@@ -90,7 +90,8 @@
 
 ## 補足
 
-- **計17件**（playbooks 7 + その他 10）。日常パック56件のうち手動はこれだけ。
+- **計17件**（playbooks 7 + その他 10）。日常パック（MANIFEST 57件）のうち手動はこれだけ。
+- `/project-foundation` は自動発火なので本一覧に含めない。新規判定後の scaffold は `/new-project`。
 - 手動スキルはモデルが勝手に選ばない。`/` で明示呼び出しが必要。
 - マーケ全件手動・未インストールは [marketing-skills一覧.md](marketing-skills一覧.md)。
 - 正本の定義・運用は [skills一覧.md](skills一覧.md)。
