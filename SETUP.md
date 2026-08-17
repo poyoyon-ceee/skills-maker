@@ -5,6 +5,15 @@ Cursor Agent Skills を複数 PC で共有・配布するためのリポジト�
 **運用方針: スキルはすべてグローバルに置く。通常は `~/.agents/skills/`、Cursor 固有のものだけ `~/.cursor/skills/`。**  
 各プロジェクトの `.cursor/skills/` には置かない。このリポジトリの `skills-pack/` が配布用の正本。**同じスキルを2つの root に置かない**（重複表示の原因）。
 
+## 主な機能
+
+- グローバルスキルの配布（`install.ps1` / `install-global`）
+- `MANIFEST.json` によるスキル一覧・インストール先管理
+- `skills一覧.md` を正としたカタログ PDF / Excel 生成
+- `promote-skill` による新規スキル追加フロー
+- Superpowers セッションフックの配布
+- `app-tech-inventory` によるアプリ台帳の棚卸し（技術スタック・概要・直近変化の Obsidian ノート生成）
+
 ## リポジトリ構成
 
 ```
