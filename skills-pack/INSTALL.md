@@ -10,7 +10,7 @@
 
 | root | 中身 | 読むツール |
 |------|------|-----------|
-| `~/.agents/skills/<スキル名>/` | 通常のスキル（53件・平置き） | Cursor / Codex / ChatGPT 系 |
+| `~/.agents/skills/<スキル名>/` | 通常のスキル（平置き。件数は MANIFEST.json） | Cursor / Codex / ChatGPT 系 |
 | `~/.cursor/skills/<スキル名>/` | Cursor 固有スキル（3件） | Cursor のみ |
 | `~/.cursor/hooks/` | セッションフック | Cursor のみ |
 | `~/.claude/skills/<スキル名>/` | Claude Code 用（`install-claude.ps1`・除外9で47件） | Claude Code のみ |
@@ -27,7 +27,7 @@ Cursor 固有の3件は `chat-handoff` / `skill-creator` / `promote-skill`。`in
 
 | 種類 | 場所 | インストール先 |
 |------|------|----------------|
-| スキル本体（56個） | 各カテゴリフォルダ | `~/.agents/skills/`（53） / `~/.cursor/skills/`（3） |
+| スキル本体 | 各カテゴリフォルダ | `~/.agents/skills/` / `~/.cursor/skills/`（件数と振り分けは MANIFEST.json） |
 | スキル一覧 | `MANIFEST.json` | （参照用。`installTarget` に宛先が入っている） |
 | セッションフック | `_hooks/` | `~/.cursor/hooks/` |
 | インストーラ | `install.ps1` / `install.sh` | （実行するだけ） |
@@ -111,7 +111,9 @@ cd skills-pack
 3. **Customize → Hooks** — `session-start` が登録されている
 4. **同名スキルが2件出ない** — 設定画面の件数と `/` メニューの件数が一致すること（ズレていたら重複が残っている）
 
-## 含まれるスキル（56個・概要）
+## 含まれるスキル（概要）
+
+件数の正本は [MANIFEST.json](MANIFEST.json)。手で件数を固定しない。`scripts/generate-manifest.ps1` で再生成する。
 
 **マーケ系は含まない。** LP・広告・訴求スキルは別パック [skills-pack-marketing](../skills-pack-marketing/INSTALL.md)（オプトイン）。通常の本 install では入らない・戻らない。
 
@@ -126,7 +128,7 @@ cd skills-pack
 | 3rd party | `notebooklm`, `react-best-practices` など |
 | GWS（3） | `gws-docs`, `gws-sheets`, `gws-drive` |
 | Cursor 固有（3） | `chat-handoff`, `skill-creator`, `promote-skill`（`~/.cursor/skills/` のみ） |
-| 独自（残り） | `grill-me`, `writing-plans`, `webapp-testing`, `new-project`, `doc-maint` など |
+| 独自（残り） | `grill-me`, `writing-plans`, `webapp-testing`, `project-foundation`, `new-project`, `doc-maint` など |
 
 全件は [MANIFEST.json](MANIFEST.json) を参照。
 

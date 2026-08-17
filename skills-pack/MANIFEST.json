@@ -175,6 +175,11 @@
         "installTarget":  "~/.agents/skills/pptx/"
     },
     {
+        "name":  "project-foundation",
+        "path":  "project-foundation/SKILL.md",
+        "installTarget":  "~/.agents/skills/project-foundation/"
+    },
+    {
         "name":  "promote-skill",
         "path":  "promote-skill/SKILL.md",
         "installTarget":  "~/.cursor/skills/promote-skill/"

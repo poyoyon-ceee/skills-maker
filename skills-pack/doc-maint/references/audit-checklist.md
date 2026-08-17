@@ -7,7 +7,8 @@ Use this reference for repositories with many, conflicting, or risky documents.
 - [ ] Read repository instructions.
 - [ ] Confirm branch and worktree state.
 - [ ] Identify staged, unstaged, and untracked user changes.
-- [ ] Confirm work is on `dev`, not `main`.
+- [ ] Confirm branch from repository instructions, existing practice, or user choice. Do not require a branch named `dev`.
+- [ ] Audit is read-only until the user approves apply.
 - [ ] Confirm documentation-only scope.
 - [ ] Avoid secrets, generated output, vendored dependencies, and build artifacts.
 
@@ -32,7 +33,7 @@ For each document, note:
 | Conflict | Which claims disagree? |
 | Unique value | What must be preserved before consolidation? |
 | References | What links to this file? |
-| Action | Keep, update, merge, move, delete, or `要確認` |
+| Action | Keep, merge, update, move, or `要確認` (user-facing: 維持・統合・修正・移動・要確認) |
 
 ## Consolidation gates
 
@@ -63,3 +64,4 @@ Before deleting:
 - [ ] Final diff contains documentation changes only.
 - [ ] Pre-existing uncommitted work is intact.
 - [ ] Completion report includes all ten required sections.
+- [ ] Apply happened only after approval, and only for approved documentation operations.

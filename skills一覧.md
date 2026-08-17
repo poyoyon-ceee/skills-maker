@@ -1,13 +1,14 @@
-# グローバルスキル一覧（日常56件 ＋ マーケオプトイン47件・未インストール）
+# グローバルスキル一覧（日常パック ＋ マーケオプトイン47件・未インストール）
 
-取得日: 2026-08-03  
-**いま入っているもの（この PC）:** 日常 `skills-pack` の **56件**（`~/.agents/skills/` に53・`~/.cursor/skills/` に3）。マーケはリポジトリにパックがあるだけで **グローバル未導入**。
+取得日: 2026-08-16  
+**パック正本の件数:** `skills-pack/MANIFEST.json`（`scripts/generate-manifest.ps1`）。手で件数を固定しない。  
+**いま入っているもの（この PC）:** グローバル同期は未実施なら、前回 install 時点のまま。マーケはリポジトリにパックがあるだけで **グローバル未導入**。
 
 **運用方針**
 
 | 項目 | 内容 |
 |------|------|
-| 日常（共通） | `skills-pack/` → `install.ps1` で `~/.agents/skills/` に**平置き53件**。Cursor / Codex / ChatGPT 系が共通で読む正本 |
+| 日常（共通） | `skills-pack/` → `install.ps1` で `~/.agents/skills/` に**平置き**。Cursor / Codex / ChatGPT 系が共通で読む正本。件数は MANIFEST |
 | 日常（Cursor 固有） | `chat-handoff` / `skill-creator` / `promote-skill` の3件だけ `~/.cursor/skills/`（`install.ps1`）。`promote-skill` は手順として Claude でも使う（`~/.claude` にも入り、Gate 1 で `~/.claude` 可） |
 | Claude Code | 同パックを `install-claude.ps1` で `~/.claude/skills/` に平置き（除外9あり → 47件）。`~/.agents` は書かない |
 | マーケ | `skills-pack-marketing/` は**作るが入れない**。必要になったときだけ `install.ps1`（Cursor のみ）。通常更新では入らない・戻らない |
@@ -36,7 +37,7 @@ Settings → Rules, Skills, Subagents → **Include Third-Party Plugins, Skills,
 2. [ドキュメント／データ処理（10件）](#2-ドキュメントデータ処理10件)
 3. [Google Workspace 連携（3件）](#3-google-workspace-連携3件)
 4. [設計・開発ワークフロー（Superpowers 系・12件）](#4-設計開発ワークフローsuperpowers系12件)
-5. [独自の開発系スキル（11件）](#5-独自の開発系スキル11件)
+5. [独自の開発系スキル](#5-独自の開発系スキル)
 6. [デザイン・コンテンツ制作（6件）](#6-デザインコンテンツ制作6件)
 7. [ナレッジ管理・リサーチ（5件）](#7-ナレッジ管理リサーチ5件)
 8. [GitHub / Git 運用（3件）](#8-github--git-運用3件)
@@ -68,7 +69,7 @@ Settings → Rules, Skills, Subagents → **Include Third-Party Plugins, Skills,
 | コマンド | 説明 | 使いどころ |
 |----------|------|-----------|
 | `/doc-coauthoring` | 文書・提案書・技術仕様・意思決定文書を「文脈収集→推敲・構造化→読者テスト」の3段階で共同執筆。 | 「ドキュメントを書きたい」「提案書を作りたい」「PRDを書きたい」など、ある程度分量のある文章作成 |
-| `/doc-maint` | リポジトリの README / docs を監査・整理・統合・鮮度確認。コードは触らず、証拠に基づく正本ドキュメントに再編。`dev` ブランチ前提。 | 「READMEを直して」「docsを整理して」「ドキュメントが古い」「重複を消して」「オンボーディングを分かりやすく」 |
+| `/doc-maint` | 既存リポジトリの README / docs を読み取り専用監査し、維持・統合・修正・移動・要確認の5分類で提案。承認後に文書だけ適用。コードは触らない。 | 「READMEを直して」「docsを整理して」「ドキュメントが古い」「重複を消して」「オンボーディングを分かりやすく」 |
 | `/docx` | Word 文書（.docx）の作成・読取・編集。目次・見出し・ページ番号・レターヘッド付き文書、画像挿入・置換、検索置換、変更履歴・コメント対応。 | 「Wordドキュメント」「.docx」「レポート」「メモ」「レター」「テンプレート」の作成・編集依頼 |
 | `/improve-codebase-architecture`（手動のみ） | コードベースをスキャンして「深化の余地」をHTMLレポートで可視化し、選んだ項目についてgrill-me形式で深掘り。 | 過去のコードの複雑化を解消したい、リファクタリング候補を洗い出したい |
 | `/pdf` | PDF のテキスト・表抽出、結合・分割、回転、透かし、新規作成、フォーム入力、暗号化/復号、画像抽出、スキャンPDFのOCR。 | 「.pdf」に言及、または PDF を作りたい／読みたい／編集したいとき |
@@ -113,13 +114,14 @@ Settings → Rules, Skills, Subagents → **Include Third-Party Plugins, Skills,
 
 ---
 
-## 5. 独自の開発系スキル（11件）
+## 5. 独自の開発系スキル
 
 | コマンド | 説明 | 使いどころ |
 |----------|------|-----------|
 | `/chat-handoff`（手動のみ） | 別PCで続きをやるための引き継ぎメモを、リポジトリ直下の `質疑応答M-D.MD` に作成・追記。結論・決定・未解決TODOを残す。Cursor チャット履歴は端末に残る前提。 | 「別PC用に残して」「引き継ぎ書いて」「質疑応答に落として」「続きは別端末で」と明示されたとき。通常の備忘録は `/session-recap` |
 | `/git-guardrails` | 危険なGitコマンド（push、reset --hard、clean、branch -D等）を実行前にブロックするフックを設定。 | 誤操作防止のガードレールを設定したいとき |
-| `/new-project`（手動のみ） | Hidem プロジェクトキット（Web/Tauri/MAUI）で新規グリーンフィールドを CLI 対話式に scaffold。`PROJECT.md` / `.project_rules/MASTER_PROTOCOL.md` 等を生成。 | 新規アプリ・新規プロジェクト立ち上げ時（Day 0 の1回のみ）。既存プロジェクトの機能追加・バグ修正では使わない |
+| `/new-project`（手動のみ） | 空ディレクトリ向け scaffold。必須は README。Hidem プロファイルは選択式。既存ファイルは上書きしない。 | `project-foundation` が新規と判定したとき。既存リポジトリでは使わない |
+| `/project-foundation` | 新規/既存/判定不能を振り分ける文書標準の入口。判定中は書き込まない。 | 「新規プロジェクト」「scaffold」「READMEを直して」「docsを整理して」 |
 | `/react-best-practices` | Vercel Engineering によるReact/Next.jsパフォーマンス最適化ガイド（8カテゴリ70ルール）。 | React/Next.jsのコンポーネント作成・データフェッチ実装・パフォーマンスレビュー・リファクタリング |
 | `/session-recap`（手動のみ） | 今の会話を `備忘録.md` の日付エントリにする（決定・調査・次のTODO）。コード変更履歴用の `変更履歴.md` には書かない。 | 「まとめて」「備忘録に残して」「このやり取りを記録して」と明示されたときだけ |
 | `/test-driven-development` | RED-GREEN-REFACTORのTDDを実装前に徹底。ローカル改良版（Superpowers本体＋マルチスタックテストコマンド表付き）。 | 機能追加・バグ修正・リファクタリング前。「TDDで」「テストファーストで」と言われたとき |
@@ -162,7 +164,7 @@ Obsidian 系は **3スキル連携**。`obsidian-vault` が vault パス（`D:\v
 
 | コマンド | 説明 | 使いどころ |
 |----------|------|-----------|
-| `/git-guardrails` | （[§5](#5-独自の開発系スキル11件) 参照）危険なGit操作をブロック | — |
+| `/git-guardrails` | （[§5](#5-独自の開発系スキル) 参照）危険なGit操作をブロック | — |
 | `/git-in-clone`（手動のみ） | 指定したGitHubリポジトリを現在の空ディレクトリへ `git clone .` で取得。 | 「このフォルダにクローンして」と言われたとき |
 | `/github-make-sync`（手動のみ） | 指定した名前で非公開GitHubリポジトリを作成し、`gh` CLIで現在のプロジェクトに `origin` を設定。 | 新規プロジェクトをGitHubに接続したいとき |
 
@@ -291,7 +293,7 @@ Obsidian 系は **3スキル連携**。`obsidian-vault` が vault パス（`D:\v
 
 ## 補足
 
-- **日常配布**は `skills-pack/`（56件）。別 PC では `skills-pack/引き継ぎ.md` の一言をエージェントに送るだけ。`install.ps1` が `~/.agents`（53）と `~/.cursor`（3）へ振り分ける。
+- **日常配布**は `skills-pack/`。件数と振り分けの正本は `skills-pack/MANIFEST.json`。別 PC では `skills-pack/引き継ぎ.md` の一言をエージェントに送るだけ。
 - **Claude Code** は `skills-pack/install-claude.ps1` → `~/.claude/skills/`（平置き・除外9で47件）。`~/.agents` はこちらでは触らない（`install.ps1` の管轄）。`install.ps1` の結果を手コピーしない。
 - **マーケ**は `skills-pack-marketing/` に正本があるが **デフォルト非インストール**。[INSTALL.md](skills-pack-marketing/INSTALL.md) 参照。誤って入れたら `marketingskills/` と `playbook-lp-creative/` を削除。
 - **設定画面と `/` メニューで件数が違うとき:** 同名スキルが複数 root にある。設定画面は名前で重複排除するが `/` メニューはしないため。Include Third-Party の OFF では `~/.agents` 由来の重複は直らない。詳細は [skills-pack/skills重複処理.md](skills-pack/skills重複処理.md)。

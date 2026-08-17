@@ -1,5 +1,8 @@
 import fs from 'fs';
 import path from 'path';
+import { CollisionError, PathEscapeError, resolveInsideDest, findExistingCollision } from './paths.js';
+
+export { CollisionError, PathEscapeError };
 
 /**
  * ファイルとディレクトリの生成を担当するクラス
@@ -11,13 +14,18 @@ export class ProjectWriter {
 
     /**
      * 指定されたパスにファイルを書き出す。ディレクトリがない場合は作成する。
-     * @param {string} relativePath 
-     * @param {string} content 
+     * 既存ファイルは上書きしない。生成先外へのパスは拒否する。
+     * @param {string} relativePath
+     * @param {string} content
      */
     writeFile(relativePath, content) {
-        const fullPath = path.join(this.baseDir, relativePath);
-        const dir = path.dirname(fullPath);
+        const fullPath = resolveInsideDest(this.baseDir, relativePath);
+        const collision = findExistingCollision(this.baseDir, relativePath);
+        if (collision) {
+            throw new CollisionError(relativePath);
+        }
 
+        const dir = path.dirname(fullPath);
         if (!fs.existsSync(dir)) {
             fs.mkdirSync(dir, { recursive: true });
         }
@@ -28,8 +36,8 @@ export class ProjectWriter {
 
     /**
      * プレースホルダを一括置換するユーティリティ
-     * @param {string} content 
-     * @param {Object} variables 
+     * @param {string} content
+     * @param {Object} variables
      */
     static replacePlaceholders(content, variables) {
         let result = content;

@@ -2,9 +2,12 @@ import { intro, outro, text, select, multiselect, confirm, spinner, note } from 
 import pc from 'picocolors';
 import { SourceParser } from './lib/parser.js';
 import { ProjectWriter } from './lib/writer.js';
+import { findCollisions } from './lib/paths.js';
+import { buildFilePlan, templateNameFor } from './lib/plan.js';
+import { StagingSession } from './lib/staging.js';
+import { prepareVariables, setupInstructions } from './lib/vars.js';
 import { fileURLToPath } from 'url';
 import path from 'path';
-import fs from 'fs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -12,136 +15,84 @@ const __dirname = path.dirname(__filename);
 async function main() {
     intro(pc.bgCyan(pc.black(' 🏗️  PROJECT SCAFFOLDER ')));
 
-    // 1. ヒアリング
     const project = await fetchProjectInfo();
     if (!project) return;
 
+    const destDir = path.resolve(String(project.dest || process.cwd()));
+    const rawPlan = buildFilePlan(project);
+    let vars = prepareVariables(project, []);
+    const planned = rawPlan.map((p) => ProjectWriter.replacePlaceholders(p, vars));
+    vars = prepareVariables(project, planned);
+    const collisions = findCollisions(destDir, planned);
+
+    let preview = `生成先: ${destDir}\n`;
+    preview += `Hidemプロファイル: ${project.hidemProfile ? 'ON' : 'OFF'}\n`;
+    preview += `AI保守: ${project.aiMaintained ? 'ON' : 'OFF'}\n\n`;
+    preview += `作成予定:\n${planned.map((p) => `- ${p}`).join('\n')}`;
+    if (collisions.length) {
+        preview += `\n\n競合:\n${collisions.map((c) => `- ${c.planned} (existing ${c.existing})`).join('\n')}`;
+    }
+    note(preview, '書き込み前プレビュー');
+
+    if (collisions.length) {
+        outro(pc.red('既存ファイルと衝突したため、1件も書き込まず停止しました。'));
+        return;
+    }
+
+    const go = await confirm({
+        message: 'この内容で生成しますか？（まだ変更していません）',
+        initialValue: false,
+    });
+    if (go !== true) {
+        outro(pc.yellow('キャンセルしました。'));
+        return;
+    }
+
     const s = spinner();
     s.start('プロジェクトを構築中...');
+    const session = new StagingSession(destDir);
 
     try {
         const templateSource = path.join(__dirname, 'FILE_TEMPLATE_SOURCE.md');
         const protocolSource = path.join(__dirname, 'MASTER_PROTOCOL_SOURCE.md');
-
         const parser = new SourceParser(templateSource);
         const protocolParser = new SourceParser(protocolSource);
-        const writer = new ProjectWriter(); // process.cwd() に書き出し
 
-        // 共通変数の準備
-        const vars = prepareVariables(project);
-
-        // 1. 基本ファイルの動的構成
-        let baseTemplates = [
-            'PROJECT.md',
-            'docs/TROUBLESHOOTING.md',
-            '.gitignore'
-        ];
-
-        if (project.distribution === 'MAUI') {
-            // MAUI (.NET MAUI) 用のファイルセット
-            baseTemplates.push(
-                '{{SAFE_APP_NAME}}.csproj',
-                'App.xaml',
-                'App.xaml.cs',
-                'AppShell.xaml',
-                'AppShell.xaml.cs',
-                'MainPage.xaml',
-                'MainPage.xaml.cs',
-                'MauiProgram.cs'
-            );
-        } else {
-            // Web / Tauri 用のファイルセット (Viteスタック)
-            baseTemplates.push('package.json', 'vite.config.js', 'deploy.js', 'ui/index.html', 'ui/styles/main.css');
-            
-            if (project.distribution === 'Tauri') {
-                baseTemplates.push(
-                    'src-tauri/tauri.conf.json',
-                    'src-tauri/Cargo.toml',
-                    'src-tauri/build.rs',
-                    'src-tauri/src/main.rs',
-                    'docs/TAURI_OPS_CHECKLIST.md'
-                );
+        for (let i = 0; i < rawPlan.length; i++) {
+            const raw = rawPlan[i];
+            const outputPath = planned[i];
+            const templateName = templateNameFor(raw, project.distribution);
+            let section = parser.getSection(templateName);
+            if (!section && raw === '.project_rules/MASTER_PROTOCOL.md') {
+                section = protocolParser.getSection('MASTER_PROTOCOL.md 本文');
             }
-        }
-
-        // 標準構成以上で追加されるドキュメント
-        if (project.level !== 'Minimal') {
-            baseTemplates.push('docs/AI_REVIEW_PROMPT.md');
-            baseTemplates.push('docs/AI_IMPROVEMENT_PROMPT.md');
-            baseTemplates.push('.project_rules/KNOWLEDGE_BASE.md');
-        }
-
-        for (const tName of baseTemplates) {
-            // MAUI の場合は専用のドキュメントテンプレートに差し替えて読み込む
-            let sourceTemplateName = tName;
-            if (project.distribution === 'MAUI') {
-                if (tName === 'PROJECT.md') sourceTemplateName = 'MAUI_PROJECT.md';
-                if (tName === 'docs/TROUBLESHOOTING.md') sourceTemplateName = 'MAUI_TROUBLESHOOTING.md';
+            if (!section) {
+                throw new Error(`template not found: ${templateName} -> ${outputPath}`);
             }
-
-            const section = parser.getSection(sourceTemplateName);
-            if (section) {
-                // 出力パスは元の tName (PROJECT.md 等) を維持するために section.path ではなく tName を使う場合があるが
-                // 現状の getSection は section.path に正しい出力パスが入っているのでそれを利用。
-                // ただし MAUI_PROJECT.md のカタログ内 Path が PROJECT.md になっている必要がある。
-                const finalPath = ProjectWriter.replacePlaceholders(section.path, vars);
-                const content = ProjectWriter.replacePlaceholders(section.content, vars);
-                writer.writeFile(finalPath, content);
-            }
+            const content = ProjectWriter.replacePlaceholders(section.content, vars);
+            session.writeFile(outputPath, content);
         }
 
-        // 3. モジュールの生成
-        for (const moduleName of project.modules) {
-            const section = parser.getSection(moduleName);
-            if (section) {
-                const finalPath = ProjectWriter.replacePlaceholders(section.path, vars);
-                const content = ProjectWriter.replacePlaceholders(section.content, vars);
-                writer.writeFile(finalPath, content);
-            }
-        }
+        session.commit();
+        s.stop(pc.green('構築完了'));
 
-        // 4. MASTER_PROTOCOL.md の生成
-        const protocolSection = protocolParser.getSection('MASTER_PROTOCOL.md 本文');
-        if (protocolSection) {
-            const content = ProjectWriter.replacePlaceholders(protocolSection.content, vars);
-            writer.writeFile('.project_rules/MASTER_PROTOCOL.md', content);
-        }
-
-        s.stop(pc.green('構築完了！'));
-
-        // 5. 事後処理の提案
-        const hasPackageJson = fs.existsSync(path.join(process.cwd(), 'package.json'));
-        let nextSteps = `1. cd ${project.name} (既にディレクトリ内の場合は不要)\n`;
-        if (hasPackageJson) {
-            nextSteps += `2. npm install (推奨)`;
-        } else {
-            nextSteps += `2. 各プラットフォームのビルドツール（Visual Studio 等）で開いてください`;
-        }
-
+        const nextSteps = setupInstructions(project);
         note(
-            `プロジェクト "${project.name}" が正常に作成されました。\n` +
-            `場所: ${process.cwd()}\n\n` +
-            `次の一歩:\n` +
-            nextSteps,
+            `プロジェクト "${project.name}" を作成しました。\n` +
+            `場所: ${destDir}\n` +
+            `Hidem: ${project.hidemProfile ? 'ON' : 'OFF'}\n\n` +
+            `次に読む: README.md${project.aiMaintained ? ', AGENTS.md' : ''}${project.hidemProfile ? ', PROJECT.md' : ''}\n\n` +
+            `セットアップ（未実行）:\n${nextSteps}`,
             '完了報告'
         );
-
-        if (hasPackageJson) {
-            const shouldInstall = await confirm({
-                message: '今すぐ npm install を実行しますか？',
-                initialValue: true
-            });
-
-            if (shouldInstall) {
-                s.start('依存関係をインストール中...');
-                // 実際には child_process で回すが、ここではデモとして完了とする
-                s.stop(pc.green('インストール完了（シミュレーション）'));
-            }
-        }
-
     } catch (error) {
         s.stop(pc.red('構築失敗'));
         console.error(error);
+        if (error.leftover && error.leftover.length) {
+            console.error('残存パス（第三者変更の可能性）:', error.leftover);
+        }
+    } finally {
+        session.cleanup();
     }
 
     outro(pc.cyan('Happy Coding!'));
@@ -174,7 +125,8 @@ async function fetchProjectInfo() {
         options: [
             { value: 'Web', label: 'Web App (Vite)' },
             { value: 'Tauri', label: 'Tauri (Desktop App)', hint: 'Vite + Rust' },
-            { value: 'MAUI', label: 'MAUI (Desktop/Mobile)', hint: 'C#' }
+            { value: 'MAUI', label: 'MAUI (Desktop/Mobile)', hint: 'C#' },
+            { value: 'docs-only', label: '文書基盤だけ', hint: 'README 中心' }
         ]
     });
     if (typeof distribution === 'symbol') return null;
@@ -189,19 +141,8 @@ async function fetchProjectInfo() {
     });
     if (typeof connectivity === 'symbol') return null;
 
-    const level = await select({
-        message: 'テンプレートレベルを選んでください',
-        options: [
-            { value: 'Minimal', label: '最小構成' },
-            { value: 'Standard', label: '標準構成', hint: 'おすすめ' },
-            { value: 'Full', label: 'フル構成' }
-        ]
-    });
-    if (typeof level === 'symbol') return null;
-
-    // MAUI の場合は JS モジュールの選択をスキップ（仕様不整合回避）
     let modules = [];
-    if (distribution !== 'MAUI') {
+    if (distribution !== 'MAUI' && distribution !== 'docs-only') {
         modules = await multiselect({
             message: '使用するモジュールを選択してください (Spaceで選択)',
             options: [
@@ -225,80 +166,40 @@ async function fetchProjectInfo() {
     });
     if (typeof gitPattern === 'symbol') return null;
 
-    return { name, description, author, distribution, connectivity, level, modules, gitPattern };
+    const aiMaintained = await confirm({
+        message: 'AIで保守しますか？（AGENTS.md を追加）',
+        initialValue: true
+    });
+    if (typeof aiMaintained === 'symbol') return null;
+
+    const hidemProfile = await confirm({
+        message: 'Hidemプロファイルを追加しますか？（PROJECT.md / MASTER_PROTOCOL.md）',
+        initialValue: false
+    });
+    if (typeof hidemProfile === 'symbol') return null;
+
+    const dest = await text({
+        message: '生成先ディレクトリ',
+        initialValue: process.cwd()
+    });
+    if (typeof dest === 'symbol') return null;
+
+    return {
+        name,
+        description,
+        author,
+        distribution,
+        connectivity,
+        modules,
+        gitPattern,
+        aiMaintained: aiMaintained === true,
+        hidemProfile: hidemProfile === true,
+        dest
+    };
 }
 
-function prepareVariables(p) {
-    const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD 形式
-    const safeName = p.name.toLowerCase().replace(/[^a-z0-9]/g, '-');
-    
-    // Rust クレート名の安全化（数字始まりを回避）
-    let rustCrateName = safeName;
-    if (/^[0-9]/.test(rustCrateName)) {
-        rustCrateName = `app-${rustCrateName}`;
-    }
-
-    // 基本変数
-    const vars = {
-        APP_NAME: p.name,
-        APP_DESCRIPTION: p.description || '',
-        PACKAGE_NAME: safeName,
-        AUTHOR: p.author,
-        TEMPLATE_LEVEL: p.level,
-        CONNECTIVITY: p.connectivity,
-        DISTRIBUTION: p.distribution,
-        TIMEZONE: 'Asia/Tokyo',
-        SAFE_APP_NAME: safeName.replace(/-/g, ''),
-        NAMESPACE: (/^[0-9]/.test(safeName) ? `app_${safeName}` : safeName).replace(/-/g, '_'), // C# 用の名前空間
-        EXE_BASENAME: p.name.replace(/\s+/g, '-'),
-        WINDOW_WIDTH: '1000',
-        WINDOW_HEIGHT: '800',
-        WINDOW_RESIZABLE: 'true',
-        WINDOW_FULLSCREEN: 'false',
-        // フル構成の場合のみインストーラー生成を有効化する運用
-        TAURI_BUNDLE_ACTIVE: p.level === 'Full' ? 'true' : 'false',
-        DATE: today,
-        RUST_CRATE_NAME: rustCrateName,
-        PROJECT_EXTRA_CONSTRAINTS: '（特になし）',
-        GITIGNORE_MAUI_ENTRIES: p.distribution === 'MAUI' ? 'bin/\nobj/\n.vs/\n*.user\n*.useros' : '# (MAUI entries skipped)'
-    };
-
-    // Git変数
-    vars.GIT_MAIN_BRANCH = 'main';
-    vars.GIT_STABLE_BRANCH = 'main';
-    vars.GIT_DEVELOP_BRANCH = 'develop';
-    vars.GIT_WORK_BRANCH = p.gitPattern === 'A' ? 'main' : 'develop';
-
-    // UI関連（接続形態による分岐）
-    if (p.connectivity === 'Online' || p.connectivity === 'Hybrid') {
-        vars.ONLINE_FONT_LINKS = `    <link rel="preconnect" href="https://fonts.googleapis.com">\n    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">`;
-    } else {
-        vars.ONLINE_FONT_LINKS = '    <!-- Offline mode: No external fonts -->';
-    }
-
-    // スクリプトインポート（カタログのパスと厳密に一致させる）
-    const moduleMap = {
-        'EventBus': 'src/core/event-bus.js',
-        'StateManager': 'src/core/state-manager.js',
-        'HTMLSanitizer': 'src/utils/sanitizer.js',
-        'DataMigrationManager': 'src/utils/migration.js',
-        'ConfigManager': 'src/utils/config.js',
-        'DiffRenderer': 'src/utils/diff.js'
-    };
-    vars.SCRIPT_IMPORTS_HTML = p.modules.map(m => {
-        const path = moduleMap[m] || `src/utils/${m.toLowerCase()}.js`;
-        return `    <script type="module" src="${path}"></script>`;
-    }).join('\n');
-
-    vars.INIT_SCRIPT_HTML = `    <script type="module">\n        document.addEventListener('DOMContentLoaded', () => {\n            console.log('${p.name} 起動');\n        });\n    </script>`;
-    vars.INTRO_LINE = `${p.description || p.name} のエントリーポイントです。`;
-    vars.MODULES_COMMA = p.modules.join(', ');
-    vars.TAURI_NOTE = p.distribution === 'Tauri' ? '(Rust + WebView)' : '';
-    vars.CONNECTIVITY_RULES_ONE_LINE = p.connectivity === 'Offline' ? '外部通信を一切禁止し、ローカルリソースのみを使用する。' : '必要に応じてCDNやAPIを利用する。';
-    vars.OPTIONAL_DOC_BULLETS = p.distribution === 'Tauri' ? '- `docs/TAURI_OPS_CHECKLIST.md`' : '';
-    vars.IMPLEMENTATION_TRIGGERS = '「実装して」「実行して」「作って」';
-
-    return vars;
+const isMain = process.argv[1] &&
+    path.normalize(fileURLToPath(import.meta.url)) === path.normalize(path.resolve(process.argv[1]));
+if (isMain) {
+    main();
 }
-
-main();

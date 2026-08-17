@@ -6,15 +6,95 @@
 
 ---
 
-## 📖 【DOCS】PROJECT.md（単一の真実）
+## 📖 【DOCS】README.md（必須コア）
+
+### [TEMPLATE: README.md]
+
+```markdown
+# {{APP_NAME}}
+
+{{APP_DESCRIPTION}}
+
+## Current status
+
+{{STATUS_LINE}}
+
+## Features
+
+{{FEATURES_LINE}}
+
+## Setup
+
+{{SETUP_INSTRUCTIONS}}
+
+## Constraints
+
+- {{CONNECTIVITY_RULES_ONE_LINE}}
+- {{PROJECT_EXTRA_CONSTRAINTS}}
+
+## Repository layout
+
+See the tree after scaffold. Application code lives under `ui/` for Web/Tauri.
+
+## Docs
+
+{{DOCS_HUB_LINE}}
+{{AGENTS_LINE}}
+{{HIDEM_LINKS}}
+```
+
+---
+
+### [TEMPLATE: AGENTS.md]
+
+```markdown
+# AGENTS.md
+
+Read this before changing the repository.
+
+## Canonical docs
+
+- `README.md` — human entry point
+{{DOCS_HUB_LINE}}
+{{HIDEM_LINKS}}
+
+## Plan vs implementation
+
+Do not start implementation until the user explicitly asks. Design and plans stay in `docs/` until approved.
+
+## Git
+
+- Do not commit, push, or create branches unless asked
+- Do not stash, discard, or overwrite user-owned uncommitted work
+
+## Scope
+
+Stay inside the requested files. Do not add placeholders, extra Markdown, or manifests the stack does not need.
+```
+
+---
+
+### [TEMPLATE: docs/index.md]
+
+```markdown
+# Documentation index
+
+| Document | Canonical for | Status | When to read |
+|----------|---------------|--------|----------------|
+{{DOCS_INDEX_ROWS}}
+```
+
+---
+
+## 📖 【DOCS】PROJECT.md（Hidemプロファイル・選択時のみ）
 
 ### [TEMPLATE: PROJECT.md]
 
 ```markdown
 # {{APP_NAME}} - プロジェクト概要
 
-> **AI向け**: 作業前に本ファイルと `.project_rules/MASTER_PROTOCOL.md` を読むこと。
-> **優先順位**: グローバル CLAUDE.md（`~/.claude/CLAUDE.md`） > MASTER_PROTOCOL > 本ファイル
+> **位置づけ**: README / AGENTS.md の上に載せる Hidem 追加レイヤー。単一の真実ではない。
+> **優先順位**: README.md / AGENTS.md > 本ファイル > MASTER_PROTOCOL（作業規約）
 
 ## 項目
 
@@ -55,10 +135,11 @@
 
 ## ドキュメント読み順
 
-1. **グローバル CLAUDE.md**（グローバル掟・再掲なし）
-2. **本ファイル（PROJECT.md）** — このアプリの事実
-3. **`.project_rules/MASTER_PROTOCOL.md`** — プロジェクト差分
-4. `docs/TROUBLESHOOTING.md`
+1. **README.md** — 人間向け入口
+2. **AGENTS.md**（ある場合）— AI 向け入口
+3. **本ファイル（PROJECT.md）** — Hidem 追加レイヤー
+4. **`.project_rules/MASTER_PROTOCOL.md`** — 作業規約
+5. `docs/index.md`（詳細文書がある場合）
 {{OPTIONAL_DOC_BULLETS}}
 
 ## 実装開始トリガー（このプロジェクト）
@@ -1100,8 +1181,8 @@ public partial class MainPage : ContentPage
 ```markdown
 # {{APP_NAME}} (MAUI版)
 
-> **AI向け**: 作業前に本ファイルと `.project_rules/MASTER_PROTOCOL.md` を読むこと。
-> **優先順位**: グローバル CLAUDE.md（`~/.claude/CLAUDE.md`） > MASTER_PROTOCOL > 本ファイル
+> **位置づけ**: README / AGENTS.md の上に載せる Hidem 追加レイヤー。単一の真実ではない。
+> **優先順位**: README.md / AGENTS.md > 本ファイル > MASTER_PROTOCOL（作業規約）
 
 {{APP_DESCRIPTION}}
 
@@ -1129,10 +1210,11 @@ public partial class MainPage : ContentPage
 
 ## ドキュメント読み順
 
-1. **グローバル CLAUDE.md**（グローバル掟・再掲なし）
-2. **本ファイル（PROJECT.md）** — このアプリの事実
-3. **`.project_rules/MASTER_PROTOCOL.md`** — プロジェクト差分
-4. `docs/TROUBLESHOOTING.md`
+1. **README.md** — 人間向け入口
+2. **AGENTS.md**（ある場合）— AI 向け入口
+3. **本ファイル（PROJECT.md）** — Hidem 追加レイヤー
+4. **`.project_rules/MASTER_PROTOCOL.md`** — 作業規約
+5. `docs/index.md`（詳細文書がある場合）
 {{OPTIONAL_DOC_BULLETS}}
 
 ## 実装開始トリガー（このプロジェクト）

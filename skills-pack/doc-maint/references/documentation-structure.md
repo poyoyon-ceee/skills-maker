@@ -76,11 +76,27 @@ Retain when the project already maintains a changelog or users need a curated hi
 
 Folders such as `.claude`, `.cursor`, `.codex`, `.agent`, and `.agents` may contain:
 
-- tool-specific configuration and metadata;
-- reusable skills or commands;
-- concise pointers to `README.md` and `docs/index.md`.
+- tool-specific configuration and metadata
+- reusable skills or commands
+- concise pointers to `README.md` and `docs/index.md`
 
-Move project purpose, behavior, architecture, setup, and operational knowledge to canonical docs. Do not assume every tool follows pointers automatically; keep canonical paths explicit.
+Move project purpose, behavior, architecture, setup, and operational knowledge to canonical docs.
+
+Root `AGENTS.md` is the recommended AI entry when the project is AI-maintained. It should point at canonical docs, not copy them.
+
+## Hidem profile
+
+If `PROJECT.md` or `.project_rules/MASTER_PROTOCOL.md` already exist, keep them and link from README/AGENTS. Do not invent them during audit. Offer them only as an optional profile in the audit result.
+
+## Conditional locations
+
+Use when the content already exists or the user asked to house it:
+
+- `docs/design/` — unimplemented or upcoming design
+- `docs/plans/` — approved implementation plans
+- `docs/decisions/` — decisions whose rationale is worth keeping
+
+Do not create these folders empty.
 
 ## Files that usually indicate duplication
 

@@ -1,56 +1,54 @@
 # New Project Skill — Reference
 
-## 同梱ファイル（scripts/）
+## Bundled files (`scripts/`)
 
-| ファイル | 役割 |
+| File | Role |
 |---|---|
-| `scaffold.js` | ヒアリング UI + 生成フロー |
-| `lib/parser.js` | Markdown テンプレート抽出 |
-| `lib/writer.js` | プレースホルダ置換 + 書き出し |
-| `FILE_TEMPLATE_SOURCE.md` | コード・設定テンプレ原典 |
-| `MASTER_PROTOCOL_SOURCE.md` | 憲法テンプレ原典 |
+| `scaffold.js` | Hearing UI + generate flow |
+| `lib/parser.js` | Markdown template extract |
+| `lib/writer.js` | Placeholder replace + collision-safe write |
+| `lib/paths.js` | Destination containment, case collision, junction escape |
+| `lib/plan.js` | Output path list from options |
+| `lib/vars.js` | Placeholder values from hearing |
+| `lib/staging.js` | Stage, validate, commit, journal rollback |
+| `FILE_TEMPLATE_SOURCE.md` | Code and doc templates |
+| `MASTER_PROTOCOL_SOURCE.md` | Hidem protocol template |
 | `package.json` | `@clack/prompts`, `picocolors` |
 
-## 原典リポジトリとの同期
+## Canonical source
 
-開発・更新の正本: `original-source-maker` リポジトリ（`c:\Dev-App\original-source-maker` 等）。
+The canonical copy is `skills-maker/skills-pack/new-project/`. Edit here, then install with `install.ps1` / `install-claude.ps1` after approval.
 
-スキルへ反映するときは以下を `scripts/` にコピー:
+`original-source-maker` is historical comparison material only. Do not copy from it as the source of truth.
 
-- `scaffold.js`
-- `lib/parser.js`, `lib/writer.js`
-- `FILE_TEMPLATE_SOURCE.md`
-- `MASTER_PROTOCOL_SOURCE.md`
+## Hidem profile
 
-コピー後: `cd scripts && npm install`
+Generated only when the user turns it on:
 
-## 憲法テンプレの方針（グローバル CLAUDE.md との重複）
+- `PROJECT.md` — purpose, scope, non-goals
+- `.project_rules/MASTER_PROTOCOL.md` — working rules
 
-生成される `.project_rules/MASTER_PROTOCOL.md` は:
+README and `AGENTS.md` remain the general entry. Hidem files are an extra layer, not "the single source of truth".
 
-- **グローバル CLAUDE.md と被る条文**（日本語、Git 安全、無断変更等）→ 委譲節のみ。再掲しない
-- **プロジェクト固有**（Git A/B、devVERSION、接続形態、入店退店等）→ フル記載
-- **優先順位**: グローバル CLAUDE.md（`~/.claude/CLAUDE.md`） > MASTER_PROTOCOL > PROJECT.md
+## Hearing (CLI)
 
-## ヒアリング項目（CLI）
+1. Name, description, author
+2. Distribution: Web / Tauri / MAUI / docs-only
+3. Connectivity: Offline / Online / Hybrid
+4. Modules (not MAUI, not docs-only)
+5. Git pattern A (`main`) / B (`main` + `develop`)
+6. AI-maintained → `AGENTS.md`
+7. Hidem profile on/off
+8. Destination directory
 
-1. プロジェクト名・説明・作成者
-2. 配信形式: Web / Tauri / MAUI
-3. 接続形態: Offline / Online / Hybrid
-4. テンプレレベル: Minimal / Standard / Full
-5. モジュール（MAUI 除く）: EventBus, StateManager, 等
-6. Git: パターン A (main) / B (main + develop)
+## After generate
 
-## 推奨フロー（新規）
+Print setup commands. Do not execute `npm install`, git init, commit, push, or a dev server.
 
-```
-brainstorming（任意）→ grill-me（任意）→ new-project スキル → npm install → 実装
-```
+## Troubleshoot
 
-## トラブルシュート
-
-| 問題 | 対処 |
+| Problem | Fix |
 |---|---|
-| `Cannot find module '@clack/prompts'` | `scripts/` で `npm install` |
-| テンプレが見つからない | `scaffold.js` と同じ `scripts/` に `.md` 原典があるか確認 |
-| 上書きしたくない | 空ディレクトリで実行。競合ファイルがあれば中止 |
+| `Cannot find module '@clack/prompts'` | `npm install` in this skill's `scripts/` |
+| Template missing | `FILE_TEMPLATE_SOURCE.md` next to `scaffold.js` |
+| Collision | Stop. Do not overwrite. Pick an empty dest or remove the conflicting file yourself |
