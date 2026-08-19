@@ -11,9 +11,13 @@
 # _claude/<skill-name>/ overwrites the installed skill (fixes Cursor-specific
 # paths/instructions for the Claude Code environment).
 #
-# $excludeSkills are never installed and are removed if present: they duplicate
-# Claude Code built-ins (official docx/pdf/pptx/xlsx/skill-creator plugins,
-# /code-review, worktree support) and only cause ambiguous triggering.
+# $excludeSkills are never installed and are removed if present.
+#   Official plugins: docx, pdf, pptx, xlsx, skill-creator
+#   Claude native: requesting-code-review, receiving-code-review (/code-review),
+#                  using-git-worktrees (worktree support)
+# Superpowers is canonical from this pack, not the marketplace plugin.
+# using-superpowers is installed here. The plugin is disabled in settings.json
+# (see Disable-SuperpowersPlugin) — do not /add-plugin superpowers on Claude.
 # verification-before-completion is NOT excluded: no matching Claude Code
 # built-in was found on-device; install the real skill instead.
 #
@@ -30,7 +34,6 @@ $destRoots = @(
 $skipTopLevel = @("_hooks", "_claude")
 $excludeSkills = @(
     "docx", "pdf", "pptx", "xlsx", "skill-creator",
-    "using-superpowers",
     "requesting-code-review", "receiving-code-review",
     "using-git-worktrees"
 )
@@ -160,9 +163,61 @@ function Install-ToRoot {
     Write-Host ""
 }
 
+function Disable-SuperpowersPlugin {
+    $settingsPath = Join-Path $env:USERPROFILE ".claude\settings.json"
+    $pluginId = "superpowers@superpowers-marketplace"
+
+    Write-Host "=== Disabling Superpowers plugin (pack is canonical) ==="
+
+    if (-not (Test-Path $settingsPath)) {
+        Write-Host "WARNING: $settingsPath not found - skipped"
+        return
+    }
+
+    $raw = Get-Content -Path $settingsPath -Raw -Encoding UTF8
+    $settings = $raw | ConvertFrom-Json
+
+    if ($null -eq $settings.enabledPlugins) {
+        Write-Host "enabledPlugins missing - skipped"
+        return
+    }
+
+    $ep = $settings.enabledPlugins
+    if ($ep.PSObject.Properties.Name -notcontains $pluginId) {
+        Write-Host "Plugin key '$pluginId' not present - skipped"
+        return
+    }
+
+    $current = $ep.$pluginId
+    $isEnabled = $false
+    if ($current -is [bool]) {
+        $isEnabled = [bool]$current
+    }
+    elseif ("$current" -eq "True" -or "$current" -eq "true") {
+        $isEnabled = $true
+    }
+
+    if (-not $isEnabled) {
+        Write-Host "Plugin already disabled - skipped"
+        return
+    }
+
+    $bakPath = Join-Path (Split-Path $settingsPath -Parent) "settings.json.bak"
+    Copy-Item -Path $settingsPath -Destination $bakPath -Force
+    Write-Host "Backup: $bakPath"
+
+    $ep.$pluginId = $false
+    $json = $settings | ConvertTo-Json -Depth 20
+    $utf8NoBom = New-Object System.Text.UTF8Encoding $false
+    [System.IO.File]::WriteAllText($settingsPath, ($json.TrimEnd() + [Environment]::NewLine), $utf8NoBom)
+    Write-Host "Set enabledPlugins['$pluginId'] = false"
+}
+
 foreach ($root in $destRoots) {
     Install-ToRoot -skillsDst $root
 }
+
+Disable-SuperpowersPlugin
 
 Write-Host "Note: Claude Code hooks are not installed by this script (different format from Cursor's hooks.json)."
 Write-Host "Note: ~/.agents/skills is installed by install.ps1, not here."

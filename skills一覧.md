@@ -10,7 +10,7 @@
 |------|------|
 | 日常（共通） | `skills-pack/` → `install.ps1` で `~/.agents/skills/` に**平置き**。Cursor / Codex / ChatGPT 系が共通で読む正本。件数は MANIFEST |
 | 日常（Cursor 固有） | `chat-handoff` / `skill-creator` / `promote-skill` の3件だけ `~/.cursor/skills/`（`install.ps1`）。`promote-skill` は手順として Claude でも使う（`~/.claude` にも入り、Gate 1 で `~/.claude` 可） |
-| Claude Code | 同パックを `install-claude.ps1` で `~/.claude/skills/` に平置き（除外9あり → 48件）。`~/.agents` は書かない |
+| Claude Code | 同パックを `install-claude.ps1` で `~/.claude/skills/` に平置き（除外8 → いま 49件）。Superpowers プラグインはインストーラが無効化する。`~/.agents` は書かない |
 | マーケ | `skills-pack-marketing/` は**作るが入れない**。必要になったときだけ `install.ps1`（Cursor のみ）。通常更新では入らない・戻らない |
 | プロジェクト内 | `.cursor/skills/` は使わない |
 | 重複の禁止 | **Cursor 向け: 同名を `~/.agents` と `~/.cursor` の両方に置かない。** `~/.agents`∩`~/.claude` は可 |
@@ -300,7 +300,7 @@ Obsidian 系は **3スキル連携**。`obsidian-vault` が vault パス（`D:\v
 ## 補足
 
 - **日常配布**は `skills-pack/`。件数と振り分けの正本は `skills-pack/MANIFEST.json`。別 PC では `skills-pack/引き継ぎ.md` の一言をエージェントに送るだけ。
-- **Claude Code** は `skills-pack/install-claude.ps1` → `~/.claude/skills/`（平置き・除外9で48件）。`~/.agents` はこちらでは触らない（`install.ps1` の管轄）。`install.ps1` の結果を手コピーしない。
+- **Claude Code** は `skills-pack/install-claude.ps1` → `~/.claude/skills/`（平置き・除外8・いま 49件）。Superpowers プラグインは無効。`~/.agents` はこちらでは触らない（`install.ps1` の管轄）。`install.ps1` の結果を手コピーしない。
 - **マーケ**は `skills-pack-marketing/` に正本があるが **デフォルト非インストール**。[INSTALL.md](skills-pack-marketing/INSTALL.md) 参照。誤って入れたら `marketingskills/` と `playbook-lp-creative/` を削除。
 - **設定画面と `/` メニューで件数が違うとき:** 同名スキルが複数 root にある。設定画面は名前で重複排除するが `/` メニューはしないため。Include Third-Party の OFF では `~/.agents` 由来の重複は直らない。詳細は [skills-pack/skills重複処理.md](skills-pack/skills重複処理.md)。
 - **Office スキル（docx / xlsx / pptx）** は Python ライブラリが前提（`pip install python-docx openpyxl python-pptx`）。PDF と画像は Cursor がネイティブに読めるので、`pdf` スキルは結合・分割・フォーム入力・OCR 用。

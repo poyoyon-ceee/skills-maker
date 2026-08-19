@@ -41,7 +41,7 @@ Settings → Rules, Skills, Subagents → **Include Third-Party Plugins, Skills,
 
 ## 対象は `~/.agents/skills` と `~/.cursor/skills` の2つ
 
-**`~/.claude/skills/` にはこの手順を適用しない。** Claude Code 側の重複・残骸は `install-claude.ps1` を再実行すれば解消する（除外スキルの削除・オーバーレイ適用も内蔵。詳細は [INSTALL.md](INSTALL.md)）。
+**`~/.claude/skills/` にはこの手順を適用しない。** Claude Code 側の重複・残骸は `install-claude.ps1` を再実行すれば解消する（除外スキルの削除・オーバーレイ適用・Superpowers プラグインの `enabledPlugins` を false にする処理も内蔵。詳細は [INSTALL.md](INSTALL.md)）。
 
 ---
 
