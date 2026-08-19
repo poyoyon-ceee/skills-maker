@@ -1,5 +1,6 @@
 # Cursor user hook: inject using-superpowers at session start
-# Reads from ~/.cursor/skills/superpowers/using-superpowers/SKILL.md
+# Canonical: ~/.agents/skills/using-superpowers/SKILL.md
+# Fallback: ~/.cursor/skills/superpowers/using-superpowers/SKILL.md (pre-flatten leftover)
 # Does not install the full Superpowers plugin (TDD / writing-plans stay local).
 
 $ErrorActionPreference = 'Stop'
@@ -9,8 +10,12 @@ function Write-Empty {
     exit 0
 }
 
-$skillPath = Join-Path $env:USERPROFILE '.cursor\skills\superpowers\using-superpowers\SKILL.md'
-if (-not (Test-Path $skillPath)) {
+$candidates = @(
+    (Join-Path $env:USERPROFILE '.agents\skills\using-superpowers\SKILL.md'),
+    (Join-Path $env:USERPROFILE '.cursor\skills\superpowers\using-superpowers\SKILL.md')
+)
+$skillPath = $candidates | Where-Object { Test-Path $_ } | Select-Object -First 1
+if (-not $skillPath) {
     Write-Empty
 }
 
@@ -27,7 +32,7 @@ if ([string]::IsNullOrWhiteSpace($content)) {
 
 $sessionContext = @"
 <EXTREMELY_IMPORTANT>
-You have superpowers (custom install: skills in ~/.cursor/skills/, not the full plugin).
+You have superpowers (custom install: skills in ~/.agents/skills/, not the full plugin).
 
 **Below is the full content of your using-superpowers skill. For all other skills, use Cursor skill invocation (@skill-name or Agent Decides) — do not read SKILL.md files manually with file tools.**
 
