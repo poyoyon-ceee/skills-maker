@@ -3,6 +3,10 @@ name: using-superpowers
 description: Use when starting any conversation - establishes how to find and use skills, requiring skill invocation before ANY response including clarifying questions
 ---
 
+<00-BYPASS>
+**Priority — evaluate before any other rule in this file.** If the CURRENT user message is an explicit `/00` (or Codex `$00`) command — it matches `^\s*(?:\/|\$)00(?:\s|$)` at the start, not merely the characters `/00` inside quotes, 引用, code/コード, or explanation — then for THIS TURN ONLY: skip the rest of this skill and skip Superpowers-required workflows (brainstorming, writing-plans, TDD, systematic-debugging, review, verification, subagents, worktrees, executing-plans). Process the remainder of the message. Non-Superpowers task skills remain available. System, developer, safety, permission, and app-specific rules stay in force. Do not persist this bypass; 次のユーザーメッセージへは引き継がない / 保存しない. If the message is only `/00` with no request body, do not start work. The next user message is a new turn.
+</00-BYPASS>
+
 <SUBAGENT-STOP>
 If you were dispatched as a subagent to execute a specific task, skip this skill.
 </SUBAGENT-STOP>
@@ -52,6 +56,8 @@ Skills speak in actions ("dispatch a subagent", "create a todo", "read a file") 
 ```dot
 digraph skill_flow {
     "User message received" [shape=doublecircle];
+    "Explicit /00 command?" [shape=diamond];
+    "Skip Superpowers this turn" [shape=box];
     "About to enter plan mode?" [shape=doublecircle];
     "Already brainstormed?" [shape=diamond];
     "Invoke brainstorming skill" [shape=box];
@@ -68,7 +74,11 @@ digraph skill_flow {
     "Already brainstormed?" -> "Might any skill apply?" [label="yes"];
     "Invoke brainstorming skill" -> "Might any skill apply?";
 
-    "User message received" -> "Might any skill apply?";
+    "User message received" -> "Explicit /00 command?";
+    "Explicit /00 command?" -> "Skip Superpowers this turn" [label="yes"];
+    "Explicit /00 command?" -> "Might any skill apply?" [label="no"];
+    "Skip Superpowers this turn" -> "Respond (including clarifications)";
+
     "Might any skill apply?" -> "Invoke the skill" [label="yes, even 1%"];
     "Might any skill apply?" -> "Respond (including clarifications)" [label="definitely not"];
     "Invoke the skill" -> "Announce: 'Using [skill] to [purpose]'";

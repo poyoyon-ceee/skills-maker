@@ -13,7 +13,7 @@
 | `~/.agents/skills/<スキル名>/` | 通常のスキル（平置き。件数は MANIFEST.json） | Cursor / Codex / ChatGPT 系 |
 | `~/.cursor/skills/<スキル名>/` | Cursor 固有スキル（3件） | Cursor のみ |
 | `~/.cursor/hooks/` | セッションフック | Cursor のみ |
-| `~/.claude/skills/<スキル名>/` | Claude Code 用（`install-claude.ps1`・除外8。件数はインストーラの `Unique skills installed`、いま 49） | Claude Code のみ |
+| `~/.claude/skills/<スキル名>/` | Claude Code 用（`install-claude.ps1`・除外8。件数はインストーラの `Unique skills installed`） | Claude Code のみ |
 
 Cursor 固有の3件は `chat-handoff` / `skill-creator` / `promote-skill`。`install.ps1` では `~/.cursor/skills/` のみに置く（共有の `~/.agents` には置かない）。ただし **`promote-skill` の手順自体は Claude Code でも使う**（`install-claude.ps1` で `~/.claude` にも入り、Gate 1 宛先に `~/.claude/skills/` を選べる）。`chat-handoff` / `skill-creator` は従来どおり Cursor 前提。
 
@@ -130,7 +130,7 @@ cd skills-pack
 | 3rd party | `notebooklm`, `react-best-practices` など |
 | GWS（3） | `gws-docs`, `gws-sheets`, `gws-drive` |
 | Cursor 固有（3） | `chat-handoff`, `skill-creator`, `promote-skill`（`~/.cursor/skills/` のみ） |
-| 独自（残り） | `grill-me`, `writing-plans`, `webapp-testing`, `project-foundation`, `new-project`, `doc-maint` など |
+| 独自（残り） | `00`, `grill-me`, `writing-plans`, `webapp-testing`, `project-foundation`, `new-project`, `doc-maint` など |
 
 全件は [MANIFEST.json](MANIFEST.json) を参照。
 

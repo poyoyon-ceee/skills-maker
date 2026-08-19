@@ -14,4 +14,8 @@ test('MANIFEST.json has unique skill names and includes project-foundation', () 
     assert.ok(names.includes('project-foundation'));
     assert.ok(names.includes('new-project'));
     assert.ok(names.includes('doc-maint'));
+    assert.ok(names.includes('00'));
+    const zero = entries.find((e) => e.name === '00');
+    assert.equal(zero.path, '00/SKILL.md');
+    assert.equal(zero.installTarget, '~/.agents/skills/00/');
 });

@@ -29,7 +29,18 @@ CURSOR_ONLY=("chat-handoff" "skill-creator" "promote-skill")
 mkdir -p "$AGENTS_DST" "$CURSOR_DST"
 
 get_skill_name() {
-  awk '/^name:/ { sub(/^name:[[:space:]]*/, ""); gsub(/^[ \t]+|[ \t]+$/, ""); print; exit }' "$1"
+  awk '
+    /^name:/ {
+      sub(/^name:[[:space:]]*/, "")
+      gsub(/^[ \t]+|[ \t]+$/, "")
+      if ($0 ~ /^".*"$/ || $0 ~ /^'\''.*'\''$/) {
+        sub(/^["'\'']/, "")
+        sub(/["'\'']$/, "")
+      }
+      print
+      exit
+    }
+  ' "$1"
 }
 
 contains() {

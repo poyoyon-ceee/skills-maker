@@ -16,7 +16,11 @@ function Get-SkillName {
     param([string]$Path)
     $head = Get-Content $Path -TotalCount 15 -Encoding UTF8 -ErrorAction SilentlyContinue
     foreach ($line in $head) {
-        if ($line -match '^name:\s*(.+)$') { return $Matches[1].Trim() }
+        if ($line -match '^name:\s*(.+)$') {
+            $raw = $Matches[1].Trim()
+            if ($raw -match '^[''"](.+)[''"]$') { return $Matches[1] }
+            return $raw
+        }
     }
     return $null
 }

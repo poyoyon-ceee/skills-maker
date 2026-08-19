@@ -1,6 +1,6 @@
 # グローバルスキル一覧（日常パック ＋ マーケオプトイン47件・未インストール）
 
-取得日: 2026-08-17  
+取得日: 2026-08-19  
 **パック正本の件数:** `skills-pack/MANIFEST.json`（`scripts/generate-manifest.ps1`）。手で件数を固定しない。  
 **いま入っているもの（この PC）:** グローバル同期は未実施なら、前回 install 時点のまま。マーケはリポジトリにパックがあるだけで **グローバル未導入**。
 
@@ -10,7 +10,8 @@
 |------|------|
 | 日常（共通） | `skills-pack/` → `install.ps1` で `~/.agents/skills/` に**平置き**。Cursor / Codex / ChatGPT 系が共通で読む正本。件数は MANIFEST |
 | 日常（Cursor 固有） | `chat-handoff` / `skill-creator` / `promote-skill` の3件だけ `~/.cursor/skills/`（`install.ps1`）。`promote-skill` は手順として Claude でも使う（`~/.claude` にも入り、Gate 1 で `~/.claude` 可） |
-| Claude Code | 同パックを `install-claude.ps1` で `~/.claude/skills/` に平置き（除外8 → いま 49件）。Superpowers プラグインはインストーラが無効化する。`~/.agents` は書かない |
+| `/00` | メッセージ先頭の明示コマンド。その回答が終わるまでの1ターンだけ Superpowers 強制ワークフローを無効化。次のメッセージでは通常動作に戻る。手動のみ |
+| Claude Code | 同パックを `install-claude.ps1` で `~/.claude/skills/` に平置き（除外8。件数はインストーラの `Unique skills installed`）。Superpowers プラグインはインストーラが無効化する。`~/.agents` は書かない |
 | マーケ | `skills-pack-marketing/` は**作るが入れない**。必要になったときだけ `install.ps1`（Cursor のみ）。通常更新では入らない・戻らない |
 | プロジェクト内 | `.cursor/skills/` は使わない |
 | 重複の禁止 | **Cursor 向け: 同名を `~/.agents` と `~/.cursor` の両方に置かない。** `~/.agents`∩`~/.claude` は可 |
@@ -37,7 +38,7 @@ Settings → Rules, Skills, Subagents → **Include Third-Party Plugins, Skills,
 2. [ドキュメント／データ処理（10件）](#2-ドキュメントデータ処理10件)
 3. [Google Workspace 連携（3件）](#3-google-workspace-連携3件)
 4. [設計・開発ワークフロー（Superpowers 系・12件）](#4-設計開発ワークフローsuperpowers系12件)
-5. [独自の開発系スキル（12件）](#5-独自の開発系スキル12件)
+5. [独自の開発系スキル（13件）](#5-独自の開発系スキル13件)
 6. [デザイン・コンテンツ制作（6件）](#6-デザインコンテンツ制作6件)
 7. [ナレッジ管理・リサーチ（5件）](#7-ナレッジ管理リサーチ5件)
 8. [GitHub / Git 運用（3件）](#8-github--git-運用3件)
@@ -114,7 +115,7 @@ Settings → Rules, Skills, Subagents → **Include Third-Party Plugins, Skills,
 
 ---
 
-## 5. 独自の開発系スキル（12件）
+## 5. 独自の開発系スキル（13件）
 
 文書まわりの入口は `/project-foundation`（自動）。判定中は書き込まない。
 
@@ -124,6 +125,7 @@ Settings → Rules, Skills, Subagents → **Include Third-Party Plugins, Skills,
 
 | コマンド | 説明 | 使いどころ |
 |----------|------|-----------|
+| `/00`（手動のみ） | メッセージ先頭の `/00` で、そのターンだけ `using-superpowers` と Superpowers 由来の必須ワークフロー（計画・TDD・デバッグ・レビュー・検証・サブエージェント・worktree）を無効化。依頼本文は通常どおり処理。次のメッセージへは引き継がない。 | Superpowers を使わず、今の依頼だけ素早く処理したいとき。文章中やコード内の `/00` では発動しない |
 | `/chat-handoff`（手動のみ） | 別PCで続きをやるための引き継ぎメモを、リポジトリ直下の `質疑応答M-D.MD` に作成・追記。結論・決定・未解決TODOを残す。Cursor チャット履歴は端末に残る前提。 | 「別PC用に残して」「引き継ぎ書いて」「質疑応答に落として」「続きは別端末で」と明示されたとき。通常の備忘録は `/session-recap` |
 | `/git-guardrails` | 危険なGitコマンド（push、reset --hard、clean、branch -D等）を実行前にブロックするフックを設定。 | 誤操作防止のガードレールを設定したいとき |
 | `/new-project`（手動のみ） | 空ディレクトリ向け scaffold。CLI 対話。必須は README。Hidem プロファイルは選択式。既存ファイルは上書きしない。 | `project-foundation` が新規と判定したとき。既存リポジトリでは使わない |
@@ -170,7 +172,7 @@ Obsidian 系は **3スキル連携**。`obsidian-vault` が vault パス（`D:\v
 
 | コマンド | 説明 | 使いどころ |
 |----------|------|-----------|
-| `/git-guardrails` | （[§5](#5-独自の開発系スキル12件) 参照）危険なGit操作をブロック | — |
+| `/git-guardrails` | （[§5](#5-独自の開発系スキル13件) 参照）危険なGit操作をブロック | — |
 | `/git-in-clone`（手動のみ） | 指定したGitHubリポジトリを現在の空ディレクトリへ `git clone .` で取得。 | 「このフォルダにクローンして」と言われたとき |
 | `/github-make-sync`（手動のみ） | 指定した名前で非公開GitHubリポジトリを作成し、`gh` CLIで現在のプロジェクトに `origin` を設定。 | 新規プロジェクトをGitHubに接続したいとき |
 
@@ -300,7 +302,7 @@ Obsidian 系は **3スキル連携**。`obsidian-vault` が vault パス（`D:\v
 ## 補足
 
 - **日常配布**は `skills-pack/`。件数と振り分けの正本は `skills-pack/MANIFEST.json`。別 PC では `skills-pack/引き継ぎ.md` の一言をエージェントに送るだけ。
-- **Claude Code** は `skills-pack/install-claude.ps1` → `~/.claude/skills/`（平置き・除外8・いま 49件）。Superpowers プラグインは無効。`~/.agents` はこちらでは触らない（`install.ps1` の管轄）。`install.ps1` の結果を手コピーしない。
+- **Claude Code** は `skills-pack/install-claude.ps1` → `~/.claude/skills/`（平置き・除外8。件数はインストーラの `Unique skills installed`）。Superpowers プラグインは無効。`~/.agents` はこちらでは触らない（`install.ps1` の管轄）。`install.ps1` の結果を手コピーしない。
 - **マーケ**は `skills-pack-marketing/` に正本があるが **デフォルト非インストール**。[INSTALL.md](skills-pack-marketing/INSTALL.md) 参照。誤って入れたら `marketingskills/` と `playbook-lp-creative/` を削除。
 - **設定画面と `/` メニューで件数が違うとき:** 同名スキルが複数 root にある。設定画面は名前で重複排除するが `/` メニューはしないため。Include Third-Party の OFF では `~/.agents` 由来の重複は直らない。詳細は [skills-pack/skills重複処理.md](skills-pack/skills重複処理.md)。
 - **Office スキル（docx / xlsx / pptx）** は Python ライブラリが前提（`pip install python-docx openpyxl python-pptx`）。PDF と画像は Cursor がネイティブに読めるので、`pdf` スキルは結合・分割・フォーム入力・OCR 用。

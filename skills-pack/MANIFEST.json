@@ -1,5 +1,10 @@
 ﻿[
     {
+        "name":  "00",
+        "path":  "00/SKILL.md",
+        "installTarget":  "~/.agents/skills/00/"
+    },
+    {
         "name":  "app-tech-inventory",
         "path":  "app-tech-inventory/SKILL.md",
         "installTarget":  "~/.agents/skills/app-tech-inventory/"
