@@ -141,7 +141,7 @@ CHANGELOG / GitHub Releases があれば、同じ窓の **文言の正** にす�
 - 各スタック要素に `role` を付ける
 - `概要情報源` は必須
 - `アプリバージョン` `リポジトリパス` があれば維持。新規必須キーは足さない。未反映の正は本文
-- **新規の `リポジトリパス`**: `C:\Dev-App\...` / `C:\Dev-tauri-app\...` の絶対パスは使わない。ルートからの相対で記録する（例: `Dev-App/02_in-dev/skills-maker`、`Dev-tauri-app/nippo-sec-desk2`）。既存の絶対パスは維持してよい
+- **新規の `リポジトリパス`**: ドライブ文字付きの絶対パスは使わない。`Dev-App/` / `Dev-tauri-app/` からの相対で記録する（例: `Dev-App/01_in-use/skills-maker`、`Dev-tauri-app/nippo-sec-desk2`）。既存の絶対パスは維持してよい
 
 #### ノート本文の型（固定）
 
