@@ -2,6 +2,8 @@
 
 Cursor Agent Skills を複数 PC で共有・配布するためのリポジトリです。
 
+**推奨配置:** `Dev-App/02_in-dev/skills-maker`（`C:\Dev-App\...` の絶対パスは取説・仕様書に書かない。移動は `scripts/move-to-02-in-dev.ps1`）
+
 **運用方針: スキルはすべてグローバルに置く。通常は `~/.agents/skills/`、Cursor 固有のものだけ `~/.cursor/skills/`。**  
 各プロジェクトの `.cursor/skills/` には置かない。このリポジトリの `skills-pack/` が配布用の正本。**同じスキルを2つの root に置かない**（重複表示の原因）。
 

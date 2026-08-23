@@ -115,7 +115,7 @@ project-foundation
 
 ### 3.6 テンプレート正本が二重化している
 
-`skills-pack/new-project/reference.md`は`C:\Dev-App\original-source-maker`等をテンプレート原典としている。一方、ユーザーはこのリポジトリで全スキルを一元管理し、ここから同期する方針を明示した。
+`skills-pack/new-project/reference.md`は`../../original-source-maker`（Dev-App 直下の sibling）等をテンプレート原典としていた。一方、ユーザーはこのリポジトリで全スキルを一元管理し、ここから同期する方針を明示した。
 
 確認時点で、`original-source-maker/FILE_TEMPLATE_SOURCE.md`とskills-pack同梱版には5 insertions / 5 deletionsの差分があった。`MASTER_PROTOCOL_SOURCE.md`は同一だった。
 
