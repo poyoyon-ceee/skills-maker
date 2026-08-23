@@ -3,7 +3,7 @@
 # NEVER creates skills-maker root. NEVER writes if validation fails.
 #
 # Usage:
-#   .\promote-to-pack.ps1 -SkillFolderName "my-skill" -SkillsMakerRoot "C:\Dev-App\skills-maker"
+#   .\promote-to-pack.ps1 -SkillFolderName "my-skill" -SkillsMakerRoot "<skills-maker リポジトリ>"
 #   .\promote-to-pack.ps1 -SkillFolderName "my-skill" -SkillsMakerRoot "..." -PackName "skills-pack-marketing"
 
 [CmdletBinding()]

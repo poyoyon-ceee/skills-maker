@@ -84,7 +84,7 @@ No のとき → global のみで終了。
 
 1. ユーザーがこの会話で既に渡した skills-maker パス
 2. 環境変数 `SKILLS_MAKER_ROOT`（セットされていて、かつ検証 OK のときだけ）
-3. デフォルト候補 `C:\Dev-App\skills-maker`（**存在するときだけ**。無ければ使わない）
+3. デフォルト候補: skills-maker リポジトリ（**存在するときだけ**。無ければ使わない）
 4. どれもダメ → **「skills-maker のパスは？」と聞く。来るまで Gate 2 の書き込みをしない**
 
 ### 検証（全部満たすこと）
@@ -144,7 +144,7 @@ bash "<resolved>/promote-to-pack.sh" "<skill-folder-name>" "<verified-root>"
 ## やってはいけないこと
 
 - Gate を飛ばして黙って sync
-- `C:\Dev-App\skills-maker` が無いのに作成する
+- skills-maker リポジトリが無いのに作成する
 - 検証前に `skills-pack` 配下へコピー
 - `sync-skills-pack.ps1` の全件ミラーをこのフローの既定にする（実験スキル混入の原因）
 - `~/.cursor/skills-cursor/` へ書く
