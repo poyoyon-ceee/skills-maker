@@ -1,7 +1,7 @@
 # Cursor向け引き継ぎ書 — project-foundation / new-project / doc-maint 再設計
 
 日付: 2026-08-16  
-対象リポジトリ: `C:\Dev-App\skills-maker`  
+対象リポジトリ: このリポジトリ  
 対象正本: `skills-pack/`  
 状態: 設計方針確定、実装未着手  
 読者: Cursor Agentとレビュー担当者
@@ -14,13 +14,13 @@
 
 作業開始時に必ず実施すること:
 
-1. `C:\Dev-App\skills-maker` が作業ルートであることを確認する。
+1. このリポジトリが作業ルートであることを確認する。
 2. `git status --short --branch` を確認する。
 3. 現在確認されている未追跡の `.claude/` をユーザー所有の変更として扱う。
 4. `.claude/` を削除、移動、stash、上書き、commit対象へ追加しない。
 5. branch作成、commit、push、mergeはユーザーの明示指示がある場合だけ行う。
 6. ホーム配下の `~/.agents/skills`、`~/.cursor/skills`、`~/.claude/skills`、`~/.codex/skills`を正本として直接編集しない。
-7. スキルの正本は常に`C:\Dev-App\skills-maker\skills-pack`とする。
+7. スキルの正本は常に `skills-pack` とする。
 
 現状確認時点では、`skills-maker`は`main...origin/main`で、`.claude/`が未追跡である。作業時には必ず再確認すること。
 
@@ -50,7 +50,7 @@ project-foundation
 5. 既存プロジェクトは「読み取り専用監査 → ユーザー承認 → 適用」の二段階にする。
 6. 既存プロジェクトの監査結果は、ユーザー向けには「維持・統合・修正・移動・要確認」の5分類だけを表示する。
 7. 詳細な内部判定ラベルごとのファイルやフォルダは作らない。
-8. `C:\Dev-App\skills-maker\skills-pack`を唯一の正本とする。
+8. `skills-pack` を唯一の正本とする。
 9. 既存の`install.ps1`と`install-claude.ps1`による同期体系を使う。
 10. インストール済みグローバルスキルを直接編集しない。
 11. スキル変更はRED-GREEN-REFACTORで検証する。
@@ -115,7 +115,7 @@ project-foundation
 
 ### 3.6 テンプレート正本が二重化している
 
-`skills-pack/new-project/reference.md`は`C:\Dev-App\original-source-maker`等をテンプレート原典としている。一方、ユーザーは`C:\Dev-App\skills-maker`で全スキルを一元管理し、ここから同期する方針を明示した。
+`skills-pack/new-project/reference.md`は`C:\Dev-App\original-source-maker`等をテンプレート原典としている。一方、ユーザーはこのリポジトリで全スキルを一元管理し、ここから同期する方針を明示した。
 
 確認時点で、`original-source-maker/FILE_TEMPLATE_SOURCE.md`とskills-pack同梱版には5 insertions / 5 deletionsの差分があった。`MASTER_PROTOCOL_SOURCE.md`は同一だった。
 
