@@ -38,7 +38,7 @@ Settings → Rules, Skills, Subagents → **Include Third-Party Plugins, Skills,
 2. [ドキュメント／データ処理（10件）](#2-ドキュメントデータ処理10件)
 3. [Google Workspace 連携（3件）](#3-google-workspace-連携3件)
 4. [設計・開発ワークフロー（Superpowers 系・12件）](#4-設計開発ワークフローsuperpowers系12件)
-5. [独自の開発系スキル（13件）](#5-独自の開発系スキル13件)
+5. [独自の開発系スキル（14件）](#5-独自の開発系スキル14件)
 6. [デザイン・コンテンツ制作（6件）](#6-デザインコンテンツ制作6件)
 7. [ナレッジ管理・リサーチ（5件）](#7-ナレッジ管理リサーチ5件)
 8. [GitHub / Git 運用（3件）](#8-github--git-運用3件)
@@ -115,7 +115,7 @@ Settings → Rules, Skills, Subagents → **Include Third-Party Plugins, Skills,
 
 ---
 
-## 5. 独自の開発系スキル（13件）
+## 5. 独自の開発系スキル（14件）
 
 文書まわりの入口は `/project-foundation`（自動）。判定中は書き込まない。
 
@@ -134,6 +134,7 @@ Settings → Rules, Skills, Subagents → **Include Third-Party Plugins, Skills,
 | `/session-recap`（手動のみ） | 今の会話を `備忘録.md` の日付エントリにする（決定・調査・次のTODO）。コード変更履歴用の `変更履歴.md` には書かない。 | 「まとめて」「備忘録に残して」「このやり取りを記録して」と明示されたときだけ |
 | `/test-driven-development` | RED-GREEN-REFACTORのTDDを実装前に徹底。ローカル改良版（Superpowers本体＋マルチスタックテストコマンド表付き）。 | 機能追加・バグ修正・リファクタリング前。「TDDで」「テストファーストで」と言われたとき |
 | `/to-issues`（手動のみ） | プラン・仕様・PRDを、独立して着手可能な「トレーサーバレット」の垂直スライスIssueに分解。 | PRDや設計書を実装可能な単位のIssueに分割したいとき |
+| `/to-knowledge`（手動のみ） | 今の会話から、残す価値のある決定・失敗・再現コストの高い設定だけを拾い、Obsidian の `D:\vault\04_知見\` へ提案する。書く前に承認を取る。作業ログは書かない。 | 「知見に落として」「今日の分を知見化して」「残す価値あるもの拾って」と明示されたとき。時系列の備忘録は `/session-recap` |
 | `/to-prd`（手動のみ） | 今の会話をヒアリングなしでそのままPRDに合成し、Issueトラッカーへ公開。 | すでに会話で要件が固まっており、そのままPRD化したいとき |
 | `/web-artifacts-builder` | React 18 + TypeScript + Vite + Tailwind + shadcn/ui で、状態管理やルーティングを含む多コンポーネントのHTMLアーティファクトを構築。 | 単純な単一ファイルHTML/JSXでは足りない、複雑なWebアーティファクトを作りたいとき |
 | `/webapp-testing` | Cursorのブラウザ MCP または Playwright スクリプトでローカル Web アプリをテスト。ユニット/E2E(IDE)/E2E(スクリプト)の使い分け表あり。 | 「アプリをテストして」「UIを確認して」、フロントエンドの動作検証全般 |
@@ -172,7 +173,7 @@ Obsidian 系は **3スキル連携**。`obsidian-vault` が vault パス（`D:\v
 
 | コマンド | 説明 | 使いどころ |
 |----------|------|-----------|
-| `/git-guardrails` | （[§5](#5-独自の開発系スキル13件) 参照）危険なGit操作をブロック | — |
+| `/git-guardrails` | （[§5](#5-独自の開発系スキル14件) 参照）危険なGit操作をブロック | — |
 | `/git-in-clone`（手動のみ） | 指定したGitHubリポジトリを現在の空ディレクトリへ `git clone .` で取得。 | 「このフォルダにクローンして」と言われたとき |
 | `/github-make-sync`（手動のみ） | 指定した名前で非公開GitHubリポジトリを作成し、`gh` CLIで現在のプロジェクトに `origin` を設定。 | 新規プロジェクトをGitHubに接続したいとき |
 

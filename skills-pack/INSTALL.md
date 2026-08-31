@@ -130,7 +130,7 @@ cd skills-pack
 | 3rd party | `notebooklm`, `react-best-practices` など |
 | GWS（3） | `gws-docs`, `gws-sheets`, `gws-drive` |
 | Cursor 固有（3） | `chat-handoff`, `skill-creator`, `promote-skill`（`~/.cursor/skills/` のみ） |
-| 独自（残り） | `00`, `grill-me`, `writing-plans`, `webapp-testing`, `project-foundation`, `new-project`, `doc-maint` など |
+| 独自（残り） | `00`, `grill-me`, `writing-plans`, `webapp-testing`, `project-foundation`, `new-project`, `doc-maint`, `session-recap`, `to-knowledge` など |
 
 全件は [MANIFEST.json](MANIFEST.json) を参照。
 
