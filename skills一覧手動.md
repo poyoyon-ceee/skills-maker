@@ -1,9 +1,9 @@
 # 手動のみスキル一覧（`disable-model-invocation: true`）
 
-取得日: 2026-08-19  
+取得日: 2026-09-01  
 出典: [skills一覧.md](skills一覧.md) / [skills-pack/MANIFEST.json](skills-pack/MANIFEST.json)
 
-**対象:** 日常 `skills-pack` のうち、会話から自動選択されず **明示呼び出しが必要なスキルのみ**（**18件**）。  
+**対象:** 日常 `skills-pack` のうち、会話から自動選択されず **明示呼び出しが必要なスキルのみ**（**19件**）。  
 マーケ（`skills-pack-marketing`）はパック全体が手動だが **未インストール**のため本一覧には含めない → [marketing-skills一覧.md](marketing-skills一覧.md)
 
 **凡例**
@@ -44,7 +44,7 @@
 | `/playbook-research-assets` | `notebooklm` → `obsidian-vault`（＋任意で markdown / canvas）→ `content-research-writer`。 | 散在ナレッジの資産化 |
 | `/route-playbook` | 要求を見て最適な `/playbook-*` を1つ（＋代替）提案し、適応スケッチを出して `GO` 待ち。実行はしない。マーケ未導入なら `playbook-lp-creative` は候補から外すか導入を促す。 | 「どのplaybook？」「台本を選んで」「記事書いて／見積まとめて」など入口が曖昧なとき |
 
-`/playbook-lp-creative` は日常パック外・**未インストール**（マーケパック側・手動）。
+`/playbook-lp-creative` は日常パック外・**未インストール**（マーケパック側・手動）。パック導入後は Adaptive proposal gate 付き。`/route-playbook` からも誘導可。
 
 ---
 
@@ -60,7 +60,7 @@
 
 | コマンド | 説明 | 使いどころ |
 |----------|------|-----------|
-| `/00` | メッセージ先頭の `/00` で、そのターンだけ Superpowers 強制ワークフローを無効化。依頼本文は通常どおり処理。次のメッセージへは引き継がない。 | Superpowers を使わず、今の依頼だけ素早く処理したいとき。文章中やコード内の `/00` では発動しない |
+| `/00` | メッセージ先頭の `/00` で、そのターンだけ `using-superpowers` と Superpowers 由来の必須ワークフロー（計画・TDD・デバッグ・レビュー・検証・サブエージェント・worktree）を無効化。依頼本文は通常どおり処理。次のメッセージへは引き継がない。 | Superpowers を使わず、今の依頼だけ素早く処理したいとき。文章中やコード内の `/00` では発動しない |
 | `/chat-handoff` | 別PCで続きをやるための引き継ぎメモを、リポジトリ直下の `質疑応答M-D.MD` に作成・追記。結論・決定・未解決TODOを残す。Cursor チャット履歴は端末に残る前提。 | 「別PC用に残して」「引き継ぎ書いて」「質疑応答に落として」「続きは別端末で」と明示されたとき。通常の備忘録は `/session-recap` |
 | `/new-project` | 空ディレクトリ向け scaffold。CLI 対話。必須は README。Hidem プロファイルは選択式。既存ファイルは上書きしない。 | `project-foundation` が新規と判定したとき。既存リポジトリでは使わない |
 | `/session-recap` | 今の会話を `備忘録.md` の日付エントリにする（決定・調査・次のTODO）。コード変更履歴用の `変更履歴.md` には書かない。 | 「まとめて」「備忘録に残して」「このやり取りを記録して」と明示されたときだけ |
