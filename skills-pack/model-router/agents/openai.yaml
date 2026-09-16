@@ -1,0 +1,6 @@
+interface:
+  display_name: "model-router"
+  short_description: "大量探索・複数ファイル処理で通常ツールとLuna・Terra・Solを分担"
+  default_prompt: "$model-router を使い、候補を通常ツールで絞ってモデルを分担し、重要原文を確認してRouting Reportを返してください。"
+policy:
+  allow_implicit_invocation: true
