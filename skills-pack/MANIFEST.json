@@ -120,9 +120,9 @@
         "installTarget": "~/.agents/skills/json-canvas/"
     },
     {
-        "name": "model-router",
-        "path": "model-router/SKILL.md",
-        "installTarget": "~/.agents/skills/model-router/"
+        "name": "model-router-gpt",
+        "path": "model-router-gpt/SKILL.md",
+        "installTarget": "~/.agents/skills/model-router-gpt/"
     },
     {
         "name": "new-project",

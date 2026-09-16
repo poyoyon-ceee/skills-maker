@@ -15,6 +15,7 @@
 #   Official plugins: docx, pdf, pptx, xlsx, skill-creator
 #   Claude native: requesting-code-review, receiving-code-review (/code-review),
 #                  using-git-worktrees (worktree support)
+#   Codex GPT only: model-router-gpt
 # Superpowers is canonical from this pack, not the marketplace plugin.
 # using-superpowers is installed here. The plugin is disabled in settings.json
 # (see Disable-SuperpowersPlugin) — do not /add-plugin superpowers on Claude.
@@ -35,7 +36,7 @@ $skipTopLevel = @("_hooks", "_claude")
 $excludeSkills = @(
     "docx", "pdf", "pptx", "xlsx", "skill-creator",
     "requesting-code-review", "receiving-code-review",
-    "using-git-worktrees"
+    "using-git-worktrees", "model-router-gpt"
 )
 
 function Get-SkillName {
