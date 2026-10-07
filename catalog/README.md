@@ -41,6 +41,7 @@ python scripts/generate_skills_catalog_pdf.py
 
 ## 入力の前提
 
+- スキルごとの宛先正本は `MANIFEST.json` の `installTargets`。一覧行は同期スクリプトが `catalog-*` frontmatter から書く。運用詳細は [incoming/RULES.md](../incoming/RULES.md)。
 - **唯一の入力**: リポジトリ直下の `skills一覧.md`
 - 表形式（`| コマンド | 説明 | 使いどころ |`）と `##` / `###` 見出し構造を維持すること
 - 参照行（使いどころが `—`）は PDF には含めない

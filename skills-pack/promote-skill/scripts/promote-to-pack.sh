@@ -96,12 +96,38 @@ cp -R "$SRC" "$DST"
 # Regenerate MANIFEST.json
 MANIFEST="${PACK_ROOT}/MANIFEST.json"
 TMP="$(mktemp)"
-python3 - <<'PY' "$PACK_ROOT" "$TMP"
+PYTHONPATH="${SkillsMakerRoot}" python3 - <<'PY' "$PACK_ROOT" "$TMP" "$SkillsMakerRoot"
 import json, sys
 from pathlib import Path
+
+sys.path.insert(0, sys.argv[3])
+from scripts.incoming_lib import legacy_install_target, migration_targets
+
 root = Path(sys.argv[1])
 out = Path(sys.argv[2])
-CURSOR_ONLY = {"chat-handoff", "skill-creator", "promote-skill"}
+
+
+def strip_quotes(raw: str) -> str:
+    raw = raw.strip()
+    if len(raw) >= 2 and raw[0] == raw[-1] and raw[0] in "\"'":
+        return raw[1:-1]
+    return raw
+
+
+def normalize_manifest_name(name: str) -> str:
+    return strip_quotes(name)
+
+
+existing_by_name: dict[str, list[str]] = {}
+manifest_path = root / "MANIFEST.json"
+if manifest_path.is_file():
+    text = manifest_path.read_text(encoding="utf-8-sig")
+    for entry in json.loads(text):
+        targets = entry.get("installTargets")
+        if targets:
+            key = normalize_manifest_name(entry["name"])
+            existing_by_name[key] = list(targets)
+
 entries = []
 for skill_md in root.rglob("SKILL.md"):
     rel = skill_md.relative_to(root).as_posix()
@@ -110,11 +136,26 @@ for skill_md in root.rglob("SKILL.md"):
     name = None
     for line in skill_md.read_text(encoding="utf-8").splitlines()[:15]:
         if line.startswith("name:"):
-            name = line.split(":", 1)[1].strip()
+            name = strip_quotes(line.split(":", 1)[1])
             break
-    if name:
-        target = "~/.cursor/skills" if name in CURSOR_ONLY else "~/.agents/skills"
-        entries.append({"name": name, "path": rel, "installTarget": f"{target}/{name}/"})
+    if not name:
+        continue
+    if name in existing_by_name:
+        install_targets = existing_by_name[name]
+    else:
+        try:
+            install_targets = migration_targets(name)
+        except ValueError:
+            print("incoming sync required; refusing to guess installTargets", file=sys.stderr)
+            sys.exit(1)
+    entries.append(
+        {
+            "name": name,
+            "path": rel,
+            "installTargets": install_targets,
+            "installTarget": legacy_install_target(install_targets, name),
+        }
+    )
 entries.sort(key=lambda e: e["name"])
 out.write_text(json.dumps(entries, indent=4, ensure_ascii=False) + "\n", encoding="utf-8")
 print(len(entries))

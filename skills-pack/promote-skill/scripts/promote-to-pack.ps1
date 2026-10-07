@@ -92,27 +92,101 @@ Copy-Item -LiteralPath $src -Destination $dst -Recurse -Force
 
 # Regenerate MANIFEST.json for this pack only
 # Keep this in sync with scripts/generate-manifest.ps1
-$cursorOnlySkills = @("chat-handoff", "skill-creator", "promote-skill")
-$manifest = @()
-Get-ChildItem $packRoot -Recurse -Filter "SKILL.md" -File | ForEach-Object {
-    $head = Get-Content $_.FullName -TotalCount 15 -Encoding UTF8
-    $name = $null
+$env:PYTHONPATH = $SkillsMakerRoot
+
+function Get-SkillNameFromMd {
+    param([string]$Path)
+    $head = Get-Content $Path -TotalCount 15 -Encoding UTF8 -ErrorAction SilentlyContinue
     foreach ($line in $head) {
-        if ($line -match '^name:\s*(.+)$') { $name = $Matches[1].Trim(); break }
+        if ($line -match '^name:\s*(.+)$') {
+            $raw = $Matches[1].Trim()
+            if ($raw -match '^[''"](.+)[''"]$') { return $Matches[1] }
+            return $raw
+        }
     }
-    if (-not $name) { return }
-    $rel = $_.FullName.Substring($packRoot.Length).TrimStart('\', '/').Replace('\', '/')
-    # skip installer-only / non-skill trees if any
-    if ($rel -match '^(_hooks|_claude)/') { return }
-    $target = if ($cursorOnlySkills -contains $name) { "~/.cursor/skills" } else { "~/.agents/skills" }
-    $manifest += [PSCustomObject][ordered]@{
-        name          = $name
-        path          = $rel
-        installTarget = "$target/$name/"
+    return $null
+}
+
+function Normalize-ManifestName {
+    param([string]$Name)
+    if ($Name -match '^[''"](.+)[''"]$') { return $Matches[1] }
+    return $Name
+}
+
+function Get-ExistingInstallTargetsByName {
+    param([string]$ManifestPath)
+    $map = @{}
+    if (-not (Test-Path $ManifestPath)) { return $map }
+    $raw = Get-Content $ManifestPath -Raw -Encoding UTF8
+    if ($raw.Length -gt 0 -and [int][char]$raw[0] -eq 0xFEFF) {
+        $raw = $raw.Substring(1)
+    }
+    $existing = $raw | ConvertFrom-Json
+    foreach ($e in $existing) {
+        if (-not $e.installTargets) { continue }
+        $key = Normalize-ManifestName $e.name
+        $map[$key] = @($e.installTargets)
+    }
+    return $map
+}
+
+function Resolve-InstallTargets {
+    param(
+        [string]$Name,
+        [hashtable]$ExistingByName
+    )
+    if ($ExistingByName.ContainsKey($Name)) {
+        return ,@($ExistingByName[$Name])
+    }
+    $prevErr = $ErrorActionPreference
+    $ErrorActionPreference = "Stop"
+    try {
+        $env:SKILL_NAME = $Name
+        $json = python -c "import os; from scripts.incoming_lib import migration_targets; import json; print(json.dumps(migration_targets(os.environ['SKILL_NAME'])))"
+        return ,@(($json | ConvertFrom-Json))
+    } catch {
+        Write-Host "incoming sync required; refusing to guess installTargets" -ForegroundColor Red
+        exit 1
+    } finally {
+        $ErrorActionPreference = $prevErr
+        Remove-Item Env:SKILL_NAME -ErrorAction SilentlyContinue
+    }
+}
+
+function Get-LegacyInstallTarget {
+    param(
+        [string[]]$Targets,
+        [string]$Name
+    )
+    $env:SKILL_NAME = $Name
+    $env:TARGETS_JSON = (ConvertTo-Json -InputObject @($Targets) -Compress)
+    try {
+        return python -c "import json, os; from scripts.incoming_lib import legacy_install_target; print(legacy_install_target(json.loads(os.environ['TARGETS_JSON']), os.environ['SKILL_NAME']))"
+    } finally {
+        Remove-Item Env:SKILL_NAME -ErrorAction SilentlyContinue
+        Remove-Item Env:TARGETS_JSON -ErrorAction SilentlyContinue
     }
 }
 
 $manifestPath = Join-Path $packRoot "MANIFEST.json"
+$existingByName = Get-ExistingInstallTargetsByName -ManifestPath $manifestPath
+
+$manifest = @()
+Get-ChildItem $packRoot -Recurse -Filter "SKILL.md" -File | ForEach-Object {
+    $name = Get-SkillNameFromMd $_.FullName
+    if (-not $name) { return }
+    $rel = $_.FullName.Substring($packRoot.Length).TrimStart('\', '/').Replace('\', '/')
+    if ($rel -match '^(_hooks|_claude)/') { return }
+    $installTargets = Resolve-InstallTargets -Name $name -ExistingByName $existingByName
+    $installTarget = Get-LegacyInstallTarget -Targets $installTargets -Name $name
+    $manifest += [PSCustomObject][ordered]@{
+        name           = $name
+        path           = $rel
+        installTargets = $installTargets
+        installTarget  = $installTarget
+    }
+}
+
 $manifest | Sort-Object name | ConvertTo-Json -Depth 4 | Set-Content $manifestPath -Encoding UTF8
 
 Write-Host ""

@@ -1,0 +1,6 @@
+interface:
+  display_name: "X Reader"
+  short_description: "X投稿と作者の続きを、今のモデルがブラウザで読む"
+  default_prompt: "次のX投稿を読んで: <投稿URL>"
+policy:
+  allow_implicit_invocation: true

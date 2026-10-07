@@ -1,0 +1,4 @@
+interface:
+  display_name: "YouTube Music 曲リスト追加"
+  short_description: "曲リストのURLから追加し、曖昧な曲の保留と保存確認・途中再開を行う"
+  default_prompt: "$youtube-music-playlist を使って、この曲リストを指定の再生リストに追加して。提供URLを使い、迷う曲は保留して、保存先で確認して。"

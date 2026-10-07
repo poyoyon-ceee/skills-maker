@@ -38,10 +38,10 @@ Settings → Rules, Skills, Subagents → **Include Third-Party Plugins, Skills,
 2. [ドキュメント／データ処理（10件）](#2-ドキュメントデータ処理10件)
 3. [Google Workspace 連携（3件）](#3-google-workspace-連携3件)
 4. [設計・開発ワークフロー（Superpowers 系・12件）](#4-設計開発ワークフローsuperpowers系12件)
-5. [独自の開発系スキル（14件）](#5-独自の開発系スキル14件)
+5. [独自の開発系スキル（17件）](#5-独自の開発系スキル17件)
 6. [デザイン・コンテンツ制作（6件）](#6-デザインコンテンツ制作6件)
 7. [ナレッジ管理・リサーチ（5件）](#7-ナレッジ管理リサーチ5件)
-8. [GitHub / Git 運用（3件）](#8-github--git-運用3件)
+8. [GitHub / Git 運用（2件）](#8-github--git-運用2件)
 9. [マーケティング（オプトイン・47件・未インストール）](#9-マーケティングオプトイン47件未インストール)
 
 ---
@@ -115,7 +115,7 @@ Settings → Rules, Skills, Subagents → **Include Third-Party Plugins, Skills,
 
 ---
 
-## 5. 独自の開発系スキル（14件）
+## 5. 独自の開発系スキル（17件）
 
 文書まわりの入口は `/project-foundation`（自動）。判定中は書き込まない。
 
@@ -128,6 +128,7 @@ Settings → Rules, Skills, Subagents → **Include Third-Party Plugins, Skills,
 | `/00`（手動のみ） | メッセージ先頭の `/00` で、そのターンだけ `using-superpowers` と Superpowers 由来の必須ワークフロー（計画・TDD・デバッグ・レビュー・検証・サブエージェント・worktree）を無効化。依頼本文は通常どおり処理。次のメッセージへは引き継がない。 | Superpowers を使わず、今の依頼だけ素早く処理したいとき。文章中やコード内の `/00` では発動しない |
 | `/chat-handoff`（手動のみ） | 別PCで続きをやるための引き継ぎメモを、リポジトリ直下の `質疑応答M-D.MD` に作成・追記。結論・決定・未解決TODOを残す。Cursor チャット履歴は端末に残る前提。 | 「別PC用に残して」「引き継ぎ書いて」「質疑応答に落として」「続きは別端末で」と明示されたとき。通常の備忘録は `/session-recap` |
 | `/git-guardrails` | 危険なGitコマンド（push、reset --hard、clean、branch -D等）を実行前にブロックするフックを設定。 | 誤操作防止のガードレールを設定したいとき |
+| `/model-router-gpt` | CodexのGPTモデルへ、大量の原文を読む調査を渡す | リポジトリ全体や大量の文書・ログから根拠を探すとき。少数ファイルの確認には使わない |
 | `/new-project`（手動のみ） | 空ディレクトリ向け scaffold。CLI 対話。必須は README。Hidem プロファイルは選択式。既存ファイルは上書きしない。 | `project-foundation` が新規と判定したとき。既存リポジトリでは使わない |
 | `/project-foundation` | 新規/既存/判定不能を振り分ける文書標準の入口。判定中は書き込まない。new → `new-project`、existing → `doc-maint`。 | 「新規プロジェクト」「scaffold」「READMEを直して」「docsを整理して」 |
 | `/react-best-practices` | Vercel Engineering によるReact/Next.jsパフォーマンス最適化ガイド（8カテゴリ70ルール）。 | React/Next.jsのコンポーネント作成・データフェッチ実装・パフォーマンスレビュー・リファクタリング |
@@ -139,6 +140,8 @@ Settings → Rules, Skills, Subagents → **Include Third-Party Plugins, Skills,
 | `/web-artifacts-builder` | React 18 + TypeScript + Vite + Tailwind + shadcn/ui で、状態管理やルーティングを含む多コンポーネントのHTMLアーティファクトを構築。 | 単純な単一ファイルHTML/JSXでは足りない、複雑なWebアーティファクトを作りたいとき |
 | `/webapp-testing` | Cursorのブラウザ MCP または Playwright スクリプトでローカル Web アプリをテスト。ユニット/E2E(IDE)/E2E(スクリプト)の使い分け表あり。 | 「アプリをテストして」「UIを確認して」、フロントエンドの動作検証全般 |
 | `/writing-plans` | ファイルパス・コード断片・検証手順まで含めた実装プランを、コーディング前に作成。ローカル Cursor 向け Adapt 版。 | 仕様が複数ステップにわたる非自明な機能に着手する前 |
+| `/x-reader` | 内蔵ブラウザで x.com / twitter.com の投稿本文と添付を読む | x.com または twitter.com の投稿URLを読んで、開いて、確認して、要約してほしいとき |
+| `/youtube-music-playlist` | 曲リストのURLから再生リストへ追加し、曖昧な曲は保留して保存先で確認する | 渡された曲リストやYouTube Musicのリンクを、ログイン済みブラウザの再生リストへ追加・再開するとき |
 
 ---
 
@@ -169,11 +172,11 @@ Obsidian 系は **3スキル連携**。`obsidian-vault` が vault パス（`D:\v
 
 ---
 
-## 8. GitHub / Git 運用（3件）
+## 8. GitHub / Git 運用（2件）
 
 | コマンド | 説明 | 使いどころ |
 |----------|------|-----------|
-| `/git-guardrails` | （[§5](#5-独自の開発系スキル14件) 参照）危険なGit操作をブロック | — |
+| `/git-guardrails` | （[§5](#5-独自の開発系スキル17件) 参照）危険なGit操作をブロック | — |
 | `/git-in-clone`（手動のみ） | 指定したGitHubリポジトリを現在の空ディレクトリへ `git clone .` で取得。 | 「このフォルダにクローンして」と言われたとき |
 | `/github-make-sync`（手動のみ） | 指定した名前で非公開GitHubリポジトリを作成し、`gh` CLIで現在のプロジェクトに `origin` を設定。 | 新規プロジェクトをGitHubに接続したいとき |
 
@@ -302,6 +305,7 @@ Obsidian 系は **3スキル連携**。`obsidian-vault` が vault パス（`D:\v
 
 ## 補足
 
+- **宛先の正本**は各スキルの `installTargets`（`skills-pack/MANIFEST.json`）。この一覧と PDF は `scripts/sync-incoming.ps1` が更新する。手順は [incoming/RULES.md](incoming/RULES.md)。
 - **日常配布**は `skills-pack/`。件数と振り分けの正本は `skills-pack/MANIFEST.json`。別 PC では `skills-pack/引き継ぎ.md` の一言をエージェントに送るだけ。
 - **Claude Code** は `skills-pack/install-claude.ps1` → `~/.claude/skills/`（平置き・除外8。件数はインストーラの `Unique skills installed`）。Superpowers プラグインは無効。`~/.agents` はこちらでは触らない（`install.ps1` の管轄）。`install.ps1` の結果を手コピーしない。
 - **マーケ**は `skills-pack-marketing/` に正本があるが **デフォルト非インストール**。[INSTALL.md](skills-pack-marketing/INSTALL.md) 参照。誤って入れたら `marketingskills/` と `playbook-lp-creative/` を削除。

@@ -1,6 +1,9 @@
 ---
 name: model-router-gpt
 description: CodexのGPTモデルで、リポジトリ全体・大量のファイル／文書／ノート／ログから根拠を探すなど、原文を広く読む調査が必要なときに使う。Use when broad, read-heavy exploration across a repository or many documents/logs is required in Codex. 単純検索、少数の短いファイル確認、通常の複数ファイル実装には使わない。
+catalog-section: 5
+catalog-summary: CodexのGPTモデルへ、大量の原文を読む調査を渡す
+catalog-when: リポジトリ全体や大量の文書・ログから根拠を探すとき。少数ファイルの確認には使わない
 ---
 
 # model-router-gpt

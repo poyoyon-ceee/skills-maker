@@ -3,41 +3,42 @@
 # — category folders (playbooks/, superpowers/, github/, debug/) are stripped.
 # Marketing skills live in skills-pack-marketing/ and are not installed here.
 #
-# ~/.agents/skills is NOT written here: install.ps1 owns that tree. Installing
-# both would fight over the same folders, and $excludeSkills below would delete
-# skills that install.ps1 legitimately puts there (docx, using-superpowers, ...).
+# ~/.agents/skills is NOT written here: install.ps1 owns that tree.
+#
+# Which skills are copied is MANIFEST.json installTargets: only entries that
+# contain claude are installed. Names without claude are removed from the
+# destination if they are already there.
 #
 # _claude/ holds Claude-specific overrides: after the base copy, any file in
 # _claude/<skill-name>/ overwrites the installed skill (fixes Cursor-specific
 # paths/instructions for the Claude Code environment).
 #
-# $excludeSkills are never installed and are removed if present.
-#   Official plugins: docx, pdf, pptx, xlsx, skill-creator
-#   Claude native: requesting-code-review, receiving-code-review (/code-review),
-#                  using-git-worktrees (worktree support)
-#   Codex GPT only: model-router-gpt
-# Superpowers is canonical from this pack, not the marketplace plugin.
-# using-superpowers is installed here. The plugin is disabled in settings.json
-# (see Disable-SuperpowersPlugin) — do not /add-plugin superpowers on Claude.
-# verification-before-completion is NOT excluded: no matching Claude Code
-# built-in was found on-device; install the real skill instead.
+# -ClaudeDest overrides the skills directory. Without it, the destination is
+# %USERPROFILE%\.claude\skills and the Superpowers plugin is disabled in
+# settings.json (pack is canonical). An explicit -ClaudeDest leaves
+# settings.json alone.
 #
 # Run from: skills-maker/skills-pack/install-claude.ps1
+
+param(
+    [string]$ClaudeDest = ""
+)
 
 $ErrorActionPreference = "Stop"
 
 $packageRoot = $PSScriptRoot
 $overlayRoot = Join-Path $packageRoot "_claude"
-$destRoots = @(
-    (Join-Path $env:USERPROFILE ".claude\skills")
-)
+$useDefaultClaudeDest = [string]::IsNullOrWhiteSpace($ClaudeDest)
+if ($useDefaultClaudeDest) {
+    $destRoots = @(
+        (Join-Path $env:USERPROFILE ".claude\skills")
+    )
+}
+else {
+    $destRoots = @($ClaudeDest)
+}
 
 $skipTopLevel = @("_hooks", "_claude")
-$excludeSkills = @(
-    "docx", "pdf", "pptx", "xlsx", "skill-creator",
-    "requesting-code-review", "receiving-code-review",
-    "using-git-worktrees", "model-router-gpt"
-)
 
 function Get-SkillName {
     param([string]$Path)
@@ -51,6 +52,40 @@ function Get-SkillName {
         }
     }
     return $null
+}
+
+function Read-InstallTargetMap {
+    param([string]$ManifestPath)
+    if (-not (Test-Path -LiteralPath $ManifestPath)) {
+        Write-Host "ERROR: MANIFEST.json not found: $ManifestPath" -ForegroundColor Red
+        exit 1
+    }
+    # Do not wrap ConvertFrom-Json in @(). Windows PowerShell passes the JSON
+    # array as one pipeline object, and @() then nests it instead of enumerating.
+    $rows = Get-Content -LiteralPath $ManifestPath -Raw -Encoding UTF8 | ConvertFrom-Json
+    $map = @{}
+    foreach ($row in $rows) {
+        $name = [string]$row.name
+        $prop = $row.PSObject.Properties["installTargets"]
+        $targets = @()
+        if ($null -ne $prop -and $null -ne $prop.Value) {
+            $targets = @($prop.Value | Where-Object { -not [string]::IsNullOrWhiteSpace([string]$_) })
+        }
+        if ($targets.Count -eq 0) {
+            Write-Host "ERROR: installTargets missing for '$name'" -ForegroundColor Red
+            exit 1
+        }
+        if (($targets -contains "agents") -and ($targets -contains "cursor")) {
+            Write-Host "ERROR: installTargets cannot contain both agents and cursor: $name" -ForegroundColor Red
+            exit 1
+        }
+        if ($map.ContainsKey($name)) {
+            Write-Host "ERROR: duplicate manifest name '$name'" -ForegroundColor Red
+            exit 1
+        }
+        $map[$name] = @($targets)
+    }
+    return ,$map
 }
 
 function Install-ToRoot {
@@ -80,9 +115,14 @@ function Install-ToRoot {
         $leafName = $srcDir.Name
         $name = if ($frontmatterName) { $frontmatterName } else { $leafName }
 
-        if (($excludeSkills -contains $name) -or ($excludeSkills -contains $leafName)) {
+        if (-not $targetMap.ContainsKey($name)) {
+            Write-Host "ERROR: no MANIFEST installTargets for skill '$name'" -ForegroundColor Red
+            exit 1
+        }
+        $targets = @($targetMap[$name])
+        if ($targets -notcontains "claude") {
             $excluded++
-            Write-Host "Excluded (duplicates Claude built-in): $name"
+            Write-Host "Skipped (no claude target): $name"
             continue
         }
 
@@ -116,14 +156,15 @@ function Install-ToRoot {
     }
 
     Write-Host ""
-    Write-Host "=== Removing excluded skills if present ==="
+    Write-Host "=== Removing skills without a claude target ==="
     $removedExcluded = 0
-    foreach ($name in $excludeSkills) {
-        $path = Join-Path $skillsDst $name
+    foreach ($manifestName in @($targetMap.Keys)) {
+        if (@($targetMap[$manifestName]) -contains "claude") { continue }
+        $path = Join-Path $skillsDst $manifestName
         if (Test-Path $path) {
             Remove-Item $path -Recurse -Force
             $removedExcluded++
-            Write-Host "Removed: $name"
+            Write-Host "Removed: $manifestName"
         }
     }
     if ($removedExcluded -eq 0) { Write-Host "(none present)" }
@@ -163,7 +204,7 @@ function Install-ToRoot {
     Write-Host "=== Summary ($skillsDst) ==="
     Write-Host "Files copied (new): $copied"
     Write-Host "Files updated: $updated"
-    Write-Host "Excluded skills (duplicate Claude built-ins): $excluded (removed locally: $removedExcluded)"
+    Write-Host "Skipped (no claude target): $excluded (removed locally: $removedExcluded)"
     Write-Host "Overlays applied: $overlaid"
     Write-Host "Unique skills installed: $($nameConflicts.Count)"
     Write-Host ""
@@ -219,11 +260,18 @@ function Disable-SuperpowersPlugin {
     Write-Host "Set enabledPlugins['$pluginId'] = false"
 }
 
+$targetMap = Read-InstallTargetMap (Join-Path $packageRoot "MANIFEST.json")
+
 foreach ($root in $destRoots) {
     Install-ToRoot -skillsDst $root
 }
 
-Disable-SuperpowersPlugin
+if ($useDefaultClaudeDest) {
+    Disable-SuperpowersPlugin
+}
+else {
+    Write-Host "Note: -ClaudeDest set; left Claude settings.json unchanged."
+}
 
 Write-Host "Note: Claude Code hooks are not installed by this script (different format from Cursor's hooks.json)."
 Write-Host "Note: ~/.agents/skills is installed by install.ps1, not here."

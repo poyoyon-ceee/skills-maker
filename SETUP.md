@@ -83,7 +83,7 @@ skills-pack/                      →  ~/.agents/skills/
                                      └── promote-skill/
 ```
 
-新しいスキルは `/promote-skill` で追加する（宛先の判断と MANIFEST 更新まで含む2段確認フロー）。
+新しいスキルは inbox 4箱へ置き、[incoming/RULES.md](incoming/RULES.md) と [scripts/sync-incoming.ps1](scripts/sync-incoming.ps1) で同期する（`/promote-skill` はその手順を会話内で案内するスキル）。
 
 ## 初回設置（別 PC）
 
@@ -128,17 +128,15 @@ Superpowers を丸ごと `/add-plugin` する場合は、上記2つは**重複�
 
 ## 新しいスキルを追加するとき
 
-**`/promote-skill` を使う**（2段確認: global に入れる？ → skills-pack に同期する？）。宛先の判断・重複チェック・MANIFEST 更新まで含む。
+手順の正本は **[incoming/RULES.md](incoming/RULES.md)**（4箱・`installTargets`・同期ルール）。
 
-手動でやる場合:
+同期コマンド（リポジトリルート）:
 
-1. `skills-pack/<カテゴリ>/<skill-name>/SKILL.md` を追加
-2. `.\scripts\generate-manifest.ps1` で MANIFEST を再生成
-3. `cd skills-pack; .\install.ps1` でこの PC に反映
-4. commit / push
-5. 他 PC で `git pull` → `skills-pack/install.ps1`
+```powershell
+.\scripts\sync-incoming.ps1
+```
 
-同名スキルが既にある場合は両方の `SKILL.md` を比較し、精度の高い方だけ残す。**両方の root に置かない。**
+別 PC へ配るときは従来どおり `git pull` のあと `skills-pack/install.ps1`。
 
 ### 保守用スクリプト
 

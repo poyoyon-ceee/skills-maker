@@ -6,6 +6,8 @@
 
 ## インストール先の構成（重要）
 
+**各スキルの宛先の正本は `MANIFEST.json` の `installTargets`**（`agents` / `cursor` / `claude` の配列）。`skills一覧.md` とカタログ PDF は `scripts/sync-incoming.ps1` が更新する。新規登録の詳細は [incoming/RULES.md](../incoming/RULES.md)。
+
 **1スキル＝1箇所。同じスキルを2つの root に置かない。**
 
 | root | 中身 | 読むツール |
@@ -15,7 +17,7 @@
 | `~/.cursor/hooks/` | セッションフック | Cursor のみ |
 | `~/.claude/skills/<スキル名>/` | Claude Code 用（`install-claude.ps1`・除外8。件数はインストーラの `Unique skills installed`） | Claude Code のみ |
 
-Cursor 固有の3件は `chat-handoff` / `skill-creator` / `promote-skill`。`install.ps1` では `~/.cursor/skills/` のみに置く（共有の `~/.agents` には置かない）。ただし **`promote-skill` の手順自体は Claude Code でも使う**（`install-claude.ps1` で `~/.claude` にも入り、Gate 1 宛先に `~/.claude/skills/` を選べる）。`chat-handoff` / `skill-creator` は従来どおり Cursor 前提。
+Cursor 固有の3件は `chat-handoff` / `skill-creator` / `promote-skill`。`install.ps1` では `~/.cursor/skills/` のみに置く（共有の `~/.agents` には置かない）。ただし **`promote-skill` の手順自体は Claude Code でも使う**（`install-claude.ps1` で `~/.claude` にも入る。新規スキルの置き場・宛先は [incoming/RULES.md](../incoming/RULES.md) が正本）。`chat-handoff` / `skill-creator` は従来どおり Cursor 前提。
 
 **重複の禁止範囲:** ダメなのは同名を `~/.agents` と `~/.cursor` の両方に置くこと。`~/.agents` と `~/.claude` の併置は可（別ツールが読む）。
 

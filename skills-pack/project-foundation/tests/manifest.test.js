@@ -18,4 +18,17 @@ test('MANIFEST.json has unique skill names and includes project-foundation', () 
     const zero = entries.find((e) => e.name === '00');
     assert.equal(zero.path, '00/SKILL.md');
     assert.equal(zero.installTarget, '~/.agents/skills/00/');
+    assert.deepEqual(zero.installTargets, ['agents', 'claude']);
+    assert.ok(!zero.name.includes('"'));
+
+    const skillCreator = entries.find((e) => e.name === 'skill-creator');
+    assert.deepEqual(skillCreator.installTargets, ['cursor']);
+
+    const chatHandoff = entries.find((e) => e.name === 'chat-handoff');
+    assert.deepEqual(chatHandoff.installTargets, ['cursor', 'claude']);
+
+    for (const entry of entries) {
+        const targets = entry.installTargets ?? [];
+        assert.ok(!(targets.includes('agents') && targets.includes('cursor')));
+    }
 });
