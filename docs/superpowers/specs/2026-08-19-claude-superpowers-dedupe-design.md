@@ -1,7 +1,7 @@
 # Claude Code Superpowers 二重解消
 
 日付: 2026-08-19  
-状態: approved  
+状態: 2026-08-19 時点は approved。2026-10-07 時点の `install-claude.ps1` は名前の除外リストを持たず、`MANIFEST.json` の `installTargets` に `claude` があるスキルだけ入れる。手順の正本は [skills-pack/INSTALL.md](../../../skills-pack/INSTALL.md)。このファイルは当時の設計  
 範囲: Approach A（`install-claude.ps1` にプラグイン無効化を内蔵。Cursor / Codex / `install.ps1` は不変）
 
 ## 問題

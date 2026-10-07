@@ -1,5 +1,7 @@
 # incoming 同期 Implementation Plan
 
+> **状態（2026-10-07）:** 下のチェックは未更新のまま。実装の正本は `incoming/RULES.md`、`scripts/sync-incoming.ps1`、`scripts/incoming_lib.py`、`tests/`。チェックを完了の記録として読まない。
+
 > **For Claude Code agent:** Implement task-by-task. Use TDD (test-driven-development skill).
 > Track progress with checkbox (`- [ ]`) syntax.
 

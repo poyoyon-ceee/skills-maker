@@ -11,7 +11,7 @@
 
 ## 更新手順
 
-`skills一覧.md` を編集したあと、以下のいずれかを実行する。
+一覧の行は、通常は `scripts/sync-incoming.ps1` が `SKILL.md` の catalog キーから書く。手順の正本は [incoming/RULES.md](../incoming/RULES.md)。PDF だけ作り直すとき、または同期を使わず一覧を手で直したあとは、次を実行する。
 
 ### PowerShell（推奨）
 

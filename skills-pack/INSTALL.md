@@ -15,7 +15,7 @@
 | `~/.agents/skills/<スキル名>/` | 通常のスキル（平置き。件数は MANIFEST.json） | Cursor / Codex / ChatGPT 系 |
 | `~/.cursor/skills/<スキル名>/` | Cursor 固有スキル（3件） | Cursor のみ |
 | `~/.cursor/hooks/` | セッションフック | Cursor のみ |
-| `~/.claude/skills/<スキル名>/` | Claude Code 用（`install-claude.ps1`・除外8。件数はインストーラの `Unique skills installed`） | Claude Code のみ |
+| `~/.claude/skills/<スキル名>/` | Claude Code 用（`install-claude.ps1`。`installTargets` に `claude` があるものだけ。件数はインストーラの `Unique skills installed`） | Claude Code のみ |
 
 Cursor 固有の3件は `chat-handoff` / `skill-creator` / `promote-skill`。`install.ps1` では `~/.cursor/skills/` のみに置く（共有の `~/.agents` には置かない）。ただし **`promote-skill` の手順自体は Claude Code でも使う**（`install-claude.ps1` で `~/.claude` にも入る。新規スキルの置き場・宛先は [incoming/RULES.md](../incoming/RULES.md) が正本）。`chat-handoff` / `skill-creator` は従来どおり Cursor 前提。
 
@@ -48,12 +48,9 @@ cd C:\path\to\skills-maker\skills-pack
 `install.ps1` との違い:
 
 - インストール先は **`~/.claude/skills/` のみ**。`~/.agents/skills/` は `install.ps1` が管理するので、こちらからは書かない
-- **除外8スキル**（入れない・既存なら削除）:
-  `docx`, `pdf`, `pptx`, `xlsx`, `skill-creator`（公式プラグインと重複）,
-  `requesting-code-review`, `receiving-code-review`, `using-git-worktrees`
-  （組み込みの /code-review・worktree と重複）。
-  `using-superpowers` は **入れる**（Claude の Superpowers 正本は pack。プラグインは使わない）。
-  `verification-before-completion` は除外しない（対応する組み込みコマンドが無いため本物を入れる）
+- Claude に入るのは `MANIFEST.json` の `installTargets` に `claude` があるスキルだけ。無いものはスキップし、`~/.claude/skills/` に残っていれば削除する。名前の固定除外リストはインストーラに無い。2026-10-07 時点で `claude` が無いのは `docx`, `pdf`, `pptx`, `xlsx`, `skill-creator`, `requesting-code-review`, `receiving-code-review`, `using-git-worktrees`, `model-router-gpt`
+- `using-superpowers` は **入れる**（Claude の Superpowers 正本は pack。プラグインは使わない）
+- `verification-before-completion` は `claude` 対象なので入れる
 - **Superpowers プラグインを無効化**: `~/.claude/settings.json` の `enabledPlugins["superpowers@superpowers-marketplace"]` が true なら false にする（marketplace 登録と cache は残す）。Claude でも `/add-plugin superpowers` は使うな（TDD / writing-plans のカスタムが負ける）
 - **`_claude/` オーバーレイ**: ベースコピー後、`_claude/<スキル名>/` のファイルで上書きする。Cursor 固有の記述（`~/.cursor/skills/` パス、Cursor browser MCP、Cursor User Rules 参照）や、除外スキルへの断線参照を Claude Code 向けに直した差し替え版。現在 `new-project` / `webapp-testing` / `writing-plans` / `subagent-driven-development` / `systematic-debugging` の5つ
 - Cursor 用フック（`_hooks/`）は入れない（Claude Code のフック形式は別物）

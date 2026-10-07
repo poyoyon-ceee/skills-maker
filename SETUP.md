@@ -2,7 +2,7 @@
 
 Cursor Agent Skills を複数 PC で共有・配布するためのリポジトリです。
 
-**推奨配置:** `Dev-App/01_in-use/skills-maker`（ドライブ文字付きの絶対パスは取説・仕様書に書かない。移動は `scripts/move-to-01-in-use.ps1`）
+**いまの配置:** `Dev-App/10_in-use/skills-maker`（ドライブ文字付きの絶対パスは取説・仕様書に書かない）
 
 **運用方針: スキルはすべてグローバルに置く。通常は `~/.agents/skills/`、Cursor 固有のものだけ `~/.cursor/skills/`。**  
 各プロジェクトの `.cursor/skills/` には置かない。このリポジトリの `skills-pack/` が配布用の正本。**同じスキルを2つの root に置かない**（重複表示の原因）。
@@ -20,25 +20,24 @@ Cursor Agent Skills を複数 PC で共有・配布するためのリポジト�
 
 ```
 skills-maker/
+├── README.md
 ├── SETUP.md
 ├── skills一覧.md
+├── skills一覧手動.md
+├── marketing-skills一覧.md
 ├── スキルの使いどころ.md
+├── incoming/                  # 新規スキルの4箱。手順は RULES.md
+├── catalog/                   # skills一覧.md から作る PDF
+├── docs/                      # 過去の計画・設計
 ├── scripts/
-│   ├── install-global.ps1
-│   ├── install-global.sh
-│   ├── install-hooks.ps1
-│   └── install-hooks.sh
-├── hooks/
-│   ├── session-start.ps1       # Windows: Superpowers セッションフック
-│   ├── session-start           # macOS/Linux
-│   └── hooks.json.example
+├── tests/
 ├── skills-pack/               # 日常用配布（スキル + インストーラ + 別PC手順）
 │   ├── INSTALL.md
 │   ├── 引き継ぎ.md
-│   ├── MANIFEST.json          # スキル一覧の正本（name / path / installTarget）。件数は scripts/generate-manifest.ps1
+│   ├── MANIFEST.json          # 件数と宛先の正本（installTargets）。再生成は scripts/generate-manifest.ps1
 │   ├── install.ps1 / install.sh
 │   ├── install-claude.ps1
-│   ├── _hooks/
+│   ├── _hooks/                # セッションフック。install.ps1 が ~/.cursor/hooks/ へ置く
 │   └── …（marketingskills なし）
 └── skills-pack-marketing/     # マーケ用オプトイン（通常 install では入らない）
     ├── INSTALL.md

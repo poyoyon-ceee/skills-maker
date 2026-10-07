@@ -1,6 +1,6 @@
 # グローバルスキル一覧（日常パック ＋ マーケオプトイン47件・未インストール）
 
-取得日: 2026-08-19  
+取得日: 2026-10-07  
 **パック正本の件数:** `skills-pack/MANIFEST.json`（`scripts/generate-manifest.ps1`）。手で件数を固定しない。  
 **いま入っているもの（この PC）:** グローバル同期は未実施なら、前回 install 時点のまま。マーケはリポジトリにパックがあるだけで **グローバル未導入**。
 
@@ -11,7 +11,7 @@
 | 日常（共通） | `skills-pack/` → `install.ps1` で `~/.agents/skills/` に**平置き**。Cursor / Codex / ChatGPT 系が共通で読む正本。件数は MANIFEST |
 | 日常（Cursor 固有） | `chat-handoff` / `skill-creator` / `promote-skill` の3件だけ `~/.cursor/skills/`（`install.ps1`）。`promote-skill` は手順として Claude でも使う（`~/.claude` にも入り、Gate 1 で `~/.claude` 可） |
 | `/00` | メッセージ先頭の明示コマンド。その回答が終わるまでの1ターンだけ Superpowers 強制ワークフローを無効化。次のメッセージでは通常動作に戻る。手動のみ |
-| Claude Code | 同パックを `install-claude.ps1` で `~/.claude/skills/` に平置き（除外8。件数はインストーラの `Unique skills installed`）。Superpowers プラグインはインストーラが無効化する。`~/.agents` は書かない |
+| Claude Code | 同パックを `install-claude.ps1` で `~/.claude/skills/` に平置き（`installTargets` に `claude` があるものだけ。件数はインストーラの `Unique skills installed`）。Superpowers プラグインはインストーラが無効化する。`~/.agents` は書かない |
 | マーケ | `skills-pack-marketing/` は**作るが入れない**。必要になったときだけ `install.ps1`（Cursor のみ）。通常更新では入らない・戻らない |
 | プロジェクト内 | `.cursor/skills/` は使わない |
 | 重複の禁止 | **Cursor 向け: 同名を `~/.agents` と `~/.cursor` の両方に置かない。** `~/.agents`∩`~/.claude` は可 |
@@ -75,7 +75,7 @@ Settings → Rules, Skills, Subagents → **Include Third-Party Plugins, Skills,
 | `/improve-codebase-architecture`（手動のみ） | コードベースをスキャンして「深化の余地」をHTMLレポートで可視化し、選んだ項目についてgrill-me形式で深掘り。 | 過去のコードの複雑化を解消したい、リファクタリング候補を洗い出したい |
 | `/pdf` | PDF のテキスト・表抽出、結合・分割、回転、透かし、新規作成、フォーム入力、暗号化/復号、画像抽出、スキャンPDFのOCR。 | 「.pdf」に言及、または PDF を作りたい／読みたい／編集したいとき |
 | `/pptx` | .pptx が入出力どちらかに関わる全作業。スライド作成、テキスト抽出、既存プレゼン編集、テンプレート/レイアウト/スピーカーノート操作。 | 「デッキ」「スライド」「プレゼン」「.pptx」に言及されたら常に使う |
-| `/promote-skill` | スキル作成直後の2段確認: global に入れる？→ skills-pack に同期する？。宛先は `~/.agents` / `~/.cursor` / `~/.claude`。Cursor・Claude Code 両対応。パス未検出時は聞いて、検証前は書かない。 | create-skill / skill-creator 完了後、「globalに入れる」「skills-packに同期」 |
+| `/promote-skill` | スキル作成・編集の直後に、incoming の4箱のどれかへ置き、`scripts/sync-incoming.ps1` で pack・一覧・グローバルへ反映する。手で `~/.agents` / `~/.cursor` / `skills-pack` へコピーしない。Cursor・Claude Code 両対応。パス未検出時は聞いて、検証前は書かない。 | create-skill / skill-creator の完了後、「同期して」「skills-pack に入れる」 |
 | `/skill-creator` | 新規スキル作成、既存スキルの編集・最適化、評価(eval)実行、性能ベンチマーク。 | スキルを新規作成したい／SKILL.mdの書き方を聞かれたとき |
 | `/theme-factory` | スライド・文書・レポート・LP等に一貫したテーマ（色・フォント）を適用。10種のプリセットテーマ or 新規生成。 | 成果物のトンマナを統一したいとき。marketing パックの `playbook-lp-creative` でも使用 |
 | `/xlsx` | 既存/新規の .xlsx・.xlsm・.csv・.tsv の読取・編集・修正（列追加、数式計算、書式設定、グラフ化、汚いデータの整形）。成果物は必ずスプレッドシート。 | 「このExcelを直して」「スプレッドシートを作って」など、成果物がスプレッドシートである依頼 |
@@ -307,7 +307,7 @@ Obsidian 系は **3スキル連携**。`obsidian-vault` が vault パス（`D:\v
 
 - **宛先の正本**は各スキルの `installTargets`（`skills-pack/MANIFEST.json`）。この一覧と PDF は `scripts/sync-incoming.ps1` が更新する。手順は [incoming/RULES.md](incoming/RULES.md)。
 - **日常配布**は `skills-pack/`。件数と振り分けの正本は `skills-pack/MANIFEST.json`。別 PC では `skills-pack/引き継ぎ.md` の一言をエージェントに送るだけ。
-- **Claude Code** は `skills-pack/install-claude.ps1` → `~/.claude/skills/`（平置き・除外8。件数はインストーラの `Unique skills installed`）。Superpowers プラグインは無効。`~/.agents` はこちらでは触らない（`install.ps1` の管轄）。`install.ps1` の結果を手コピーしない。
+- **Claude Code** は `skills-pack/install-claude.ps1` → `~/.claude/skills/`（平置き。`installTargets` に `claude` があるものだけ。件数はインストーラの `Unique skills installed`）。Superpowers プラグインは無効。`~/.agents` はこちらでは触らない（`install.ps1` の管轄）。`install.ps1` の結果を手コピーしない。
 - **マーケ**は `skills-pack-marketing/` に正本があるが **デフォルト非インストール**。[INSTALL.md](skills-pack-marketing/INSTALL.md) 参照。誤って入れたら `marketingskills/` と `playbook-lp-creative/` を削除。
 - **設定画面と `/` メニューで件数が違うとき:** 同名スキルが複数 root にある。設定画面は名前で重複排除するが `/` メニューはしないため。Include Third-Party の OFF では `~/.agents` 由来の重複は直らない。詳細は [skills-pack/skills重複処理.md](skills-pack/skills重複処理.md)。
 - **Office スキル（docx / xlsx / pptx）** は Python ライブラリが前提（`pip install python-docx openpyxl python-pptx`）。PDF と画像は Cursor がネイティブに読めるので、`pdf` スキルは結合・分割・フォーム入力・OCR 用。

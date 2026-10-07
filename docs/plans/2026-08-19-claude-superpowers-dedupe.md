@@ -1,5 +1,7 @@
 # Claude Superpowers 二重解消 — 実装計画
 
+> **状態（2026-10-07）:** チェックは未更新。Claude に入るスキルの正本は `MANIFEST.json` の `installTargets`（名前の固定除外リストは現行インストーラに無い）。このファイルは当時の計画。
+
 > **For agentic workers:** タスク順に実装。ユーザーが commit を頼むまで commit しない。
 > Spec: `docs/superpowers/specs/2026-08-19-claude-superpowers-dedupe-design.md`
 

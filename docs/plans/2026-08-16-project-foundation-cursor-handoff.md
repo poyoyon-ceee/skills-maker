@@ -3,7 +3,7 @@
 日付: 2026-08-16  
 対象リポジトリ: このリポジトリ  
 対象正本: `skills-pack/`  
-状態: 設計方針確定、実装未着手  
+状態: 2026-08-16 時点では実装未着手。現行の正本は `skills-pack/project-foundation` と `skills-pack/doc-maint`。このファイルは当時の設計メモ  
 読者: Cursor Agentとレビュー担当者
 
 ## 0. Cursorへの最重要指示
