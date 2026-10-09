@@ -1,5 +1,5 @@
 # Sync skills from the four incoming boxes into the pack, global homes,
-# MANIFEST, and skills list. PDF runs unless -SkipPdf is set.
+# MANIFEST, and skills list. PDF and Excel run unless -SkipPdf is set.
 # Usage: .\scripts\sync-incoming.ps1 [-RepoRoot path] [-HomeRoot path] [-SkipPdf]
 
 param(
@@ -419,6 +419,12 @@ if (Test-Path -LiteralPath $incomingRoot) {
                     if ($null -eq $pdfProc -or $pdfProc.ExitCode -ne 0) {
                         $pdfCode = if ($pdfProc) { $pdfProc.ExitCode } else { -1 }
                         throw "PDF generation failed (exit $pdfCode)"
+                    }
+                    $xlsx = Join-Path $RepoRoot "scripts\export_skills_to_xlsx.py"
+                    $xlsxProc = Start-Process -FilePath "python" -ArgumentList @($xlsx) -WorkingDirectory $RepoRoot -Wait -PassThru -WindowStyle Hidden
+                    if ($null -eq $xlsxProc -or $xlsxProc.ExitCode -ne 0) {
+                        $xlsxCode = if ($xlsxProc) { $xlsxProc.ExitCode } else { -1 }
+                        throw "Excel generation failed (exit $xlsxCode)"
                     }
                 }
                 $committed = $true

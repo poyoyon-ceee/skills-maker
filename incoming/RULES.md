@@ -43,9 +43,9 @@ cd C:\path\to\skills-maker
 .\scripts\sync-incoming.ps1
 ```
 
-（macOS/Linux も PowerShell 7 等で同じパス。`-SkipPdf` で PDF だけ省略可。）
+（macOS/Linux も PowerShell 7 等で同じパス。`-SkipPdf` で PDF と Excel を省略可。一覧の md 更新は省略しない。）
 
-スクリプトが行うこと（詳細は実装に従う）: inbox → `skills-pack/<name>/`、MANIFEST の `installTargets` 更新、`skills一覧.md` 行追加、グローバルへの平置きコピー、カタログ PDF 再生成（省略時除く）。
+スクリプトが行うこと（詳細は実装に従う）: inbox → `skills-pack/<name>/`、MANIFEST の `installTargets` 更新、`skills一覧.md` 行追加、グローバルへの平置きコピー、カタログ PDF と `skills一覧.xlsx` の再生成（`-SkipPdf` のとき除く）。
 
 ## 一覧に載せるための frontmatter
 
