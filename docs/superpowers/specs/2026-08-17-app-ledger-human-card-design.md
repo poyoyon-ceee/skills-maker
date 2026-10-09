@@ -163,7 +163,7 @@ README を直す？
 | ファイル | 内容 |
 |----------|------|
 | `skills-pack/app-tech-inventory/SKILL.md` | 正本。本文型、タグ／90日、7行、未反映、バッチ末ハンドオフ。①-a/①-b に軽量②（ダイジェスト）を含める。③は範囲外のまま |
-| `app-tech-inventory/SKILL.md` | pack に追従（ルート複製が残っている間） |
+| `app-tech-inventory/SKILL.md` | 2026-10-09 に削除。中身は pack と同一だった。正本は上の pack だけ |
 | `skills一覧.md` | 説明を「技術スタック抽出」だけから名刺＋直近に更新 |
 | 必要なら `skills-pack/MANIFEST.json` | description が MANIFEST 由来なら同期 |
 

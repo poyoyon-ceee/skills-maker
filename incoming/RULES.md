@@ -49,13 +49,15 @@ cd C:\path\to\skills-maker
 
 ## 一覧に載せるための frontmatter
 
-`SKILL.md` に次が **すべて** ないスキルは **同期しない**。inbox に残し、エラーとして報告する。
+**inbox から同期するスキル**は、`SKILL.md` に次が **すべて** ないと **同期しない**。inbox に残し、エラーとして報告する。
 
 - `catalog-section`（整数）
 - `catalog-summary`
 - `catalog-when`
 
 `catalog-when` が `—` の行は一覧に作らない（PDF も捨てる）。
+
+すでに `skills-pack` にあるスキルの説明・使いどころの正本は、リポジトリ直下の `skills一覧.md` である。catalog 3キーが無い既存スキルは、そのままで配布してよい。説明だけ変えるときは `skills一覧.md` を直し、`scripts/update-skills-catalog.ps1` で PDF（Excel も要るなら `-Excel`）を作り直す。inbox から既存スキルを上書き同期するときだけ、先に3キーを足す。
 
 ## エージェント向けチェックリスト
 

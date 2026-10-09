@@ -95,6 +95,7 @@ cd "<verified-root>"
 - 検証前に `skills-pack` 配下へ手コピー
 - **global と pack の両方へ手でコピーして登録を終える**
 - `sync-skills-pack.ps1` の全件ミラーをこのフローの既定にする（実験スキル混入の原因）
+- `scripts/promote-to-pack.ps1` / `.sh` で登録を終わらせる（global から pack への直コピー。スイッチを付けない限りスクリプト自身が止まる）
 - `~/.cursor/skills-cursor/` へ書く
 - **`~/.agents/skills` と `~/.cursor/skills` の両方に同じスキルを置く**（設定画面と `/` メニューの件数がズレ、編集しても効かない側が残る）
 - インストール先に `playbooks/` のようなカテゴリフォルダを作る（pack 内の整理用であって、配置先では平置き）

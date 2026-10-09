@@ -486,12 +486,15 @@ Please add steps to your TodoList, if you have such a thing, to make sure you do
 
 ## After the skill is done (required handoff)
 
-When the skill draft is written to disk and the user is satisfied (or skips evals), **immediately follow `promote-skill`**:
+When the skill draft is written to disk and the user is satisfied (or skips evals), **immediately follow `promote-skill`**. That skill is the only registration procedure. Do not restate or invent another one here.
 
-1. Ask Gate 1: put into `~/.cursor/skills/`?
-2. If Yes, ask Gate 2: sync into skills-pack?
-3. Never invent a skills-maker path — if missing, ask. Never write to an unverified location.
+Do not:
 
-Read and follow `promote-skill` SKILL.md for the exact rules and scripts.
+- ask to copy into `~/.cursor/skills/` and then into `skills-pack` (retired Gate 1 / Gate 2)
+- hand-copy into `~/.agents`, `~/.cursor`, or `skills-pack`
+
+`promote-skill` places the skill in one `incoming/` box and, after the user agrees, runs `scripts/sync-incoming.ps1` from the skills-maker root. If that path is unknown, ask. Do not invent a path or write before it validates.
+
+Read `promote-skill` SKILL.md before doing anything else in this handoff.
 
 Good luck!

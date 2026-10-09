@@ -1,10 +1,14 @@
-# Promote ONE installed skill into a verified skills-maker pack.
+﻿# Promote ONE installed skill into a verified skills-maker pack.
 # Looks in ~/.agents/skills, then ~/.cursor/skills, then ~/.claude/skills.
 # NEVER creates skills-maker root. NEVER writes if validation fails.
 #
+# 登録経路ではない。新規・更新は incoming 4箱と scripts/sync-incoming.ps1。
+# このスクリプトは global から pack への直コピーなので、通常はここで止める。
+# どうしても直コピーするときだけ -AllowDirectCopy。
+#
 # Usage:
-#   .\promote-to-pack.ps1 -SkillFolderName "my-skill" -SkillsMakerRoot "<skills-maker リポジトリ>"
-#   .\promote-to-pack.ps1 -SkillFolderName "my-skill" -SkillsMakerRoot "..." -PackName "skills-pack-marketing"
+#   .\promote-to-pack.ps1 -SkillFolderName "my-skill" -SkillsMakerRoot "<skills-maker リポジトリ>" -AllowDirectCopy
+#   .\promote-to-pack.ps1 -SkillFolderName "my-skill" -SkillsMakerRoot "..." -PackName "skills-pack-marketing" -AllowDirectCopy
 
 [CmdletBinding()]
 param(
@@ -17,10 +21,17 @@ param(
     [ValidateSet("skills-pack", "skills-pack-marketing")]
     [string]$PackName = "skills-pack",
 
-    [switch]$Force
+    [switch]$Force,
+
+    [switch]$AllowDirectCopy
 )
 
 $ErrorActionPreference = "Stop"
+
+if (-not $AllowDirectCopy) {
+    Write-Host "ERROR: promote-to-pack は登録経路ではない。incoming の4箱に置いて scripts/sync-incoming.ps1 を使え。直コピーが必要なときだけ -AllowDirectCopy を付ける。" -ForegroundColor Red
+    exit 1
+}
 
 function Test-SkillsMakerRoot {
     param([string]$Root, [string]$ExpectedPack)
@@ -100,7 +111,10 @@ function Get-SkillNameFromMd {
     foreach ($line in $head) {
         if ($line -match '^name:\s*(.+)$') {
             $raw = $Matches[1].Trim()
-            if ($raw -match '^[''"](.+)[''"]$') { return $Matches[1] }
+            $quote = $raw[0]
+            if ($raw.Length -ge 2 -and ($quote -eq [char]34 -or $quote -eq [char]39) -and $raw[$raw.Length - 1] -eq $quote) {
+                return $raw.Substring(1, $raw.Length - 2)
+            }
             return $raw
         }
     }
@@ -109,7 +123,11 @@ function Get-SkillNameFromMd {
 
 function Normalize-ManifestName {
     param([string]$Name)
-    if ($Name -match '^[''"](.+)[''"]$') { return $Matches[1] }
+    if ([string]::IsNullOrEmpty($Name)) { return $Name }
+    $quote = $Name[0]
+    if ($Name.Length -ge 2 -and ($quote -eq [char]34 -or $quote -eq [char]39) -and $Name[$Name.Length - 1] -eq $quote) {
+        return $Name.Substring(1, $Name.Length - 2)
+    }
     return $Name
 }
 

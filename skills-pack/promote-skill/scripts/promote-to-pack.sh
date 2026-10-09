@@ -3,12 +3,31 @@
 # Looks in ~/.agents/skills, then ~/.cursor/skills, then ~/.claude/skills.
 # NEVER creates skills-maker root. NEVER writes if validation fails.
 #
+# 登録経路ではない。新規・更新は incoming 4箱と scripts/sync-incoming.ps1。
+# このスクリプトは global から pack への直コピーなので、通常はここで止める。
+# どうしても直コピーするときだけ --allow-direct-copy。
+#
 # Usage:
-#   ./promote-to-pack.sh my-skill /path/to/skills-maker
-#   ./promote-to-pack.sh my-skill /path/to/skills-maker skills-pack-marketing
-#   ./promote-to-pack.sh my-skill /path/to/skills-maker skills-pack --force
+#   ./promote-to-pack.sh my-skill /path/to/skills-maker --allow-direct-copy
+#   ./promote-to-pack.sh my-skill /path/to/skills-maker skills-pack-marketing --allow-direct-copy
+#   ./promote-to-pack.sh my-skill /path/to/skills-maker skills-pack --force --allow-direct-copy
 
 set -euo pipefail
+
+AllowDirect=0
+Filtered=()
+for arg in "$@"; do
+  if [[ "$arg" == "--allow-direct-copy" ]]; then
+    AllowDirect=1
+  else
+    Filtered+=("$arg")
+  fi
+done
+if ((${#Filtered[@]} > 0)); then
+  set -- "${Filtered[@]}"
+else
+  set --
+fi
 
 SkillFolderName="${1:-}"
 SkillsMakerRoot="${2:-}"
@@ -21,8 +40,13 @@ if [[ "${4:-}" == "--force" ]] || [[ "${3:-}" == "--force" ]]; then
   fi
 fi
 
+if [[ "$AllowDirect" -ne 1 ]]; then
+  echo "ERROR: promote-to-pack は登録経路ではない。incoming の4箱に置いて scripts/sync-incoming.ps1 を使え。直コピーが必要なときだけ --allow-direct-copy を付ける。" >&2
+  exit 1
+fi
+
 if [[ -z "$SkillFolderName" || -z "$SkillsMakerRoot" ]]; then
-  echo "Usage: $0 <skill-folder-name> <skills-maker-root> [skills-pack|skills-pack-marketing] [--force]" >&2
+  echo "Usage: $0 <skill-folder-name> <skills-maker-root> [skills-pack|skills-pack-marketing] [--force] --allow-direct-copy" >&2
   exit 1
 fi
 

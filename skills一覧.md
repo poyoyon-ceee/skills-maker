@@ -305,7 +305,7 @@ Obsidian 系は **3スキル連携**。`obsidian-vault` が vault パス（`D:\v
 
 ## 補足
 
-- **宛先の正本**は各スキルの `installTargets`（`skills-pack/MANIFEST.json`）。この一覧と PDF は `scripts/sync-incoming.ps1` が更新する。手順は [incoming/RULES.md](incoming/RULES.md)。
+- **宛先の正本**は各スキルの `installTargets`（`skills-pack/MANIFEST.json`）。このファイルが説明・使いどころの正本。新規を inbox から載せるときだけ `scripts/sync-incoming.ps1` が行を書く。既存の説明を直したあとの PDF / Excel は `scripts/update-skills-catalog.ps1`。3キーの要否は [incoming/RULES.md](incoming/RULES.md)。
 - **日常配布**は `skills-pack/`。件数と振り分けの正本は `skills-pack/MANIFEST.json`。別 PC では `skills-pack/引き継ぎ.md` の一言をエージェントに送るだけ。
 - **Claude Code** は `skills-pack/install-claude.ps1` → `~/.claude/skills/`（平置き。`installTargets` に `claude` があるものだけ。件数はインストーラの `Unique skills installed`）。Superpowers プラグインは無効。`~/.agents` はこちらでは触らない（`install.ps1` の管轄）。`install.ps1` の結果を手コピーしない。
 - **マーケ**は `skills-pack-marketing/` に正本があるが **デフォルト非インストール**。[INSTALL.md](skills-pack-marketing/INSTALL.md) 参照。誤って入れたら `marketingskills/` と `playbook-lp-creative/` を削除。

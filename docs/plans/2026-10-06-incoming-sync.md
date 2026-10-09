@@ -19,7 +19,7 @@
 - inbox のフォルダ名は次の4つのみ。日本語名は作らない: `agents-claude`, `agents-only`, `claude-only`, `cursor-only`。
 - `installTargets` のトークンは `agents`, `claude`, `cursor` だけ。並びは常に `agents`, `cursor`, `claude` の順で、存在するトークンだけを残す。だから `cursor` と `claude` は `["cursor", "claude"]` になる。`agents` と `cursor` の同時指定は、この順でも不正。
 - テストは本物の `%USERPROFILE%\.agents` / `.cursor` / `.claude` に書かない。宛先は引数で差し替える。
-- `skills-pack-marketing/`、手製の pptx / docx / `組合わせ.xlsx` は変更しない。
+- `skills-pack-marketing/`、手製の pptx / docx / `archive/組合わせ.xlsx` は変更しない。
 - Windows では PowerShell。`cmd /c` は使わない。
 - 再生成で既存スキルの `installTargets` を名前リストから推測して上書きしない。
 - YAML の `name: "00"` は JSON では `"00"`。引用符を名前の一部にしない。`installTarget` も `~/.agents/skills/00/`。

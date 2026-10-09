@@ -92,7 +92,7 @@
 
 ## 補足
 
-- **計19件**（playbooks 7 + その他 12）。日常パック（MANIFEST 59件）のうち手動はこれだけ。
+- **計19件**（playbooks 7 + その他 12）。日常パックのユニーク名は MANIFEST **62件**（`agents` 宛て 59、Cursor 固有 3）。手動は日常パックのうちこれだけ。
 - `/project-foundation` は自動発火なので本一覧に含めない。新規判定後の scaffold は `/new-project`。
 - 手動スキルはモデルが勝手に選ばない。`/` で明示呼び出しが必要。
 - マーケ全件手動・未インストールは [marketing-skills一覧.md](marketing-skills一覧.md)。
