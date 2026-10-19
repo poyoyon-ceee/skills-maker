@@ -53,13 +53,13 @@ skills-maker/
 | 場所 | 読むツール | このリポの方針 |
 |------|-----------|----------------|
 | `~/.agents/skills/` | Cursor / Codex / ChatGPT 系 | **通常はここ**（件数は MANIFEST の agents） |
-| `~/.cursor/skills/` | Cursor のみ | Cursor 固有の3件だけ |
+| `~/.cursor/skills/` | Cursor のみ | Cursor 固有の2件だけ |
 | `~/.claude/skills/` | Claude Code | `install-claude.ps1` の管轄 |
 | `.cursor/skills/`（プロジェクト内） | Cursor のみ | **使わない** |
 
 **注意:** `~/.cursor/skills-cursor/` は Cursor 組み込み用。触らない。
 
-Cursor 固有の3件は `chat-handoff` / `skill-creator` / `promote-skill`。`~/.cursor` パス・Cursor UI・Cursor 用 PowerShell を前提にしているため共有 root に置かない。
+Cursor 固有の2件は `skill-creator` / `promote-skill`（`~/.cursor` パス・Cursor UI 前提）。`chat-handoff` は共有の `~/.agents/skills/`（Codex などでも使う）。
 
 **Include Third-Party トグルは `~/.agents` に効かない。** OFF にしても読まれ続ける（`~/.agents/` は `AGENTS.md` と同じベンダー中立の標準パスで、Cursor はネイティブな探索先として扱うため）。
 
@@ -75,9 +75,10 @@ skills-pack/                      →  ~/.agents/skills/
 ├── debug/                           │   └── SKILL.md
 │   └── debug-allrun/                └── writing-plans/
 │       └── SKILL.md                     └── SKILL.md
+├── chat-handoff/
+│   └── SKILL.md                  →  ~/.agents/skills/chat-handoff/
 └── writing-plans/
     └── SKILL.md                  →  ~/.cursor/skills/
-                                     ├── chat-handoff/
                                      ├── skill-creator/
                                      └── promote-skill/
 ```

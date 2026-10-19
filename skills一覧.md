@@ -9,7 +9,7 @@
 | 項目 | 内容 |
 |------|------|
 | 日常（共通） | `skills-pack/` → `install.ps1` で `~/.agents/skills/` に**平置き**。Cursor / Codex / ChatGPT 系が共通で読む正本。件数は MANIFEST |
-| 日常（Cursor 固有） | `chat-handoff` / `skill-creator` / `promote-skill` の3件だけ `~/.cursor/skills/`（`install.ps1`）。`promote-skill` は手順として Claude でも使う（`~/.claude` にも入り、Gate 1 で `~/.claude` 可） |
+| 日常（Cursor 固有） | `skill-creator` / `promote-skill` の2件だけ `~/.cursor/skills/`（`install.ps1`）。`chat-handoff` は `~/.agents/skills/`（Codex 等共通）。`promote-skill` は手順として Claude でも使う（`~/.claude` にも入り、Gate 1 で `~/.claude` 可） |
 | `/00` | メッセージ先頭の明示コマンド。その回答が終わるまでの1ターンだけ Superpowers 強制ワークフローを無効化。次のメッセージでは通常動作に戻る。手動のみ |
 | Claude Code | 同パックを `install-claude.ps1` で `~/.claude/skills/` に平置き（`installTargets` に `claude` があるものだけ。件数はインストーラの `Unique skills installed`）。Superpowers プラグインはインストーラが無効化する。`~/.agents` は書かない |
 | マーケ | `skills-pack-marketing/` は**作るが入れない**。必要になったときだけ `install.ps1`（Cursor のみ）。通常更新では入らない・戻らない |
@@ -126,7 +126,7 @@ Settings → Rules, Skills, Subagents → **Include Third-Party Plugins, Skills,
 | コマンド | 説明 | 使いどころ |
 |----------|------|-----------|
 | `/00`（手動のみ） | メッセージ先頭の `/00` で、そのターンだけ `using-superpowers` と Superpowers 由来の必須ワークフロー（計画・TDD・デバッグ・レビュー・検証・サブエージェント・worktree）を無効化。依頼本文は通常どおり処理。次のメッセージへは引き継がない。 | Superpowers を使わず、今の依頼だけ素早く処理したいとき。文章中やコード内の `/00` では発動しない |
-| `/chat-handoff`（手動のみ） | 別PCで続きをやるための引き継ぎメモを、リポジトリ直下の `質疑応答M-D.MD` に作成・追記。結論・決定・未解決TODOを残す。Cursor チャット履歴は端末に残る前提。 | 「別PC用に残して」「引き継ぎ書いて」「質疑応答に落として」「続きは別端末で」と明示されたとき。通常の備忘録は `/session-recap` |
+| `/chat-handoff`（手動のみ） | 別PCで続きをやるための引き継ぎメモを、リポジトリ直下の `質疑応答M-D.MD` に作成・追記。結論・決定・未解決TODOを残す。チャット履歴は端末に残る前提（`~/.agents/skills/`）。 | 「別PC用に残して」「引き継ぎ書いて」「質疑応答に落として」「続きは別端末で」と明示されたとき。通常の備忘録は `/session-recap` |
 | `/git-guardrails` | 危険なGitコマンド（push、reset --hard、clean、branch -D等）を実行前にブロックするフックを設定。 | 誤操作防止のガードレールを設定したいとき |
 | `/model-router-gpt` | CodexのGPTモデルへ、大量の原文を読む調査を渡す | リポジトリ全体や大量の文書・ログから根拠を探すとき。少数ファイルの確認には使わない |
 | `/new-project`（手動のみ） | 空ディレクトリ向け scaffold。CLI 対話。必須は README。Hidem プロファイルは選択式。既存ファイルは上書きしない。 | `project-foundation` が新規と判定したとき。既存リポジトリでは使わない |

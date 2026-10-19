@@ -25,7 +25,7 @@ test('MANIFEST.json has unique skill names and includes project-foundation', () 
     assert.deepEqual(skillCreator.installTargets, ['cursor']);
 
     const chatHandoff = entries.find((e) => e.name === 'chat-handoff');
-    assert.deepEqual(chatHandoff.installTargets, ['cursor', 'claude']);
+    assert.deepEqual(chatHandoff.installTargets, ['agents', 'claude']);
 
     for (const entry of entries) {
         const targets = entry.installTargets ?? [];

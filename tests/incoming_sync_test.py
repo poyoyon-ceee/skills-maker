@@ -61,7 +61,7 @@ class MigrationTargetsTest(unittest.TestCase):
         self.assertEqual(migration_targets("skill-creator"), ["cursor"])
 
     def test_cursor_and_claude(self):
-        self.assertEqual(migration_targets("chat-handoff"), ["cursor", "claude"])
+        self.assertEqual(migration_targets("chat-handoff"), ["agents", "claude"])
         self.assertEqual(migration_targets("promote-skill"), ["cursor", "claude"])
 
     def test_agents_only(self):

@@ -8,7 +8,7 @@ $agentsDst = Join-Path $env:USERPROFILE ".agents\skills"
 $cursorDst = Join-Path $env:USERPROFILE ".cursor\skills"
 
 $skipTopLevel = @("_hooks", "_claude")
-$cursorOnlySkills = @("chat-handoff", "skill-creator", "promote-skill")
+$cursorOnlySkills = @("skill-creator", "promote-skill")
 # Generated at runtime, never part of the pack.
 $excludePattern = '(^|\\)(__pycache__|\.pytest_cache|node_modules)(\\|$)'
 

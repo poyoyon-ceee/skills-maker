@@ -39,10 +39,10 @@
         "name":  "chat-handoff",
         "path":  "chat-handoff/SKILL.md",
         "installTargets":  [
-                               "cursor",
+                               "agents",
                                "claude"
                            ],
-        "installTarget":  "~/.cursor/skills/chat-handoff/"
+        "installTarget":  "~/.agents/skills/chat-handoff/"
     },
     {
         "name":  "content-research-writer",

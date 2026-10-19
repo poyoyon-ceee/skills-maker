@@ -31,7 +31,7 @@
 
 ### 箱を増やさない例外
 
-`chat-handoff` と `promote-skill` は既存どおり **`["cursor", "claude"]`**（専用箱は作らない）。通常の新規スキルは上表の4箱で選ぶ。
+`promote-skill` は既存どおり **`["cursor", "claude"]`**（専用箱は作らない）。`chat-handoff` は **`agents-claude` 箱**（`["agents", "claude"]`）。通常の新規スキルは上表の4箱で選ぶ。
 
 ## 登録（同期）のやり方
 

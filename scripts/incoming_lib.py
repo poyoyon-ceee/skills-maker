@@ -42,7 +42,7 @@ def legacy_install_target(targets: list[str], name: str) -> str:
 
 
 _CURSOR_ONLY = frozenset({"skill-creator"})
-_CURSOR_CLAUDE = frozenset({"chat-handoff", "promote-skill"})
+_CURSOR_CLAUDE = frozenset({"promote-skill"})
 _AGENTS_ONLY = frozenset(
     {
         "docx",
@@ -61,6 +61,7 @@ _AGENTS_CLAUDE = frozenset(
         "app-tech-inventory",
         "brainstorming",
         "canvas-design",
+        "chat-handoff",
         "content-research-writer",
         "debug-allrun",
         "dispatching-parallel-agents",

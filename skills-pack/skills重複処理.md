@@ -69,7 +69,7 @@ skills-maker リポジトリの skills-pack/skills重複処理.md に従って�
 | root | 中身 |
 |------|------|
 | `~/.agents/skills/<スキル名>/` | 通常スキル全部（平置き・カテゴリフォルダなし） |
-| `~/.cursor/skills/<スキル名>/` | `chat-handoff` / `skill-creator` / `promote-skill` の3つだけ |
+| `~/.cursor/skills/<スキル名>/` | `skill-creator` / `promote-skill` の2つだけ |
 | `~/.cursor/skills.bak/` | 退避先（削除しない） |
 
 ### 2. まず install.ps1 を試す（これで大半は片付く）
@@ -81,9 +81,9 @@ cd <skills-maker のパス>\skills-pack
 
 `install.ps1` は次を自動でやる:
 
-- pack の内容を正しい root へ配置（Cursor 固有3件だけ `~/.cursor`）
+- pack の内容を正しい root へ配置（Cursor 固有2件だけ `~/.cursor`）
 - `~/.cursor/skills/` に残った移行前のスキルを `~/.cursor/skills.bak/` へ退避
-- Cursor 固有3件が `~/.agents/skills/` にあれば削除
+- Cursor 固有2件が `~/.agents/skills/` にあれば削除
 - 最後に全 root を走査して同名2件以上がないか検証
 
 **WARNING が出ずに終わったら手順5（報告）へ。** 残った場合だけ手順3〜4。
@@ -138,7 +138,7 @@ if ($found -eq 0) { Write-Host "OK: no duplicates." }
 
 | スキル | 残す root |
 |--------|----------|
-| `chat-handoff` / `skill-creator` / `promote-skill` | `~/.cursor/skills/` |
+| `skill-creator` / `promote-skill` | `~/.cursor/skills/` |
 | それ以外すべて | `~/.agents/skills/` |
 
 ハッシュが違う（内容が違う）場合は、**先に差分を確認して新しい方を残す側へコピー**してから退避する。中身を比較せずに消さない。
@@ -147,7 +147,7 @@ if ($found -eq 0) { Write-Host "OK: no duplicates." }
 $agents = Join-Path $env:USERPROFILE ".agents\skills"
 $cursor = Join-Path $env:USERPROFILE ".cursor\skills"
 $bak    = Join-Path $env:USERPROFILE ".cursor\skills.bak"
-$cursorOnly = @("chat-handoff", "skill-creator", "promote-skill")
+$cursorOnly = @("skill-creator", "promote-skill")
 
 New-Item -ItemType Directory -Force -Path $bak | Out-Null
 

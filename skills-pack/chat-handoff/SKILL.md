@@ -2,7 +2,7 @@
 name: chat-handoff
 description: >-
   Write a cross-PC chat handoff memo so work can continue on another machine without
-  Cursor chat history. Creates or appends a dated 質疑応答M-D.MD at the repo root
+  relying on synced chat history. Creates or appends a dated 質疑応答M-D.MD at the repo root
   with conclusions, decisions, and open todos from the current session. Use ONLY
   when the user explicitly asks for a handoff / another-PC memo (e.g. "別PC用に残して",
   "引き継ぎ書いて", "質疑応答に落として", "続きは別端末でやるからまとめて",
@@ -14,16 +14,16 @@ disable-model-invocation: true
 
 # Chat Handoff
 
-Cursor chat history stays on the local machine and does not sync via account.
-When the user wants to continue on another PC, put the portable context into a
-repo file — not into chat.
+Agent chat history (Cursor, Codex, Claude Code, etc.) stays on the local machine
+and does not sync via account. When the user wants to continue on another PC, put
+the portable context into a repo file — not into chat.
 
 This skill is explicit-only. Never invent a handoff because the conversation
 "feels done."
 
 ## Why this file exists
 
-Another PC will not see this Cursor chat. The memo is the source of truth for
+Another PC will not see this chat session. The memo is the source of truth for
 picking up later. Prefer short decisions over transcript dumps.
 
 ## Do not confuse with session-recap
@@ -78,7 +78,7 @@ section). If it was a single handoff topic, one Q block is enough.
 **対象:** <project / topic in one line>
 **日付:** YYYY-MM-DD
 **参加者:** ヒデさん / Tom
-**目的:** 別PCでも続きできるよう、結論・決定・残タスクを残す（Cursorチャットは端末ローカルのため）
+**目的:** 別PCでも続きできるよう、結論・決定・残タスクを残す（チャット履歴は端末ローカルのため）
 
 ---
 

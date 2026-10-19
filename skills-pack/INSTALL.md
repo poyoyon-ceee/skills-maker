@@ -13,11 +13,11 @@
 | root | 中身 | 読むツール |
 |------|------|-----------|
 | `~/.agents/skills/<スキル名>/` | 通常のスキル（平置き。件数は MANIFEST.json） | Cursor / Codex / ChatGPT 系 |
-| `~/.cursor/skills/<スキル名>/` | Cursor 固有スキル（3件） | Cursor のみ |
+| `~/.cursor/skills/<スキル名>/` | Cursor 固有スキル（2件） | Cursor のみ |
 | `~/.cursor/hooks/` | セッションフック | Cursor のみ |
 | `~/.claude/skills/<スキル名>/` | Claude Code 用（`install-claude.ps1`。`installTargets` に `claude` があるものだけ。件数はインストーラの `Unique skills installed`） | Claude Code のみ |
 
-Cursor 固有の3件は `chat-handoff` / `skill-creator` / `promote-skill`。`install.ps1` では `~/.cursor/skills/` のみに置く（共有の `~/.agents` には置かない）。ただし **`promote-skill` の手順自体は Claude Code でも使う**（`install-claude.ps1` で `~/.claude` にも入る。新規スキルの置き場・宛先は [incoming/RULES.md](../incoming/RULES.md) が正本）。`chat-handoff` / `skill-creator` は従来どおり Cursor 前提。
+Cursor 固有の2件は `skill-creator` / `promote-skill`。`install.ps1` では `~/.cursor/skills/` のみに置く。`chat-handoff` は `~/.agents/skills/`（Cursor / Codex など共通）。**`promote-skill` の手順自体は Claude Code でも使う**（`install-claude.ps1` で `~/.claude` にも入る。新規スキルの置き場・宛先は [incoming/RULES.md](../incoming/RULES.md) が正本）。`skill-creator` は Cursor 前提。
 
 **重複の禁止範囲:** ダメなのは同名を `~/.agents` と `~/.cursor` の両方に置くこと。`~/.agents` と `~/.claude` の併置は可（別ツールが読む）。
 
@@ -63,7 +63,7 @@ cd C:\path\to\skills-maker\skills-pack
 
 1. **同名・同内容** → 書き込まない（ハッシュ比較でスキップ）
 2. **`~/.cursor/skills/` に残った移行前のスキル** → `~/.cursor/skills.bak/` へ退避（削除はしない）
-3. **Cursor 固有3件が `~/.agents/skills/` にある** → 削除（正しい root は `~/.cursor`）
+3. **Cursor 固有2件が `~/.agents/skills/` にある** → 削除（正しい root は `~/.cursor`）
 4. **pack 内に同名スキルが2つ** → エラーで中断（壊れた状態を配らない）
 5. **skills-pack に無い別スキル** → 触らない（devils / persona など）
 
@@ -128,7 +128,7 @@ cd skills-pack
 | Obsidian（3） | `obsidian-vault`, `obsidian-markdown`, `json-canvas` |
 | 3rd party | `notebooklm`, `react-best-practices` など |
 | GWS（3） | `gws-docs`, `gws-sheets`, `gws-drive` |
-| Cursor 固有（3） | `chat-handoff`, `skill-creator`, `promote-skill`（`~/.cursor/skills/` のみ） |
+| Cursor 固有（2） | `skill-creator`, `promote-skill`（`~/.cursor/skills/` のみ） |
 | 独自（残り） | `00`, `grill-me`, `writing-plans`, `webapp-testing`, `project-foundation`, `new-project`, `doc-maint`, `session-recap`, `to-knowledge` など |
 
 全件は [MANIFEST.json](MANIFEST.json) を参照。
